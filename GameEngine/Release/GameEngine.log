@@ -1,0 +1,30 @@
+﻿Build started 19/1/2015 5:15:26 PM.
+     1>Project "C:\Users\User\Desktop\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\User\Dropbox\TCD\Semester 2\Game Engine\GameEngine\Dependancies\AntTweakBar\include" /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
+         Main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\User\Dropbox\TCD\Semester 2\Game Engine\GameEngine\Dependancies\AntTweakBar\lib" /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:"C:\Users\User\Dropbox\TCD\Semester 2\Game Engine\GameEngine\Dependancies\soil\lib" glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.lib" /MACHINE:X86 /SAFESEH Release\Camera.obj
+         Release\Lab1.obj
+         Release\Lab2.obj
+         Release\Main.obj
+         Release\Mesh.obj
+         Release\Model.obj
+         Release\Shader.obj
+         Release\TextureLoader.obj
+         Release\Window.obj
+     1>SOIL.lib(SOIL.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
+     1>LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+         Generating code
+     1>c:\users\user\desktop\gameengine\gameengine\lab1.cpp(207): warning C4715: 'Lab1::initTextures' : not all control paths return a value
+         Finished generating code
+     1>SOIL.lib(image_DXT.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(image_helper.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(SOIL.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(stb_image_aug.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+         GameEngine.vcxproj -> C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.exe
+     1>Done Building Project "C:\Users\User\Desktop\GameEngine\GameEngine\GameEngine.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.01
