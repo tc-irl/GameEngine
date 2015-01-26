@@ -22,7 +22,7 @@ struct Vertex
 	glm::vec2 TexCoords;
 };
 
-struct Texture 
+struct Textures
 {
 	GLuint id;
 	string type;
@@ -36,11 +36,13 @@ public:
 
 	vector<Vertex> vertices;
 	vector<GLuint> indices;
-	vector<Texture> textures;
+	vector<Textures> textures;
 	
-	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures);
+	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Textures> textures);
 	void setupMesh();
 	void render(GLuint shaderProgram);
+	void Update(GLuint modelLoc, glm::mat4 modelTransform);
+
 private:
 
 	GLuint VAO, VBO, EBO;

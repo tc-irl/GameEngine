@@ -13,8 +13,12 @@ Camera::Camera(GLFWwindow *window)
 	// Initial Field of View
 	initialFoV = 45.0f;
 
-	speed = 3.0f; // 3 units / second
+	speed = 10.0f; // 3 units / second
 	mouseSpeed = 0.005f;
+
+	direction = glm::vec3(0,0,-1);
+
+	right = glm::vec3(1,0,0);
 }
 
 
@@ -36,11 +40,13 @@ void Camera::computeMatricesFromInputs()
 	glfwGetCursorPos(window, &xpos, &ypos);
 
 	// Reset mouse position for next frame
-	glfwSetCursorPos(window, 1024/2, 768/2);
+	//glfwSetCursorPos(window, 1024/2, 768/2);
 
+	/*
 	// Compute new orientation
 	horizontalAngle += mouseSpeed * float(1024/2 - xpos );
 	verticalAngle   += mouseSpeed * float( 768/2 - ypos );
+
 
 	// Direction : Spherical coordinates to Cartesian coordinates conversion
 		direction = glm::vec3(
@@ -55,7 +61,7 @@ void Camera::computeMatricesFromInputs()
 		0,
 		cos(horizontalAngle - 3.14f/2.0f)
 		);
-
+	*/
 	// Up vector
 	up = glm::cross( right, direction );
 
@@ -114,4 +120,9 @@ void Camera::handleMVP(GLuint modelLoc, GLuint viewLoc, GLuint projLoc)
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &ModelMatrix[0][0]);
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &ViewMatrix[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, &ProjectionMatrix[0][0]);
+}
+
+void Camera::cameraUpdate(glm::vec3 pos, glm::vec3 direction)
+{
+	ViewMatrix = glm::lookAt(pos,direction,up);
 }

@@ -2,11 +2,11 @@
 #include "Lab1.h"
 #include "Lab2.h"
 
-int main()
+int main(int argc, char **argv)
 {
-	Lab1 *game;
+	Lab2 *game;
 
-	game = new Lab1();
-	game->init();
+	game = new Lab2();
+	game->init(argv);
 	game->run();
 }

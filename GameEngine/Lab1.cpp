@@ -202,7 +202,7 @@ void Lab1::initParticleSystem()
 bool Lab1::initTextures()
 {
 	// Load particle texture
-	if (!textureLoader::loadTexture("../Resources/Models/particle.png", &Texture))
+	if (!textureLoader::loadTexture("../Resources/Models/uvtemplate.dds", &Texture))
 		return false;
 }
 

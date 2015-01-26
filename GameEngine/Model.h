@@ -24,17 +24,18 @@ public:
 	Model(GLchar *path,GLuint shaderProgramID);
 	~Model(void);
 
-	void render();
+	void Render();
+	void Update(GLuint modelLoc, glm::mat4 modelTransform);
+	vector<Mesh> meshes;
 private:
 	/*  Model Data  */
-	vector<Mesh> meshes;
 	string directory;
-	vector<Texture> textures_loaded;	// Stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+	vector<Textures> textures_loaded;	// Stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
 	
 	void loadModel(string path);
 	void processNode(aiNode *node, const aiScene *scene);
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-	vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+	vector<Textures> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
 	GLint TextureFromFile(const char* path, string directory);
 	GLuint shaderProgramID; 
 };

@@ -6,7 +6,7 @@
   </asset>
   <library_images>
     <image id="Image">
-      <init_from>file:///nanosuit_helmet_d.tga</init_from>
+      <init_from>file://nanosuit_helmet_d.tga</init_from>
     </image>
     <image id="Image1">
       <init_from>file:///nanosuit_visor_d.tga</init_from>

@@ -35,7 +35,7 @@ public:
 	float bounceFactor;
 
 	void run() override;
-	void init() override;
+	void init();
 	void initTweakBar();
 	void initShaders() override;
 	void initModels();

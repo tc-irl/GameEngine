@@ -42,9 +42,9 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 }
 
 
-vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
+vector<Textures> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
 {
-	vector<Texture> textures;
+	vector<Textures> textures;
 
 	for(GLuint i = 0; i < mat->GetTextureCount(type); i++)
 	{
@@ -63,7 +63,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		}
 		if(!skip)
 		{   // If texture hasn't been loaded already, load it
-			Texture texture;
+			Textures texture;
 			texture.id = TextureFromFile(str.C_Str(), this->directory);
 			texture.type = typeName;
 			texture.path = str;
@@ -113,7 +113,7 @@ GLint Model::TextureFromFile(const char* path, string directory)
 	return textureID;
 }
 
-void Model::render()
+void Model::Render()
 {
 	for(GLuint i = 0; i < this->meshes.size(); i++)
 		this->meshes[i].render(shaderProgramID);
@@ -124,7 +124,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	// Data to fill
 	vector<Vertex> vertices;
 	vector<GLuint> indices;
-	vector<Texture> textures;
+	vector<Textures> textures;
 
 	// Walk through each of the mesh's vertices
 	for(GLuint i = 0; i < mesh->mNumVertices; i++)
@@ -175,14 +175,22 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		// Normal: texture_normalN
 
 		// 1. Diffuse maps
-		vector<Texture> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+		vector<Textures> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		// 2. Specular maps
-		vector<Texture> specularMaps = this->loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		vector<Textures> specularMaps = this->loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
 
 	// Return a mesh object created from the extracted mesh data
 	return Mesh(vertices, indices, textures);
 
+}
+
+void Model::Update(GLuint modelLoc, glm::mat4 modelTransform)
+{
+	for(GLuint i = 0; i < this->meshes.size(); i++)
+	{
+		this->meshes[i].Update(modelLoc,modelTransform);
+	}
 }

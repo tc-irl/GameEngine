@@ -38,7 +38,7 @@ Window::Window(int width, int height, const std::string& title)
 
 	glEnable(GLFW_REPEAT);
 	// Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(window, GLFW_CURSOR,GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR,GLFW_CURSOR);
 	glfwSetCursorPos(window, 1024/2, 768/2);
 	
 

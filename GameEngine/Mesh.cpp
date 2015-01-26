@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Texture> textures)
+Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Textures> textures)
 {
 	this->vertices = vertices;
 	this->indices = indices;
@@ -70,6 +70,11 @@ void Mesh::render(GLuint shaderProgramID)
 	glBindVertexArray(this->VAO);
 	glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void Mesh::Update(GLuint modelLoc, glm::mat4 modelTransform)
+{
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &modelTransform[0][0]);
 }
 
 
