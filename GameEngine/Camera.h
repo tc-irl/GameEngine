@@ -18,6 +18,8 @@ public:
 	void cameraUpdate(glm::vec3 pos, glm::vec3 direction);
 
 	glm::vec3 position;
+
+	glm::vec3 direction, right,up;
 	float speed;// 3 units / second
 
 
@@ -39,7 +41,5 @@ private:
 	double currentTime;
 
 	float mouseSpeed;
-
-	glm::vec3 direction, right,up;
 };
 

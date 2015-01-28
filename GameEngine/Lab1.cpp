@@ -147,11 +147,6 @@ void Lab1::initShaders()
 
 }
 
-void Lab1::initModels()
-{
-	box = new Model("../Resources/Models/Monkey/monkey_with_bones_y_up.dae",modelShader->GetProgramID());
-}
-
 
 void Lab1::initParticleSystem()
 {

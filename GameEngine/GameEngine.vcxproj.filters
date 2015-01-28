@@ -5,25 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Engine">
-      <UniqueIdentifier>{b1eacf71-dfb2-4748-a506-b5c5c246eb68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Core">
-      <UniqueIdentifier>{f16627fe-9630-4c70-835f-135393bc8264}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Rendering">
-      <UniqueIdentifier>{61054b37-1e6b-4beb-9d93-c64dccb02c41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Physics">
-      <UniqueIdentifier>{0541c06e-4522-40b1-b2fd-3ddce72f7a23}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{70d9af89-e9ab-4fda-a607-5fa5994c450d}</UniqueIdentifier>
@@ -40,28 +24,56 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{7042baf6-2950-43b4-97a3-2645a361c0f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Other">
+      <UniqueIdentifier>{0d1e810a-5aeb-41d8-aa4e-22af550c6af5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Rendering\Loaders">
+      <UniqueIdentifier>{7a6a6b0b-a5ad-4279-9ae3-50157506df3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Rendering\Initalisation">
+      <UniqueIdentifier>{e9622aae-9270-4335-ba73-fdd237f9d1fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{b1eacf71-dfb2-4748-a506-b5c5c246eb68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core">
+      <UniqueIdentifier>{f16627fe-9630-4c70-835f-135393bc8264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Rendering">
+      <UniqueIdentifier>{61054b37-1e6b-4beb-9d93-c64dccb02c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Physics">
+      <UniqueIdentifier>{0541c06e-4522-40b1-b2fd-3ddce72f7a23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Other">
+      <UniqueIdentifier>{2b14bca8-36ce-4212-ac90-f1fe62846ea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Rendering\Initialisation">
+      <UniqueIdentifier>{0e4d972f-2979-4926-b235-67cda97391a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Rendering\Loaders">
+      <UniqueIdentifier>{8913f20b-e52d-4c92-90d2-82f87f69deb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Rendering\Cameras">
+      <UniqueIdentifier>{4ded8b3b-d630-4fab-9d51-587e46bf12e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Rendering\Cameras">
+      <UniqueIdentifier>{07ebf5e4-76f1-418a-a90d-08a2177f7359}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Physics">
+      <UniqueIdentifier>{0c19cf80-e880-4caf-b082-a6f26ade45fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Rendering">
+      <UniqueIdentifier>{14dd6943-ede3-46c2-8dda-b50f57468420}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="Lab1.cpp">
       <Filter>Source Files\Engine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureLoader.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files\Engine\Core</Filter>
@@ -69,52 +81,70 @@
     <ClCompile Include="Lab2.cpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>Source Files\Engine\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="RenderingLab1.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files\Engine\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
+    </ClCompile>
     <ClCompile Include="ObjectBuffer.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
+      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Engine\Rendering\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Engine\Rendering\Initalisation</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Lab1.h">
-      <Filter>Header Files\Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureLoader.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Lab2.h">
-      <Filter>Header Files\Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files\Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>Header Files\Engine\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files\Engine\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\Engine\Rendering\Initialisation</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Engine\Rendering\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
+    </ClInclude>
     <ClInclude Include="ObjectBuffer.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
+      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab2.h">
+      <Filter>Header Files\Engine\Core\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab1.h">
+      <Filter>Header Files\Engine\Core\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingLab1.h">
+      <Filter>Header Files\Engine\Core\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +176,18 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Resources\Shaders\Particle.vertexshader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\objNoTexture.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\objNoTexture.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\objWithTexture.ps">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\objWithTexture.vs">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

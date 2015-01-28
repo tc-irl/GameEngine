@@ -1,51 +1,71 @@
+/**********************************************************************************************/
+/* Mesh Loading Class.
+
+Tutorial followed - http://www.nexcius.net/2014/04/13/loading-meshes-using-assimp-in-opengl/ */
+/*********************************************************************************************/
+
 #pragma once
-// Std. Includes
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <vector>
-using namespace std;
-// GL Includes
-#include <GL/glew.h> // Contains all the necessary OpenGL includes
+#include <gl/glew.h>
+#include <glfw/glfw3.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+#include <scene.h> // Assimp file
+#include <mesh.h> // Assimp file
 #include <Importer.hpp>
-#include <scene.h>
-#include <postprocess.h>
-#include <cimport.h>
+#include <vector>
+#include "Texture.h"
 
-struct Vertex 
-{
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoords;
-};
+#ifndef MESH_H
+#define MESH_H
 
-struct Textures
-{
-	GLuint id;
-	string type;
-	aiString path;
-}; 
-
+#include <iostream>
 class Mesh
 {
-public:
-public:
 
-	vector<Vertex> vertices;
-	vector<GLuint> indices;
-	vector<Textures> textures;
+public: 
 	
-	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Textures> textures);
-	void setupMesh();
-	void render(GLuint shaderProgram);
-	void Update(GLuint modelLoc, glm::mat4 modelTransform);
+	// We need this struct to handle the case of multiple meshes being in loaded in at once, e.g. a complex model. 
+	struct MeshEntry 
+	{
+		static enum BUFFERS { VERTEX_BUFFER, TEXCOORD_BUFFER, NORMAL_BUFFER, INDEX_BUFFER }; 
 
-private:
+		GLuint VAO;
+		GLuint VBO[4];
 
-	GLuint VAO, VBO, EBO;
+		GLuint numElements;
 
+		MeshEntry(aiMesh *mesh);
+		~MeshEntry();
+
+		void render();
+	};
+
+	std::vector<MeshEntry*> meshEntries;
+public:
+
+	Mesh(const char *filename, bool textureIncluded);
+	Mesh::Mesh(const char *filename, bool useTexture, glm::vec3 position, glm::quat orientation, glm::vec3 scale);
+	~Mesh(void);
+	
+	Texture *texture;
+	GLuint gSampler;
+
+	glm::vec3 position;
+	glm::quat orientation;
+	glm::vec3 scale;
+
+	bool useTexture;
+	
+	void initTexture(const std::string &filename, GLuint shaderID); // Just using our own textures, rather than loading from file itself.
+	void update(GLuint modelLoc, float deltaTime);
+	void render();
+
+	glm::mat4 getTransformationMatrix();
 };
 
+#endif

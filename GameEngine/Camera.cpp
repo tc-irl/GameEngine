@@ -13,17 +13,12 @@ Camera::Camera(GLFWwindow *window)
 	// Initial Field of View
 	initialFoV = 45.0f;
 
-	speed = 10.0f; // 3 units / second
+	speed = 3.0f; // 3 units / second
 	mouseSpeed = 0.005f;
 
 	direction = glm::vec3(0,0,-1);
 
 	right = glm::vec3(1,0,0);
-}
-
-
-Camera::~Camera(void)
-{
 }
 
 void Camera::computeMatricesFromInputs()
@@ -115,9 +110,9 @@ void Camera::handleMVP(GLuint modelLoc, GLuint viewLoc, GLuint projLoc)
 {
 	ProjectionMatrix = getProjectionMatrix();
 	ViewMatrix = getViewMatrix();
-	glm::mat4 ModelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+	//glm::mat4 ModelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &ModelMatrix[0][0]);
+	//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &ModelMatrix[0][0]);
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &ViewMatrix[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, &ProjectionMatrix[0][0]);
 }

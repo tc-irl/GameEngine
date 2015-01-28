@@ -140,3 +140,20 @@ Shader::~Shader(void)
 	glDeleteShader(shaderObj);
 	glDeleteProgram(shaderProgramID);
 }
+
+void Shader::setMVPUniforms()
+{
+	modelLoc = glGetUniformLocation(shaderProgramID, "model");
+	viewLoc = glGetUniformLocation(shaderProgramID, "view");
+	projLoc = glGetUniformLocation(shaderProgramID, "projection");
+}
+
+GLuint Shader::getUniform(std::string name)
+{
+	return glGetUniformLocation(shaderProgramID, name.c_str());
+}
+
+GLuint Shader::getAttribute(std::string name)
+{
+	return glGetAttribLocation(shaderProgramID,name.c_str());
+}

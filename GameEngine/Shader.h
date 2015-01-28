@@ -25,6 +25,12 @@ public:
 	GLuint GetProgramID();
 	GLuint GetShaderID();
 
+	void setMVPUniforms();
+	GLuint getUniform(std::string name);
+	GLuint getAttribute(std::string name);
+
+	GLuint modelLoc, viewLoc, projLoc;
+
 private:
 	GLint success;
 	GLuint numVertices;

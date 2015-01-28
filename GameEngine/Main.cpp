@@ -1,12 +1,13 @@
 #include "Window.h"
 #include "Lab1.h"
 #include "Lab2.h"
+#include "RenderingLab1.h"
 
 int main(int argc, char **argv)
 {
-	Lab2 *game;
+	RenderingLab1 *game;
 
-	game = new Lab2();
+	game = new RenderingLab1();
 	game->init(argv);
 	game->run();
 }

@@ -53,13 +53,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Dependancies\AntTweakBar\include;..\Dependancies\glew\include;..\Dependancies\glfw\include;..\Dependancies\glm;..\Dependancies\assimp\include;..\Dependancies\soil\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Dependancies\AntTweakBar\include;..\Dependancies\glew\include;..\Dependancies\glfw\include;..\Dependancies\glm;..\Dependancies\assimp\include;..\Dependancies\soil\src;..\Dependancies\ImageMagick</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Dependancies\AntTweakBar\lib;..\Dependancies\glew\lib\Release\Win32;..\Dependancies\glfw\lib-msvc110;..\Dependancies\assimp\lib;..\Dependancies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;SOIL.lib;AntTweakBar.lib;AntTweakBar64.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Dependancies\AntTweakBar\lib;..\Dependancies\glew\lib\Release\Win32;..\Dependancies\glfw\lib-msvc110;..\Dependancies\assimp\lib;..\Dependancies\soil\lib;..\Dependancies\ImageMagick\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;SOIL.lib;AntTweakBar.lib;AntTweakBar64.lib;assimp.lib;CORE_DB_Magick++_.lib;CORE_RL_Magick++_.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,8 +89,8 @@
     <ClCompile Include="Lab2.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="ObjectBuffer.cpp" />
+    <ClCompile Include="RenderingLab1.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -103,8 +103,8 @@
     <ClInclude Include="Lab1.h" />
     <ClInclude Include="Lab2.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectBuffer.h" />
+    <ClInclude Include="RenderingLab1.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
@@ -116,6 +116,10 @@
     <None Include="..\Resources\Shaders\diffuse.vs" />
     <None Include="..\Resources\Shaders\drawTest.ps" />
     <None Include="..\Resources\Shaders\drawTest.vs" />
+    <None Include="..\Resources\Shaders\objNoTexture.ps" />
+    <None Include="..\Resources\Shaders\objNoTexture.vs" />
+    <None Include="..\Resources\Shaders\objWithTexture.ps" />
+    <None Include="..\Resources\Shaders\objWithTexture.vs" />
     <None Include="..\Resources\Shaders\Particle.fragmentshader" />
     <None Include="..\Resources\Shaders\Particle.vertexshader" />
     <None Include="..\Resources\Shaders\simpleFragmentShader.ps" />

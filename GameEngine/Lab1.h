@@ -17,11 +17,11 @@ http://anttweakbar.sourceforge.net/doc/tools:anttweakbar
 #include "Window.h"
 #include "Shader.h"
 #include "Camera.h"
-#include "Model.h"
 #include "TextureLoader.h"
 #include <AntTweakBar.h>
 #include <glm/gtx/rotate_vector.hpp>
 #include <memory>
+#include <algorithm>
 
 #define MaxParticles 100000
 
@@ -38,7 +38,6 @@ public:
 	void init();
 	void initTweakBar();
 	void initShaders() override;
-	void initModels();
 	void initParticleSystem();
 	bool initTextures();
 	int findUnusedParticle();
@@ -50,8 +49,7 @@ public:
 
 private: 
 	Shader *particleShader,*modelShader;
-	Model *box;
-	string vs2,ps2;
+	std::string vs2,ps2;
 	TwBar *bar;    
 	
 	GLuint VertexArrayID;

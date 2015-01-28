@@ -1,7 +1,6 @@
 #pragma once
 #include "Game.h"
 #include "Texture.h"
-#include "Model.h"
 #include "ObjectBuffer.h"
 #include "RigidBody.h"
 
@@ -19,8 +18,6 @@ public:
 	void initCube();
 	void Draw();
 	void update(GLuint modelLoc, float timeDelta);
-	void rotateObject(glm::vec3 axis);
-	void translateObject(glm::vec3 pos);
 	double time, dt;// Current time and elapsed time
 	glm::vec3 centroid;
 	float speed;
