@@ -114,6 +114,8 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Resources\Shaders\diff.ps" />
+    <None Include="..\Resources\Shaders\diff.vs" />
     <None Include="..\Resources\Shaders\diffuse.ps" />
     <None Include="..\Resources\Shaders\diffuse.vs" />
     <None Include="..\Resources\Shaders\drawTest.ps" />
@@ -124,10 +126,16 @@
     <None Include="..\Resources\Shaders\objWithTexture.vs" />
     <None Include="..\Resources\Shaders\Particle.fragmentshader" />
     <None Include="..\Resources\Shaders\Particle.vertexshader" />
+    <None Include="..\Resources\Shaders\phong.ps" />
+    <None Include="..\Resources\Shaders\phong.vs" />
     <None Include="..\Resources\Shaders\simpleFragmentShader.ps" />
     <None Include="..\Resources\Shaders\simpleVertexShader.vs" />
     <None Include="..\Resources\Shaders\textures.ps" />
     <None Include="..\Resources\Shaders\textures.vs" />
+    <None Include="..\Resources\Shaders\toon.ps" />
+    <None Include="..\Resources\Shaders\toon.vs" />
+    <None Include="..\Resources\Shaders\toonTextured.ps" />
+    <None Include="..\Resources\Shaders\toonTextured.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

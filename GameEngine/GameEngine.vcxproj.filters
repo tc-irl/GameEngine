@@ -184,5 +184,29 @@
     <None Include="..\Resources\Shaders\Particle.fragmentshader">
       <Filter>Shaders\Other</Filter>
     </None>
+    <None Include="..\Resources\Shaders\diff.ps">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\diff.vs">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong.ps">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phong.vs">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\toon.ps">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\toon.vs">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\toonTextured.ps">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\toonTextured.vs">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
   </ItemGroup>
 </Project>

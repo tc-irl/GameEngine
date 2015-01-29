@@ -17,5 +17,6 @@ void main()
 	position_eye = vec3(view * model * vec4(position,1.0));
 	normal_eye = vec3(view * model * vec4(normal,0.0));
 
+	//normal_eye = vec3(view * transpose(model) * vec4(normal,0.0));
 	gl_Position = projection * vec4(position_eye,1.0);
 }

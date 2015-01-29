@@ -24,7 +24,7 @@ public:
 
 	std::string ps2,vs2;
 	TwBar *bar;
-	Mesh *cube, *plane, *sphere, *torus, *pyramid, *monkey, *goldenMonkey;
+	Mesh *cube, *plane, *sphere, *torus, *pyramid, *monkey, *goldenMonkey, *teapot;
 
 	GLuint gSampler;
 

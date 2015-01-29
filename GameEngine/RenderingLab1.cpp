@@ -69,6 +69,7 @@ void RenderingLab1::initModels()
 	pyramid = new Mesh("../Resources/Models/pyramid.obj", false, glm::vec3(-3,3,0), glm::quat(glm::vec3(0,0,0)), glm::vec3(1,1,1));
 	monkey = new Mesh("../Resources/Models/monkey.obj", false, glm::vec3(-1,2,0), glm::quat(glm::vec3(0,0,0)), glm::vec3(1,1,1));
 	goldenMonkey = new Mesh("../Resources/Models/monkey.obj", true, glm::vec3(3,2,0), glm::quat(glm::vec3(0,0,0)), glm::vec3(1,1,1));
+	teapot = new Mesh("../Resources/Models/teapot.obj", true, glm::vec3(0,7,0), glm::quat(glm::vec3(0,0,0)), glm::vec3(1,1,1));
 }
 
 void RenderingLab1::initTextures()
@@ -80,6 +81,7 @@ void RenderingLab1::initTextures()
 	//pyramid->initTexture("../Resources/Textures/test.png",basicShader->GetProgramID());
 	//monkey->initTexture("../Resources/Textures/orange.jpg",textureShader->GetProgramID());
 	goldenMonkey->initTexture("../Resources/Textures/gold.png",phongShader->GetProgramID());
+	teapot->initTexture("../Resources/Textures/white.jpg",toonTexturedShader->GetProgramID());
 }
 
 void RenderingLab1::initLights()
@@ -126,6 +128,8 @@ void RenderingLab1::initTweakBar()
 	TwAddVarRW(bar, "Sphere Rot", TW_TYPE_QUAT4F, &sphere->orientation, " group='Sphere' label='Sphere Rot: '");
 	TwAddVarRW(bar, "Golden M Position", TW_TYPE_DIR3F, &goldenMonkey->position, " group='Golden M' label='Golden M  Pos: '");
 	TwAddVarRW(bar, "Golden M Rot", TW_TYPE_QUAT4F, &goldenMonkey->orientation, " group='Golden M' label='Golden M  Rot: '");
+	TwAddVarRW(bar, "Teapot Position", TW_TYPE_DIR3F, &teapot->position, " group='Teapot' label='Teapot Position: '");
+	TwAddVarRW(bar, "Teapot Rot", TW_TYPE_QUAT4F, &teapot->orientation, " group='Teapot' label='Teapot Rot: '");
 	TwAddVarRW(bar, "Light Position", TW_TYPE_DIR3F, &toonLightDirection, " group='Lighting' label='Light Direction: '");
 	TwAddVarRW(bar, "Phong Light Position", TW_TYPE_DIR3F, &direction, " group='Lighting' label='Phong Light Direction: '");
 	TwAddVarRW(bar, "Diffuse Color", TW_TYPE_COLOR3F, &directionalLightColor, " group='Diffuse Lighting' label='Diffuse Color: '");
@@ -206,6 +210,9 @@ void RenderingLab1::update()
 
 	torus->update(toonTexturedShader->modelLoc, dt);
 	torus->render();
+
+	teapot->update(toonTexturedShader->modelLoc, dt);
+	teapot->render();
 
 	light->update(toonTexturedShader->GetProgramID(),dt);
 	light->setToonLight(toonLightDirection);
