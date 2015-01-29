@@ -6,7 +6,6 @@ class Game
 {
 public:
 	virtual void run() = 0;
-	virtual void initShaders() = 0;
 
 public:
 	Camera *camera;

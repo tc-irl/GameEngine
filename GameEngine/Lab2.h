@@ -12,7 +12,7 @@ public:
 
 	void run() override;
 	void init(char** argv);
-	void initShaders() override;
+	//void initShaders() override;
 	void initTweakBar();
 	//void initModels();
 	void initCube();

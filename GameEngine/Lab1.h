@@ -37,7 +37,7 @@ public:
 	void run() override;
 	void init();
 	void initTweakBar();
-	void initShaders() override;
+//	void initShaders() override;
 	void initParticleSystem();
 	bool initTextures();
 	int findUnusedParticle();

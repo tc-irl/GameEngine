@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Lighting.h"
 
 class RenderingLab1 : public Game
 {
@@ -12,17 +13,35 @@ public:
 	void run() override;
 	void init(char** argv);
 	void initTweakBar();
-	void initShaders() override;
+	void initShaders();
 	void initModels();
+	void initLights();
 	void initTextures();
 	void update();
 
-	Shader *shader1, *shader2;
+	Shader *basicShader, *textureShader, *toonShader, *toonTexturedShader, *phongShader, *diffuseShader;
+	Lighting *light, *phongLight, *diffuseLight;
+
 	std::string ps2,vs2;
 	TwBar *bar;
-	Mesh *cube, *plane, *sphere, *torus, *pyramid, *monkey;
+	Mesh *cube, *plane, *sphere, *torus, *pyramid, *monkey, *goldenMonkey;
 
 	GLuint gSampler;
+
+	glm::vec3 toonLightDirection;
+	// diffuse
+	glm::vec3 directionalLightColor;
+	glm::vec3 direction;
+	float directionalIntensity;
+
+	// ambient
+	glm::vec3 ambientColor;
+	float ambientIntensity;
+
+	//specular
+	glm::vec3 specularColor;
+	float specularIntensity;
+	float specularShininess;
 
 	Texture *cubeTexture;
 

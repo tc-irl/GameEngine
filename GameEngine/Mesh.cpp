@@ -137,6 +137,8 @@ Mesh::Mesh(const char *filename, bool useTexture)
 	orientation = glm::quat(glm::vec3(0,0,0));
 	scale = glm::vec3(1,1,1);
 
+	rotate = false;
+
 	Assimp::Importer importer;
 
 	const aiScene *scene = importer.ReadFile(filename, NULL);
@@ -159,9 +161,16 @@ Mesh::Mesh(const char *filename, bool useTexture, glm::vec3 position, glm::quat 
 	this->orientation = orientation;
 	this->useTexture = useTexture;
 
+	rotate = false;
+
 	Assimp::Importer importer;
 
-	const aiScene *scene = importer.ReadFile(filename, NULL);
+	const aiScene *scene = importer.ReadFile(filename, 	aiProcess_Triangulate
+		| aiProcess_JoinIdenticalVertices
+		| aiProcess_OptimizeGraph
+		| aiProcess_OptimizeMeshes
+		| aiProcess_RemoveRedundantMaterials
+		| aiProcess_GenSmoothNormals);
 
 	if(!scene) {
 		printf("Unable to load mesh: %s\n", importer.GetErrorString());

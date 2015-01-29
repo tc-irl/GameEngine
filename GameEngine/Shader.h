@@ -8,7 +8,7 @@
 class Shader
 {
 public:
-	Shader(void);
+	Shader();
 	~Shader(void);
 
 	bool LoadFile(const std::string& fileName, std::string& outShader);
@@ -16,6 +16,7 @@ public:
 
 	void DeleteShader();
 
+	void initShader(std::string name);
 	void CreateProgram();
 	bool LinkProgram();
 	void UseProgram();
@@ -30,6 +31,11 @@ public:
 	GLuint getAttribute(std::string name);
 
 	GLuint modelLoc, viewLoc, projLoc;
+
+	std::string vs, ps;
+
+
+
 
 private:
 	GLint success;

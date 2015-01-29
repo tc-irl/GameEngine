@@ -17,6 +17,7 @@ Tutorial followed - http://www.nexcius.net/2014/04/13/loading-meshes-using-assim
 #include <scene.h> // Assimp file
 #include <mesh.h> // Assimp file
 #include <Importer.hpp>
+#include <postprocess.h>
 #include <vector>
 #include "Texture.h"
 
@@ -58,6 +59,8 @@ public:
 	glm::vec3 position;
 	glm::quat orientation;
 	glm::vec3 scale;
+
+	bool rotate;
 
 	bool useTexture;
 	

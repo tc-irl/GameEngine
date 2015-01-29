@@ -27,12 +27,6 @@
     <Filter Include="Source Files\Engine\Other">
       <UniqueIdentifier>{0d1e810a-5aeb-41d8-aa4e-22af550c6af5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Rendering\Loaders">
-      <UniqueIdentifier>{7a6a6b0b-a5ad-4279-9ae3-50157506df3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Rendering\Initalisation">
-      <UniqueIdentifier>{e9622aae-9270-4335-ba73-fdd237f9d1fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -52,23 +46,17 @@
     <Filter Include="Header Files\Engine\Other">
       <UniqueIdentifier>{2b14bca8-36ce-4212-ac90-f1fe62846ea0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Rendering\Initialisation">
-      <UniqueIdentifier>{0e4d972f-2979-4926-b235-67cda97391a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Rendering\Loaders">
-      <UniqueIdentifier>{8913f20b-e52d-4c92-90d2-82f87f69deb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Rendering\Cameras">
-      <UniqueIdentifier>{4ded8b3b-d630-4fab-9d51-587e46bf12e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Rendering\Cameras">
-      <UniqueIdentifier>{07ebf5e4-76f1-418a-a90d-08a2177f7359}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\Core\Physics">
       <UniqueIdentifier>{0c19cf80-e880-4caf-b082-a6f26ade45fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Engine\Core\Rendering">
       <UniqueIdentifier>{14dd6943-ede3-46c2-8dda-b50f57468420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Rendering">
+      <UniqueIdentifier>{19e26682-c673-43c7-9798-d1ba29fec473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Other">
+      <UniqueIdentifier>{ccb8ee31-a536-42cf-9671-28f2bf244289}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,22 +79,25 @@
       <Filter>Source Files\Engine\Other</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectBuffer.cpp">
-      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Engine\Rendering\Cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files\Engine\Rendering\Initalisation</Filter>
+      <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\Engine\Rendering\Loaders</Filter>
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBuffer.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Lighting.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,76 +110,79 @@
     <ClInclude Include="TextureLoader.h">
       <Filter>Header Files\Engine\Other</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files\Engine\Rendering\Initialisation</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Engine\Rendering\Cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectBuffer.h">
-      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
-    </ClInclude>
     <ClInclude Include="Lab2.h">
       <Filter>Header Files\Engine\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Lab1.h">
       <Filter>Header Files\Engine\Core\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\Engine\Rendering\Loaders</Filter>
-    </ClInclude>
     <ClInclude Include="RenderingLab1.h">
       <Filter>Header Files\Engine\Core\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBuffer.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Lighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\Shaders\diffuse.ps">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\Resources\Shaders\diffuse.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Other</Filter>
     </None>
-    <None Include="..\Resources\Shaders\textures.ps">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\textures.vs">
-      <Filter>Shaders</Filter>
+    <None Include="..\Resources\Shaders\diffuse.ps">
+      <Filter>Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\drawTest.ps">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\drawTest.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\simpleFragmentShader.ps">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\simpleVertexShader.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\Particle.fragmentshader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\Particle.vertexshader">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\objNoTexture.ps">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\objNoTexture.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\objWithTexture.ps">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\objNoTexture.ps">
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\objNoTexture.vs">
+      <Filter>Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\objWithTexture.vs">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\simpleFragmentShader.ps">
+      <Filter>Shaders\Other</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\simpleVertexShader.vs">
+      <Filter>Shaders\Other</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\textures.ps">
+      <Filter>Shaders\Other</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\textures.vs">
+      <Filter>Shaders\Other</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\Particle.vertexshader">
+      <Filter>Shaders\Other</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\Particle.fragmentshader">
+      <Filter>Shaders\Other</Filter>
     </None>
   </ItemGroup>
 </Project>

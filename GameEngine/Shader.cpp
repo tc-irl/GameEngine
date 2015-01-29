@@ -157,3 +157,20 @@ GLuint Shader::getAttribute(std::string name)
 {
 	return glGetAttribLocation(shaderProgramID,name.c_str());
 }
+
+void Shader::initShader(std::string name)
+{
+	CreateProgram();
+
+	LoadFile(name + ".vs",vs);
+	AddShader(shaderProgramID, vs.c_str(), GL_VERTEX_SHADER);
+
+	LoadFile(name + ".ps",ps);
+	AddShader(shaderProgramID, ps.c_str(), GL_FRAGMENT_SHADER);
+
+	LinkProgram();
+	ValidateProgram();
+	UseProgram();
+
+	setMVPUniforms();
+}
