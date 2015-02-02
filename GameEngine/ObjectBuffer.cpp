@@ -108,7 +108,6 @@ void ObjectBuffer::transVertices(glm::quat orientation,glm::vec3 position)
 	{
 		transformedVertices[i] = glm::vec3(indices[i]) * orientation + glm::vec3(position);
 	}
-	
 }
 
 

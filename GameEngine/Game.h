@@ -11,6 +11,7 @@ public:
 	Camera *camera;
 	Window *window;
 	Shader *shader;
+	TwBar *bar;
 	std::string vs, ps;
 };
 

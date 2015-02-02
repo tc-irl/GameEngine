@@ -41,5 +41,6 @@ private:
 	double currentTime;
 
 	float mouseSpeed;
+	bool enabled;
 };
 

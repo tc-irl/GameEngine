@@ -4,6 +4,9 @@
 #include "ObjectBuffer.h"
 #include "RigidBody.h"
 
+#ifndef LAB2_H
+#define LAB2_H
+
 class Lab2 : public Game
 {
 public:
@@ -12,20 +15,20 @@ public:
 
 	void run() override;
 	void init(char** argv);
-	//void initShaders() override;
+	void initShaders();
 	void initTweakBar();
-	//void initModels();
+	void initModels();
 	void initCube();
+	void initTextures();
+
 	void Draw();
 	void update(GLuint modelLoc, float timeDelta);
 	double time, dt;// Current time and elapsed time
+	
 	glm::vec3 centroid;
 	float speed;
 	glm::vec3 direction;
-
 	glm::vec3 forcePoint;
-
-	int index;
 private:
 	Shader *shader;
 	TwBar *bar; 
@@ -35,3 +38,4 @@ private:
 	GLuint sampler;
 };
 
+#endif

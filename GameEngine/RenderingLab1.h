@@ -1,6 +1,6 @@
 #pragma once
 #include "Game.h"
-#include "Mesh.h"
+#include "SimpleMesh.h"
 #include "Texture.h"
 #include "Lighting.h"
 
@@ -24,7 +24,7 @@ public:
 
 	std::string ps2,vs2;
 	TwBar *bar;
-	Mesh *cube, *plane, *sphere, *torus, *pyramid, *monkey, *goldenMonkey, *teapot;
+	SimpleMesh *cube, *plane, *sphere, *torus, *pyramid, *monkey, *goldenMonkey, *teapot;
 
 	GLuint gSampler;
 

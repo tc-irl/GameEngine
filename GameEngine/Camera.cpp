@@ -19,10 +19,20 @@ Camera::Camera(GLFWwindow *window)
 	direction = glm::vec3(0,0,-1);
 
 	right = glm::vec3(1,0,0);
+
+	enabled = true;
 }
 
 void Camera::computeMatricesFromInputs()
 {
+	if(glfwGetKey(window,GLFW_KEY_C) == GLFW_PRESS)
+	{
+		enabled = false;
+	}
+	else if(glfwGetKey(window,GLFW_KEY_V) == GLFW_PRESS)
+	{
+		enabled = true;
+	}
 	// glfwGetTime is called only once, the first time this function is called
 	static double lastTime = glfwGetTime();
 
@@ -34,30 +44,34 @@ void Camera::computeMatricesFromInputs()
 	double xpos, ypos;
 	glfwGetCursorPos(window, &xpos, &ypos);
 
-	// Reset mouse position for next frame
-	//glfwSetCursorPos(window, 1024/2, 768/2);
+	if(enabled)
+	{
+		// Reset mouse position for next frame
+		glfwSetCursorPos(window, 1024/2, 768/2);
 
-	/*
-	// Compute new orientation
-	horizontalAngle += mouseSpeed * float(1024/2 - xpos );
-	verticalAngle   += mouseSpeed * float( 768/2 - ypos );
+	
+		// Compute new orientation
+		horizontalAngle += mouseSpeed * float(1024/2 - xpos );
+		verticalAngle   += mouseSpeed * float( 768/2 - ypos );
 
 
-	// Direction : Spherical coordinates to Cartesian coordinates conversion
-		direction = glm::vec3(
-		cos(verticalAngle) * sin(horizontalAngle), 
-		sin(verticalAngle),
-		cos(verticalAngle) * cos(horizontalAngle)
-		);
+		// Direction : Spherical coordinates to Cartesian coordinates conversion
+			direction = glm::vec3(
+			cos(verticalAngle) * sin(horizontalAngle), 
+			sin(verticalAngle),
+			cos(verticalAngle) * cos(horizontalAngle)
+			);
 
-	// Right vector
-	right = glm::vec3(
-		sin(horizontalAngle - 3.14f/2.0f), 
-		0,
-		cos(horizontalAngle - 3.14f/2.0f)
-		);
-	*/
+		// Right vector
+		right = glm::vec3(
+			sin(horizontalAngle - 3.14f/2.0f), 
+			0,
+			cos(horizontalAngle - 3.14f/2.0f)
+			);
+	
 	// Up vector
+	}
+
 	up = glm::cross( right, direction );
 
 	// Move forward

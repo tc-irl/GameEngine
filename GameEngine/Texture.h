@@ -1,11 +1,13 @@
 #pragma once
 
+
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
 #include <string>
 #include <gl/glew.h>
-#include <Magick++.h>
+#include <SOIL.h>
+
 #include <iostream>
 
 class Texture
@@ -20,8 +22,8 @@ private:
 	std::string filename;
 	GLenum textureTarget;
 	GLuint textureObj;
-	Magick::Image image;
-	Magick::Blob blob;
+	//Magick::Image *image;
+	//Magick::Blob blob;
 
 };
 

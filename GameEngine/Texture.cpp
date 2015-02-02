@@ -9,20 +9,12 @@ Texture::Texture(GLenum textureTarget, const std::string &filename)
 
 bool Texture::Load()
 {
-	try 
-	{
-		image.read(filename);
-		image.write(&blob, "RGBA");
-	}
-	catch (Magick::Error& Error)
-	{
-		std::cout << "Error loading texture '" << filename << "': " << Error.what() << std::endl;
-		return false;
-	}
+	int width,height;
+	unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
 
 	glGenTextures(1, &textureObj);
 	glBindTexture(textureTarget, textureObj);
-	glTexImage2D(textureTarget, 0 , GL_RGBA, image.columns(),image.rows(),0,GL_RGBA, GL_UNSIGNED_BYTE,blob.data());
+	glTexImage2D(textureTarget, 0 , GL_RGBA, width,height,0,GL_RGBA, GL_UNSIGNED_BYTE,image);
 
 	glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    

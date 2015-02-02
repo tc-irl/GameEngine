@@ -46,12 +46,6 @@
     <Filter Include="Header Files\Engine\Other">
       <UniqueIdentifier>{2b14bca8-36ce-4212-ac90-f1fe62846ea0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Core\Physics">
-      <UniqueIdentifier>{0c19cf80-e880-4caf-b082-a6f26ade45fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Core\Rendering">
-      <UniqueIdentifier>{14dd6943-ede3-46c2-8dda-b50f57468420}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders\Rendering">
       <UniqueIdentifier>{19e26682-c673-43c7-9798-d1ba29fec473}</UniqueIdentifier>
     </Filter>
@@ -97,7 +91,13 @@
       <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Lighting.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab3.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMesh.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,15 +109,6 @@
     </ClInclude>
     <ClInclude Include="TextureLoader.h">
       <Filter>Header Files\Engine\Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Lab2.h">
-      <Filter>Header Files\Engine\Core\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Lab1.h">
-      <Filter>Header Files\Engine\Core\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingLab1.h">
-      <Filter>Header Files\Engine\Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Engine\Rendering</Filter>
@@ -138,7 +129,22 @@
       <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Lighting.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab1.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab3.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab2.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingLab1.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMesh.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
