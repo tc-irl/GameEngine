@@ -95,6 +95,8 @@ void Camera::computeMatricesFromInputs()
 		position -= right * deltaTime * speed;
 	}
 
+	eye = position + direction;
+
 	FoV = initialFoV;// - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
 
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
@@ -102,10 +104,9 @@ void Camera::computeMatricesFromInputs()
 	// Camera matrix
 	ViewMatrix       = glm::lookAt(
 		position,           // Camera is here
-		position+direction, // and looks here : at the same position, plus "direction"
+		eye,	// and looks here : at the same position, plus "direction"
 		up                  // Head is up (set to 0,-1,0 to look upside-down)
 		);
-
 	// For the next frame, the "last time" will be "now"
 	lastTime = currentTime;
 }
@@ -124,9 +125,7 @@ void Camera::handleMVP(GLuint modelLoc, GLuint viewLoc, GLuint projLoc)
 {
 	ProjectionMatrix = getProjectionMatrix();
 	ViewMatrix = getViewMatrix();
-	//glm::mat4 ModelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
-	//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &ModelMatrix[0][0]);
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &ViewMatrix[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, &ProjectionMatrix[0][0]);
 }

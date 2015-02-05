@@ -9,8 +9,6 @@ SimpleMesh::SimpleMesh(GLuint shaderID, const char *filename, glm::vec3 color, b
 	orientation = glm::quat(glm::vec3(0,0,0));
 	scale = glm::vec3(1,1,1);
 
-	centroid = glm::vec3(0,0,0);
-
 	LoadMesh(filename);
 }
 
@@ -23,8 +21,6 @@ SimpleMesh::SimpleMesh(GLuint shaderID, const char *filename, bool useTexture)
 	orientation = glm::quat(glm::vec3(0,0,0));
 	scale = glm::vec3(1,1,1);
 
-	centroid = glm::vec3(0,0,0);
-
 	LoadMesh(filename);
 }
 
@@ -34,8 +30,6 @@ SimpleMesh::SimpleMesh(GLuint shaderID, const char *filename, bool useTexture, g
 	this->scale = scale;
 	this->orientation = orientation;
 	this->useTexture = useTexture;
-
-	centroid = glm::vec3(0,0,0);
 
 	LoadMesh(filename);
 }
@@ -48,8 +42,6 @@ SimpleMesh::SimpleMesh(GLuint shaderID, const char *filename, glm::vec3 color, b
 	this->useTexture = useTexture;
 
 	this->color = color;
-
-	centroid = glm::vec3(0,0,0);
 
 	LoadMesh(filename);
 }
@@ -68,8 +60,10 @@ void SimpleMesh::initTexture(const char* filename)
 	}
 }
 
-void SimpleMesh::update(GLuint modelLoc, float deltaTime)
+void SimpleMesh::update(float deltaTime)
 {
+	GLuint modelLoc = glGetUniformLocation(shaderID, "model");
+
 	glm::mat4 model;
 
 	model = getTransformationMatrix();
@@ -77,8 +71,10 @@ void SimpleMesh::update(GLuint modelLoc, float deltaTime)
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
 }
 
-void SimpleMesh::update(glm::mat4 model, GLuint modelLoc, float deltaTime)
+void SimpleMesh::update(glm::mat4 model, float deltaTime)
 {
+	GLuint modelLoc = glGetUniformLocation(shaderID, "model");
+
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
 }
 

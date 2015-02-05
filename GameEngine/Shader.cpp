@@ -54,6 +54,7 @@ void Shader::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum Sha
 	GLint success;
 	// check for shader related errors using glGetShaderiv
 	glGetShaderiv(shaderObj, GL_COMPILE_STATUS, &success);
+	
 	if (!success) 
 	{
 		glGetShaderInfoLog(shaderObj, 1024, NULL, infoLog);
@@ -158,14 +159,26 @@ GLuint Shader::getAttribute(std::string name)
 	return glGetAttribLocation(shaderProgramID,name.c_str());
 }
 
-void Shader::initShader(std::string name)
+void Shader::initShader(ShaderType shaderType)
 {
+	this->shaderType = shaderType;
+
 	CreateProgram();
 
-	LoadFile(name + ".vs",vs);
+	if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
+	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+	else if(shaderType == PHONG){filename = "../Resources/Shaders/phong";}
+	else if(shaderType == TOON){filename = "../Resources/Shaders/toon";}
+	else if(shaderType == DIFFUSE){filename = "../Resources/Shaders/diff";}
+	else if(shaderType == PHONG_TEXTURED) {filename = "../Resources/Shaders/phongTextured";}
+	else if(shaderType == TOON_TEXTURED) {filename = "../Resources/Shaders/toonTextured";}
+	else if(shaderType == OREN_NAYAR) {filename = "../Resources/Shaders/orennayar";}
+	else if(shaderType == OREN_TEXTURED) {filename = "../Resources/Shaders/orenTextured";}
+
+	LoadFile(filename + ".vs",vs);
 	AddShader(shaderProgramID, vs.c_str(), GL_VERTEX_SHADER);
 
-	LoadFile(name + ".ps",ps);
+	LoadFile(filename + ".ps",ps);
 	AddShader(shaderProgramID, ps.c_str(), GL_FRAGMENT_SHADER);
 
 	LinkProgram();

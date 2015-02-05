@@ -14,12 +14,14 @@ public:
 
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix();
+
 	void handleMVP(GLuint modelLoc, GLuint viewLoc, GLuint projLoc);
 	void cameraUpdate(glm::vec3 pos, glm::vec3 direction);
 
 	glm::vec3 position;
 
 	glm::vec3 direction, right,up;
+	glm::vec3 eye;
 	float speed;// 3 units / second
 
 

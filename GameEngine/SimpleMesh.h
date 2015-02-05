@@ -50,8 +50,6 @@ public:
 	glm::vec3 scale;
 
 	bool useTexture;
-	float distanceToCOM; 
-	glm::vec3 centroid;
 	GLuint vSize, cSize;
 
 	void initTexture(const char* filename); // Just using our own textures, rather than loading from file itself.
@@ -59,13 +57,10 @@ public:
 	void LoadMesh(const char *filename);
 
 	void verticesToPoints(std::vector<glm::vec3> vert);
-	void update(GLuint modelLoc, float deltaTime);
-	void update(glm::mat4 model, GLuint modelLoc, float deltaTime);
+	void update(float deltaTime);
+	void update(glm::mat4 model, float deltaTime);
 	void render();
 	void renderPoly();
-	
-
-	GLuint numIndices;
 
 	glm::mat4 getTransformationMatrix();
 };

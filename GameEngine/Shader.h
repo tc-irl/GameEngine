@@ -5,9 +5,16 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+
+
 class Shader
 {
 public:
+
+	typedef enum ShaderType {NONE, BASIC, TEXTURED, PHONG, TOON, DIFFUSE, PHONG_TEXTURED, TOON_TEXTURED, OREN_NAYAR, OREN_TEXTURED};
+
+	ShaderType shaderType;
+
 	Shader();
 	~Shader(void);
 
@@ -16,7 +23,7 @@ public:
 
 	void DeleteShader();
 
-	void initShader(std::string name);
+	void initShader(ShaderType shaderType);
 	void CreateProgram();
 	bool LinkProgram();
 	void UseProgram();
@@ -33,9 +40,7 @@ public:
 	GLuint modelLoc, viewLoc, projLoc;
 
 	std::string vs, ps;
-
-
-
+	std::string filename;
 
 private:
 	GLint success;
@@ -43,5 +48,6 @@ private:
 	GLchar errorLog[1024], infoLog[1024];
 
 	GLuint shaderProgramID, shaderObj;
+
 };
 

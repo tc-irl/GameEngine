@@ -1,0 +1,70 @@
+// Helpful tutorials used:
+// http://ruh.li/GraphicsOrenNayar.html
+// Advanced Lighting and Materials with shaders - Kelly Dempski and Emmanuel Viale. 
+
+#version 400
+
+uniform vec3 ambientColor;
+uniform vec3 specularColor;
+uniform vec3 diffuseColor;
+
+uniform float ambientIntensity;
+uniform float specularIntensity;
+uniform float diffuseIntensity;
+
+uniform float specularShininess;
+uniform float roughness; 
+
+uniform vec3 vLightDir;
+
+in vec3 position_eye;
+in vec3 normal_eye;
+in vec3 eyePos;
+
+in vec2 texCoord0;
+uniform sampler2D gSampler;
+
+uniform mat4 view;
+
+in vec4 color;
+out vec4 FragColor;
+
+void main()
+{
+	vec4 ambientC = vec4(ambientColor, 1.0f) * ambientIntensity;
+
+	vec3 normal = normalize(normal_eye);
+	vec3 eyeDir = normalize(position_eye);
+	vec3 lightDir = normalize(-vLightDir);
+
+	float NdotL = dot(normal, lightDir);
+	float NdotV = dot(normal, eyeDir);
+
+	float angleVN = acos(NdotV);
+	float angleLN = acos(NdotL);
+
+	float alpha = max(angleVN, angleLN);
+	float beta = min(angleVN, angleLN);
+	float gamma = dot(eyeDir - normal * dot(eyeDir,normal), lightDir - normal * dot(lightDir,normal));
+
+	float roughnessSquared = roughness * roughness;
+
+	float A = 1.0 - 0.5 * (roughnessSquared / (roughnessSquared + 0.57));
+	float B = 0.45 * (roughnessSquared / (roughnessSquared + 0.09)); 
+	float C = sin(alpha) * tan(beta);
+
+	float L1 = max(0.0f, NdotL) * (A + B * max(0.0f, gamma) * C);
+
+	vec4 diffuseC = vec4(diffuseColor, 1.0f) * diffuseIntensity * L1;
+
+	vec3 reflection_eye = reflect (lightDir, normal);
+	float dot_prod_specular = dot (reflection_eye, eyeDir);
+	dot_prod_specular = max (dot_prod_specular, 0.0);
+	float specular_factor = pow (dot_prod_specular, specularShininess);
+
+	vec4 specularC = vec4(specularColor, 1.0f) * specularIntensity * specular_factor;
+
+	FragColor = color * vec4(diffuseC + ambientC + specularC);
+};
+
+

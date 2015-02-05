@@ -29,3 +29,8 @@ void Texture::Bind(GLenum textureUnit)
 	glBindTexture(textureTarget, textureObj);
 }
 
+void Texture::UnBind()
+{
+	glBindTexture(textureTarget, 0);
+}
+

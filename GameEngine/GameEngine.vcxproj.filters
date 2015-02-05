@@ -21,9 +21,6 @@
     <Filter Include="Source Files\Engine\Physics">
       <UniqueIdentifier>{23ab63ee-6256-4d58-b749-a1071905fac7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{7042baf6-2950-43b4-97a3-2645a361c0f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\Other">
       <UniqueIdentifier>{0d1e810a-5aeb-41d8-aa4e-22af550c6af5}</UniqueIdentifier>
     </Filter>
@@ -46,10 +43,13 @@
     <Filter Include="Header Files\Engine\Other">
       <UniqueIdentifier>{2b14bca8-36ce-4212-ac90-f1fe62846ea0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders\Rendering">
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{7042baf6-2950-43b4-97a3-2645a361c0f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\Rendering">
       <UniqueIdentifier>{19e26682-c673-43c7-9798-d1ba29fec473}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders\Other">
+    <Filter Include="Resource Files\Shaders\Other">
       <UniqueIdentifier>{ccb8ee31-a536-42cf-9671-28f2bf244289}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -78,9 +78,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Engine\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectBuffer.cpp">
       <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
@@ -99,6 +96,12 @@
     <ClCompile Include="SimpleMesh.cpp">
       <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="MeshLoader.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -114,9 +117,6 @@
       <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="ObjectBuffer.h">
-      <Filter>Header Files\Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
       <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
@@ -146,73 +146,85 @@
     <ClInclude Include="SimpleMesh.h">
       <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="MeshLoader.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\diffuse.vs">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\diffuse.ps">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\drawTest.ps">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\drawTest.vs">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\objWithTexture.ps">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\objNoTexture.ps">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\objNoTexture.vs">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\objWithTexture.vs">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\simpleFragmentShader.ps">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\simpleVertexShader.vs">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\textures.ps">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\textures.vs">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\Particle.vertexshader">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\Particle.fragmentshader">
-      <Filter>Shaders\Other</Filter>
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\diff.ps">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\diff.vs">
-      <Filter>Shaders\Rendering</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\phong.ps">
-      <Filter>Shaders\Rendering</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\phong.vs">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\toon.ps">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\toon.vs">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\toonTextured.ps">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\toonTextured.vs">
-      <Filter>Shaders\Rendering</Filter>
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phongTextured.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\phongTextured.vs">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\orennayar.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\orennayar.vs">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
   </ItemGroup>
 </Project>
