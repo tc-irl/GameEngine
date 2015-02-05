@@ -27,12 +27,12 @@ public:
 	Shader *basicShader, *textureShader, *toonShader, *toonTextured, *phongShader, 
 			*diffuseShader, *phongTextured, *orenTextured, *orenNayar;
 
-	Lighting *monkeyLight, *teapotLight, *sphereLight;
+	Lighting *monkeyLight, *teapotLight, *headLight;
 
 	std::string ps2,vs2;
 	TwBar *bar;
 	//SimpleMesh *cube, *plane, *sphere, *torus, *monkey, *goldenMonkey, *teapot;
-	MeshLoader *plane, *cube, *teapot, *monkey, *sphere;
+	MeshLoader *plane, *cube, *teapot, *monkey, *head;
 
 	GLuint gSampler;
 

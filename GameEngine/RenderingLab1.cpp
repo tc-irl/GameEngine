@@ -92,18 +92,18 @@ void RenderingLab1::initModels()
 	plane->IsTextureActive(true);
 	plane->SetPos(glm::vec3(0,-2,0));
 
-	teapot = new MeshLoader(basicShader->GetProgramID(), "../Resources/Models/teapot.obj");
+	teapot = new MeshLoader(toonShader->GetProgramID(), "../Resources/Models/teapot.obj");
 	teapot->SetPos(glm::vec3(3,0,0));
 	teapot->SetScale(glm::vec3(0.8,0.8,0.8));
 	teapot->SetPossibleShaders(possibleShaders);
 
-	monkey = new MeshLoader(basicShader->GetProgramID(), "../Resources/Models/monkey.obj");
+	monkey = new MeshLoader(orenNayar->GetProgramID(), "../Resources/Models/monkey.obj");
 	monkey->SetPos(glm::vec3(-3,0,0));
 	monkey->SetPossibleShaders(possibleShaders);
 
-	sphere = new MeshLoader(basicShader->GetProgramID(), "../Resources/Models/sphere.obj");
-	sphere->SetPos(glm::vec3(0,3,0));
-	sphere->SetPossibleShaders(possibleShaders);
+	head = new MeshLoader(phongShader->GetProgramID(), "../Resources/Models/head2.obj");
+	head->SetPos(glm::vec3(0,3,0));
+	head->SetPossibleShaders(possibleShaders);
 }
 
 void RenderingLab1::initTextures()
@@ -113,23 +113,23 @@ void RenderingLab1::initTextures()
 	plane->SetTexture("../Resources/Textures/tile.png");
 
 	monkey->SetColor(glm::vec3(1,0,0));
-	monkey->SetShaderType(basicShader->shaderType);
+	monkey->SetShaderType(orenNayar->shaderType);
 	monkey->SetTexture("../Resources/Textures/orange.jpg");
 	
 	teapot->SetColor(glm::vec3(1,1,1));
-	teapot->SetShaderType(basicShader->shaderType);
+	teapot->SetShaderType(toonShader->shaderType);
 	teapot->SetTexture("../Resources/Textures/gold1.jpg");
 
-	sphere->SetColor(glm::vec3(1,1,1));
-	sphere->SetShaderType(basicShader->shaderType);
-	sphere->SetTexture("../Resources/Textures/green.jpg");
+	head->SetColor(glm::vec3(1,1,1));
+	head->SetShaderType(phongShader->shaderType);
+	head->SetTexture("../Resources/Textures/gold.png");
 }
 
 void RenderingLab1::initLights()
 {
-	monkeyLight = new Lighting(toonShader->GetProgramID());
+	monkeyLight = new Lighting(orenNayar->GetProgramID());
 	teapotLight = new Lighting(toonShader->GetProgramID());
-	sphereLight = new Lighting(toonShader->GetProgramID());
+	headLight = new Lighting(phongShader->GetProgramID());
 }
 
 void RenderingLab1::initTweakBar()
@@ -183,20 +183,20 @@ void RenderingLab1::initTweakBar()
 	TwAddVarRW(bar, "Teapot Specular Shininess", TW_TYPE_FLOAT, &teapotLight->specularShininess, "step='0.1' group='Teapot Lighting' label='Specular Shininess: '");
 	TwAddVarRW(bar, "Teapot Material Roughness", TW_TYPE_FLOAT, &teapotLight->roughness, "step='0.1' group='Teapot Lighting' label='Roughness: '");
 
-	TwAddVarRW(bar, "Sphere Position", TW_TYPE_DIR3F, &sphere->position, " group='Sphere' label='Sphere Pos: '");
-	TwAddVarRW(bar, "Sphere Rot", TW_TYPE_QUAT4F, &sphere->orientation, " group='Sphere' label='Sphere Rot: '");
-	TwAddVarRW(bar, "Sphere Mode", modeType, &sphere->shaderType,"group='Sphere' label='Sphere Mode: '");
-	TwAddVarRW(bar, "Sphere Color", TW_TYPE_COLOR3F, &sphere->color,"group='Sphere' label='Sphere Color: '");
-	TwAddVarRW(bar, "Sphere Texture", TW_TYPE_BOOLCPP, &sphere->useTexture, " group='Sphere' label='Sphere Textured: '");
-	TwAddVarRW(bar, "Sphere Light Position", TW_TYPE_DIR3F, &sphereLight->position, " group='Sphere Lighting' label='Sphere Direction: '");
-	TwAddVarRW(bar, "Sphere Diffuse Color", TW_TYPE_COLOR3F, &sphereLight->diffuseColor, " group='Sphere Lighting' label='Diffuse Color: '");
-	TwAddVarRW(bar, "Sphere Diffuse Intensity", TW_TYPE_FLOAT, &sphereLight->diffuseIntensity, "step='0.1' group='Sphere Lighting' label='Diffuse Intensity: '");
-	TwAddVarRW(bar, "Sphere Ambient Color", TW_TYPE_COLOR3F, &sphereLight->ambientColor, " group='Sphere Lighting' label='Ambient Color: '");
-	TwAddVarRW(bar, "Sphere Ambient Intensity", TW_TYPE_FLOAT, &sphereLight->ambientIntensity, "step='0.1' group='Sphere Lighting' label='Ambient Intensity: '");
-	TwAddVarRW(bar, "Sphere Specular Color", TW_TYPE_COLOR3F, &sphereLight->specularColor, " group='Sphere Lighting' label='Specular Color: '");
-	TwAddVarRW(bar, "Sphere Specular Intensity", TW_TYPE_FLOAT, &sphereLight->specularIntensity, "step='0.1' group='Sphere Lighting' label='Specular Intensity: '");
-	TwAddVarRW(bar, "Sphere Specular Shininess", TW_TYPE_FLOAT, &sphereLight->specularShininess, "step='0.1' group='Sphere Lighting' label='Specular Shininess: '");
-	TwAddVarRW(bar, "Sphere Material Roughness", TW_TYPE_FLOAT, &sphereLight->roughness, "step='0.1' group='Sphere Lighting' label='Roughness: '");
+	TwAddVarRW(bar, "Head Position", TW_TYPE_DIR3F, &head->position, " group='Head' label='Head Pos: '");
+	TwAddVarRW(bar, "Head Rot", TW_TYPE_QUAT4F, &head->orientation, " group='Head' label='Head Rot: '");
+	TwAddVarRW(bar, "Head Mode", modeType, &head->shaderType,"group='Head' label='Head Mode: '");
+	TwAddVarRW(bar, "Head Color", TW_TYPE_COLOR3F, &head->color,"group='Head' label='Head Color: '");
+	TwAddVarRW(bar, "Head Texture", TW_TYPE_BOOLCPP, &head->useTexture, " group='Head' label='Head Textured: '");
+	TwAddVarRW(bar, "Head Light Position", TW_TYPE_DIR3F, &headLight->position, " group='Head Lighting' label='Head Direction: '");
+	TwAddVarRW(bar, "Head Diffuse Color", TW_TYPE_COLOR3F, &headLight->diffuseColor, " group='Head Lighting' label='Diffuse Color: '");
+	TwAddVarRW(bar, "Head Diffuse Intensity", TW_TYPE_FLOAT, &headLight->diffuseIntensity, "step='0.1' group='Head Lighting' label='Diffuse Intensity: '");
+	TwAddVarRW(bar, "Head Ambient Color", TW_TYPE_COLOR3F, &headLight->ambientColor, " group='Head Lighting' label='Ambient Color: '");
+	TwAddVarRW(bar, "Head Ambient Intensity", TW_TYPE_FLOAT, &headLight->ambientIntensity, "step='0.1' group='Head Lighting' label='Ambient Intensity: '");
+	TwAddVarRW(bar, "Head Specular Color", TW_TYPE_COLOR3F, &headLight->specularColor, " group='Head Lighting' label='Specular Color: '");
+	TwAddVarRW(bar, "Head Specular Intensity", TW_TYPE_FLOAT, &headLight->specularIntensity, "step='0.1' group='Head Lighting' label='Specular Intensity: '");
+	TwAddVarRW(bar, "Head Specular Shininess", TW_TYPE_FLOAT, &headLight->specularShininess, "step='0.1' group='Head Lighting' label='Specular Shininess: '");
+	TwAddVarRW(bar, "Head Material Roughness", TW_TYPE_FLOAT, &headLight->roughness, "step='0.1' group='Head Lighting' label='Roughness: '");
 
 	glfwSetMouseButtonCallback(window->GetWindow(),MouseButtonCB);
 	glfwSetCursorPosCallback(window->GetWindow(),MousePosCB);
@@ -248,11 +248,11 @@ void RenderingLab1::update()
 	teapot->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
 	teapot->Render();
 
-	sphere->Rotate360(dt);
-	sphere->UpdateShader();
-	UpdateLighting(sphere->GetShader(), sphereLight);
-	sphere->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
-	sphere->Render();
+	head->Rotate360(dt);
+	head->UpdateShader();
+	UpdateLighting(head->GetShader(), headLight);
+	head->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+	head->Render();
 
 }
 

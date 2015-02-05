@@ -55,9 +55,15 @@ void main()
 
 	float L1 = max(0.0f, NdotL) * (A + B * max(0.0f, gamma) * C);
 
-	vec4 diffuseC = vec4(diffuseColor, 1.0f) * diffuseIntensity * L1;
+	vec3 reflection_eye = reflect (lightDir, normal);
+	float dot_prod_specular = dot (reflection_eye, eyeDir);
+	dot_prod_specular = max (dot_prod_specular, 0.0);
+	float specular_factor = pow (dot_prod_specular, specularShininess);
 
-	FragColor = color * vec4(diffuseC + ambientC);
+	vec4 diffuseC = vec4(diffuseColor, 1.0f) * diffuseIntensity * L1;
+	vec4 specularC = vec4(specularColor, 1.0f) * specularIntensity * specular_factor;
+
+	FragColor = color * vec4(diffuseC + ambientC + specularC);
 };
 
 
