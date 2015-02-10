@@ -250,5 +250,23 @@
     <None Include="..\Resources\Shaders\skybox.vs">
       <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
+    <None Include="..\Resources\Shaders\combined.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\combined.vs">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\reflect.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\reflect.vs">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\refract.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\refract.vs">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
   </ItemGroup>
 </Project>

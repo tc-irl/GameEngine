@@ -180,6 +180,8 @@ void Shader::initShader(ShaderType shaderType)
 	else if(shaderType == REFLECTION) {filename = "../Resources/Shaders/reflect";}
 	else if(shaderType == REFRACTION) {filename = "../Resources/Shaders/refract";}
 	else if(shaderType == COMBINED) {filename = "../Resources/Shaders/combined";}
+	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+
 
 
 	LoadFile(filename + ".vs",vs);

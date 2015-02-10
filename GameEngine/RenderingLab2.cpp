@@ -33,13 +33,12 @@ RenderingLab2::RenderingLab2(void)
 	reflectionShader = new Shader();
 	refractionShader = new Shader();
 	combinedShader = new Shader();
+	texturedShader = new Shader();
 
 	window = new Window(800,600,"Lab 2: Rendering");
 	camera = new Camera(window->GetWindow());
 
 	pauseScene = false;
-
-
 }
 
 void RenderingLab2::init(char** argv)
@@ -48,7 +47,6 @@ void RenderingLab2::init(char** argv)
 	initRefractions();
 	initModels();
 	initTextures();
-	//initRefractions();
 	initLights();
 	initTweakBar();
 }
@@ -66,18 +64,28 @@ void RenderingLab2::initShaders()
 
 	combinedShader->initShader(combinedShader->COMBINED);
 	possibleShaders[Shader::COMBINED] = combinedShader->GetProgramID();
+
+	texturedShader->initShader(texturedShader->TEXTURED);
+	possibleShaders[Shader::TEXTURED] = texturedShader->GetProgramID();
 }
 
 void RenderingLab2::initModels()
 {
-	teapot = new MeshLoader(skyBoxShader->GetProgramID(), "../Resources/Models/cube.obj");
+	teapot = new MeshLoader(skyBoxShader->GetProgramID(), "../Resources/Models/sphere.obj");
 	teapot->IsSkyboxActive(false);
 	teapot->SetPos(glm::vec3(0,0,0));
 	teapot->SetScale(glm::vec3(0.8,0.8,0.8));
 	teapot->SetPossibleShaders(possibleShaders);
 	teapot->SetRefractionTypes(refractions);
 
-	skybox = new MeshLoader(skyBoxShader->GetProgramID(),"../Resources/Models/cube.obj");
+	//head = new MeshLoader(texturedShader->GetProgramID(), "../Resources/Models/sphere.obj");
+	//head->IsSkyboxActive(false);
+	//head->SetPos(glm::vec3(0,0,-2));
+	//head->SetScale(glm::vec3(0.8,0.8,0.8));
+	//head->SetPossibleShaders(possibleShaders);
+	//head->SetRefractionTypes(refractions); 
+
+	skybox = new MeshLoader(skyBoxShader->GetProgramID(),"../Resources/Models/cube2.obj");
 	skybox->IsSkyboxActive(true);
 	skybox->SetPos(camera->position);
 	skybox->SetScale(glm::vec3(100,100,100));
@@ -90,8 +98,12 @@ void RenderingLab2::initTextures()
 	teapot->SetShaderType(skyBoxShader->shaderType);
 	teapot->SetTexture("../Resources/Textures/bricks.jpg");
 
+	//head->SetColor(glm::vec3(1,1,1));
+	//head->SetShaderType(texturedShader->shaderType);
+	//head->SetTexture("../Resources/Textures/lambertian.jpg");
+
 	skybox->SetShaderType(skyBoxShader->shaderType);
-	skybox->SetCubeMapTexture("../Resources/Skyboxes/Sky1/");
+	skybox->SetCubeMapTexture("../Resources/Skyboxes/Colloseum/");
 }
 
 void RenderingLab2::initLights()
@@ -109,7 +121,7 @@ void RenderingLab2::initTweakBar()
 	bar = TwNewBar("Attributes: ");
 
 	TwEnumVal modeEV[] = {{Shader::ShaderType::SKYBOX, "Skybox"}, {Shader::ShaderType::REFLECTION, "Reflection"},
-	{Shader::ShaderType::REFRACTION, "Refraction"}, {Shader::ShaderType::COMBINED, "Combined"}};
+	{Shader::ShaderType::REFRACTION, "Refraction"}, {Shader::ShaderType::COMBINED, "Combined"}, {Shader::ShaderType::TEXTURED, "Textured"}};
 
 	TwEnumVal modeEV2[] = {{MeshLoader::RefractionIndex::AIRTOWATER, "Air to Water"}, {MeshLoader::RefractionIndex::AIRTOICE, "Air to Ice"},
 	{MeshLoader::RefractionIndex::AIRTOGLASS, "Air to Glass"}, {MeshLoader::RefractionIndex::AIRTODIAMOND, "Air to Diamond"}};
@@ -117,7 +129,7 @@ void RenderingLab2::initTweakBar()
 	TwType modeType;
 	TwType modeType2;
 
-	modeType = TwDefineEnum("ShaderType", modeEV, 4);
+	modeType = TwDefineEnum("ShaderType", modeEV, 5);
 	modeType2 = TwDefineEnum("RefractionType",modeEV2, 4);
 
 	TwAddVarRW(bar, "Pause", TW_TYPE_BOOLCPP, &pauseScene, "label='Pause Scene: '");
@@ -131,6 +143,14 @@ void RenderingLab2::initTweakBar()
 	TwAddVarRW(bar, "Teapot Mat Col", TW_TYPE_COLOR4F, &teapot->matColor,"group='Teapot' label='Teapot Color: '");
 	TwAddVarRW(bar, "Teapot Ref Factor", TW_TYPE_FLOAT, &teapot->reflectionFactor, "step='0.1' group='Teapot' label='Reflection Factor: '");
 	TwAddVarRW(bar, "Teapot RI", modeType2, &teapot->refractiveIndex,"group='Teapot' label='Refraction Mode: '");
+
+	//TwAddVarRW(bar, "Head Position", TW_TYPE_DIR3F, &head->position, " group='Head' label='Head Pos: '");
+	//TwAddVarRW(bar, "Head Rot", TW_TYPE_QUAT4F, &head->orientation, " group='Head' label='Head Rot: '");
+	//TwAddVarRW(bar, "Head Mode", modeType, &head->shaderType,"group='Head' label='Head Mode: '");
+	//TwAddVarRW(bar, "Head Texture", TW_TYPE_BOOLCPP, &head->useTexture, " group='Head' label='Head Textured: '");
+	//TwAddVarRW(bar, "Head Mat Col", TW_TYPE_COLOR4F, &head->matColor,"group='Head' label='Head Color: '");
+	//TwAddVarRW(bar, "Head Ref Factor", TW_TYPE_FLOAT, &head->reflectionFactor, "step='0.1' group='Head' label='Reflection Factor: '");
+	//TwAddVarRW(bar, "Head RI", modeType2, &head->refractiveIndex,"group='Head' label='Refraction Mode: '");
 
 	glfwSetMouseButtonCallback(window->GetWindow(),MouseButtonCB);
 	glfwSetCursorPosCallback(window->GetWindow(),MousePosCB);
@@ -177,6 +197,12 @@ void RenderingLab2::update()
 	teapot->UpdateRefractionIndex();
 	teapot->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
 	teapot->Render();
+
+	//head->Rotate360(dt);
+	//head->UpdateShader();
+	//head->UpdateRefractionIndex();
+	//head->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+	//head->Render();
 
 	glCullFace(GL_FRONT);
 	glDepthFunc(GL_LEQUAL);

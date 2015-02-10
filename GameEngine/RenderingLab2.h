@@ -26,7 +26,7 @@ public:
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 	std::map <MeshLoader::RefractionIndex, float> refractions;
 
-	Shader *skyBoxShader, *reflectionShader, *refractionShader, *combinedShader;
+	Shader *skyBoxShader, *reflectionShader, *refractionShader, *combinedShader, *texturedShader;
 
 	Lighting *monkeyLight, *teapotLight, *headLight;
 
