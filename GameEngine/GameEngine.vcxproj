@@ -94,15 +94,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CubeMapTexture.cpp" />
     <ClCompile Include="Lab1.cpp" />
     <ClCompile Include="Lab2.cpp" />
     <ClCompile Include="Lab3.cpp" />
+    <ClCompile Include="Lab4.cpp" />
     <ClCompile Include="Lighting.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="ObjectBuffer.cpp" />
     <ClCompile Include="RenderingLab1.cpp" />
+    <ClCompile Include="RenderingLab2.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMesh.cpp" />
@@ -112,15 +115,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CubeMapTexture.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Lab1.h" />
     <ClInclude Include="Lab2.h" />
     <ClInclude Include="Lab3.h" />
+    <ClInclude Include="Lab4.h" />
     <ClInclude Include="Lighting.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="ObjectBuffer.h" />
     <ClInclude Include="RenderingLab1.h" />
+    <ClInclude Include="RenderingLab2.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMesh.h" />
@@ -147,6 +153,8 @@
     <None Include="..\Resources\Shaders\phongTextured.vs" />
     <None Include="..\Resources\Shaders\simpleFragmentShader.ps" />
     <None Include="..\Resources\Shaders\simpleVertexShader.vs" />
+    <None Include="..\Resources\Shaders\skybox.ps" />
+    <None Include="..\Resources\Shaders\skybox.vs" />
     <None Include="..\Resources\Shaders\textures.ps" />
     <None Include="..\Resources\Shaders\textures.vs" />
     <None Include="..\Resources\Shaders\toon.ps" />

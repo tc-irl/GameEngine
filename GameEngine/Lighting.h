@@ -67,6 +67,6 @@ public:
 
 	void SetPossibleShaders(std::map<Shader::ShaderType, GLuint> possibleShaders) { this->possibleShaders = possibleShaders;} 
 	void SetAttributesAndUniforms();
-	
+
 };
 

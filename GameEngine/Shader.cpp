@@ -165,15 +165,22 @@ void Shader::initShader(ShaderType shaderType)
 
 	CreateProgram();
 
-	if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
-	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
-	else if(shaderType == PHONG){filename = "../Resources/Shaders/phong";}
-	else if(shaderType == TOON){filename = "../Resources/Shaders/toon";}
-	else if(shaderType == DIFFUSE){filename = "../Resources/Shaders/diff";}
-	else if(shaderType == PHONG_TEXTURED) {filename = "../Resources/Shaders/phongTextured";}
-	else if(shaderType == TOON_TEXTURED) {filename = "../Resources/Shaders/toonTextured";}
-	else if(shaderType == OREN_NAYAR) {filename = "../Resources/Shaders/orennayar";}
-	else if(shaderType == OREN_TEXTURED) {filename = "../Resources/Shaders/orenTextured";}
+	//if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
+	//else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+	//else if(shaderType == PHONG){filename = "../Resources/Shaders/phong";}
+	//else if(shaderType == TOON){filename = "../Resources/Shaders/toon";}
+	//else if(shaderType == DIFFUSE){filename = "../Resources/Shaders/diff";}
+	//else if(shaderType == PHONG_TEXTURED) {filename = "../Resources/Shaders/phongTextured";}
+	//else if(shaderType == TOON_TEXTURED) {filename = "../Resources/Shaders/toonTextured";}
+	//else if(shaderType == OREN_NAYAR) {filename = "../Resources/Shaders/orennayar";}
+	//else if(shaderType == OREN_TEXTURED) {filename = "../Resources/Shaders/orenTextured";}
+	//else if(shaderType == SKYBOX) {filename = "../Resources/Shaders/skybox";}
+
+	if(shaderType == SKYBOX) {filename = "../Resources/Shaders/cube";}
+	else if(shaderType == REFLECTION) {filename = "../Resources/Shaders/reflect";}
+	else if(shaderType == REFRACTION) {filename = "../Resources/Shaders/refract";}
+	else if(shaderType == COMBINED) {filename = "../Resources/Shaders/combined";}
+
 
 	LoadFile(filename + ".vs",vs);
 	AddShader(shaderProgramID, vs.c_str(), GL_VERTEX_SHADER);

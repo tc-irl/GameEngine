@@ -102,6 +102,15 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Lab4.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingLab2.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeMapTexture.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -150,6 +159,15 @@
       <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab4.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingLab2.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeMapTexture.h">
       <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
@@ -224,6 +242,12 @@
       <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\orennayar.vs">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\skybox.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\skybox.vs">
       <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
   </ItemGroup>

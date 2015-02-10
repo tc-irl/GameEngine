@@ -13,6 +13,10 @@ MeshLoader::MeshLoader(GLuint initialShaderID, const char* filename)
 	useTexture = false;
 	SetAttributesAndUniforms();
 	LoadMesh(filename);
+
+	reflectionFactor = 1.0f;
+
+	refractiveIndex = AIRTODIAMOND;
 }
 
 MeshLoader::~MeshLoader(void)
@@ -49,7 +53,8 @@ void MeshLoader::LoadMesh(const char* filename)
 		| aiProcess_OptimizeGraph
 		| aiProcess_OptimizeMeshes
 		| aiProcess_RemoveRedundantMaterials
-		| aiProcess_GenSmoothNormals);
+		| aiProcess_GenSmoothNormals
+		| aiProcess_FlipUVs);
 
 	if(!scene) 
 	{
@@ -161,7 +166,6 @@ void MeshLoader::LoadMesh(const char* filename)
 
 void MeshLoader::SetTexture(const char* filename)
 {
-
 	glUniform1i(gSampler, 0);
 
 	texture = new Texture(GL_TEXTURE_2D, filename);
@@ -171,6 +175,20 @@ void MeshLoader::SetTexture(const char* filename)
 		std::cout << "Unable to load texture" << std::endl;
 	}
 }
+
+void MeshLoader::SetCubeMapTexture(const char* directory)
+{
+	glUniform1i(cSampler, 0);
+
+	cubeTexture = new CubeMapTexture(GL_TEXTURE_CUBE_MAP, directory);
+
+	if (!cubeTexture->LoadCubeMap()) 
+	{
+		std::cout << "Unable to load cube map" << std::endl;
+	}
+}
+
+
 
 void MeshLoader::SetColor(glm::vec3 color)
 {
@@ -200,10 +218,16 @@ void MeshLoader::SetAttributesAndUniforms()
 {
 	vColor = glGetAttribLocation(shaderID, "vColor");
 	gSampler = glGetUniformLocation(shaderID, "gSampler");
+	cSampler = glGetUniformLocation(shaderID, "cSampler");
 	modelLoc = glGetUniformLocation(shaderID, "model");
 	viewLoc = glGetUniformLocation(shaderID, "view");
 	projLoc = glGetUniformLocation(shaderID, "projection");
 	vEye = glGetUniformLocation(shaderID, "vEye");
+	camPos = glGetUniformLocation(shaderID, "cameraPosition");
+	drawSky = glGetUniformLocation(shaderID, "DrawSkyBox");
+	reflectFactor = glGetUniformLocation(shaderID, "reflectFactor");
+	materialColor = glGetUniformLocation(shaderID, "materialColor");
+	ratioID = glGetUniformLocation(shaderID, "ratio");
 }
 
 glm::mat4 MeshLoader::GetTransformationMatrix()
@@ -252,6 +276,8 @@ void MeshLoader::Update(glm::mat4 view, glm::mat4 proj, float deltaTime)
 		SetColor(newColor);
 	}
 
+	SetSkyBox();
+
 	glm::mat4 model = GetTransformationMatrix();
 
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
@@ -276,6 +302,15 @@ void MeshLoader::Render()
 	glBindVertexArray(0);
 }
 
+void MeshLoader::RenderCubeMap()
+{
+	cubeTexture->Bind(GL_TEXTURE0);
+
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, numElements, GL_UNSIGNED_INT, NULL);
+	glBindVertexArray(0);
+}
+
 void MeshLoader::RenderPoly()
 {
 	glBindVertexArray(VAO);
@@ -287,4 +322,23 @@ void MeshLoader::UpdateShader()
 {
 	SetShader(possibleShaders[shaderType]);
 	UseProgram();
+}
+
+void MeshLoader::UpdateRefractionIndex()
+{
+	SetCurrentRatio(refractions[refractiveIndex]);
+}
+
+
+void MeshLoader::SetSkyBox()
+{
+	//glUniform3f(camPos, cameraPos.x, cameraPos.y, cameraPos.z);
+	//glUniform1i(drawSky, drawSkyBox);
+	glUniform4f(materialColor, matColor.r, matColor.g, matColor.b, matColor.a);
+	glUniform1f(reflectFactor, reflectionFactor);
+}
+
+void MeshLoader::SetCurrentRatio(float ratio)
+{
+	glUniform1f(ratioID,ratio);
 }

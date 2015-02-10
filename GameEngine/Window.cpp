@@ -43,6 +43,7 @@ Window::Window(int width, int height, const std::string& title)
 	
 
 	glEnable(GL_DEPTH_TEST);
+
 	// Accept fragment if it closer to the camera than the former one
 	glDepthFunc(GL_LESS); 
 
