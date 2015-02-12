@@ -58,6 +58,7 @@ public:
 
 	glm::mat4 getTransformationMatrix();
 
+	void Rotate360(float dt);
 	void transVertices(glm::quat orientation, glm::vec3 position);
 	glm::vec3 getCentreOfMass();
 	float calculateDistanceToCOM();
@@ -67,7 +68,7 @@ public:
 	void update(float dt);
 	void updateModel(GLuint modelLoc);
 	float initialDistanceToCOM();
-
+	glm::vec3 GetFarthestPointInDirection(glm::vec3 direction);
 
 
 };

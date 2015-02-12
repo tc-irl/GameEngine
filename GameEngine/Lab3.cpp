@@ -70,7 +70,7 @@
 //	bar = TwNewBar("Attributes: ");
 //
 //
-//	TwEnumVal modeEV[] = { {NONE, "None"}, {SPHERE, "Sphere"}, {AABB, "AABB"}, MULTI,"Multi" };
+//	TwEnumVal modeEV[] = { {NONE, "None"}, {SPHERE, "Sphere"}, {AABB, "AABB"}, {MULTI,"Multi"}};
 //	TwType modeType;
 //
 //	modeType = TwDefineEnum("SeasonType", modeEV, 4);
@@ -206,7 +206,7 @@
 //		for(int i = 0; i < MAX; i++)
 //		{
 //			boundingCubes[i]->position = rigidBodies[i]->centreOfMass;
-//			boundingCubes[i]->scale = (rigidBodies[i]->maxExtents - rigidBodies[i]->minExtents) * cubes[i]->scale;
+//			boundingCubes[i]->scale = (rigidBodies[i]->maxExtents - rigidBodies[i]->minExtents);
 //			boundingCubes[i]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
 //			boundingCubes[i]->RenderPoly();
 //		}

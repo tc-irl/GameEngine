@@ -23,7 +23,6 @@ RigidBody::RigidBody()
 	torque = glm::vec3();
 	IBody = glm::mat3();
 	invIBody = glm::mat3();
-
 }
 
 void RigidBody::enableGravity()
@@ -70,6 +69,7 @@ glm::mat4 RigidBody::getTransformationMatrix()
 {
 	glm::mat4 translationM = glm::translate(position);
 	glm::mat4 rotationM = glm::toMat4(orientation);
+	rotationM = glm::inverse(rotationM);
 	glm::mat4 scaleM = glm::scale(scale);
 
 	return translationM * rotationM * scaleM;
@@ -82,12 +82,12 @@ void RigidBody::transVertices(glm::quat orientation,glm::vec3 position)
 
 	for(int i = 0; i < vertices.size(); i++)
 	{
-		transformedVertices.push_back(vertices[i] * orientation + position);
+		transformedVertices.push_back(vertices[i] * orientation * scale + position);
 	}
 
 	for(int i = 0; i < indices.size(); i++)
 	{
-		transformedPoints.push_back(indices[i] * orientation + position);
+		transformedPoints.push_back(indices[i] * orientation * scale + position);
 	}
 }
 
@@ -192,5 +192,31 @@ void RigidBody::calcMinMaxExtents()
 		if(glm::length(transformedPoints[j].z - centreOfMass.z) < minExtents.z) minExtents.z = glm::length(transformedPoints[j].z - centreOfMass.z);
 		if(glm::length(transformedPoints[j].z - centreOfMass.z) > maxExtents.z) maxExtents.z = glm::length(transformedPoints[j].z - centreOfMass.z);
 	}
+}
+
+void RigidBody::Rotate360(float dt)
+{
+	orientation *= glm::quat(glm::vec3(0,0,dt/2));
+}
+
+glm::vec3 RigidBody::GetFarthestPointInDirection(glm::vec3 direction)
+{
+	glm::vec3 farthestPoint;
+	float farthest;
+
+	farthest = 0;
+
+	for(int i = 0; i <transformedPoints.size();i++)
+	{
+		float temp = glm::dot(direction,transformedPoints[i]);
+		
+		if(temp > farthest)
+		{
+			farthest = temp;
+			farthestPoint = transformedPoints[i];
+		}
+	}
+
+	return farthestPoint;
 }
 

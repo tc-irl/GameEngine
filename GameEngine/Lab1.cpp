@@ -150,9 +150,9 @@
 //
 //void Lab1::initParticleSystem()
 //{
-//	CameraRight_worldspace_ID  = glGetUniformLocation(particleShader->GetProgramID(), "CameraRight_worldspace");
-//	CameraUp_worldspace_ID  = glGetUniformLocation(particleShader->GetProgramID(), "CameraUp_worldspace");
-//	ViewProjMatrixID = glGetUniformLocation(particleShader->GetProgramID(), "VP");
+//	CameraRight_worldspace_ID  = glGetUniformLocation(particleShader->GetProgramID(), "CameraRight_worldspace"); 
+//	CameraUp_worldspace_ID  = glGetUniformLocation(particleShader->GetProgramID(), "CameraUp_worldspace"); 
+//	ViewProjMatrixID = glGetUniformLocation(particleShader->GetProgramID(), "VP"); 
 //
 //	glGenVertexArrays(1, &VertexArrayID);
 //	glBindVertexArray(VertexArrayID);

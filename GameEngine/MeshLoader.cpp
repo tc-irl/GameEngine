@@ -292,10 +292,6 @@ void MeshLoader::Render()
 	{
 		texture->Bind(GL_TEXTURE0);
 	}
-	else
-	{
-		texture->UnBind();
-	}
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, numElements, GL_UNSIGNED_INT, NULL);

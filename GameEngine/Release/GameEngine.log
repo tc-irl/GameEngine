@@ -1,18 +1,16 @@
-﻿Build started 10/2/2015 4:58:36 PM.
-     1>Project "C:\Users\User\Desktop\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
+﻿Build started 12/2/2015 1:09:30 AM.
+     1>Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /I..\Dependancies\ImageMagick\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt RenderingLab2.cpp
-         RenderingLab2.cpp
-     1>RenderingLab2.cpp(195): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>RenderingLab2.cpp(198): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>RenderingLab2.cpp(214): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>RenderingLab2.cpp(231): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>RenderingLab2.cpp(236): warning C4305: '=' : truncation from 'double' to 'float'
-     1>RenderingLab2.cpp(237): warning C4305: '=' : truncation from 'double' to 'float'
-     1>RenderingLab2.cpp(238): warning C4305: '=' : truncation from 'double' to 'float'
-     1>RenderingLab2.cpp(239): warning C4305: '=' : truncation from 'double' to 'float'
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /I..\Dependancies\ImageMagick\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Lab4.cpp
+         Lab4.cpp
+     1>Lab4.cpp(196): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(204): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(214): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(233): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(247): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Lab4.cpp(256): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib /LIBPATH:..\Dependancies\ImageMagick\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib CORE_RL_magick_.lib CORE_RL_Magick++_.lib CORE_RL_wand_.lib X11.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.lib" /MACHINE:X86 /SAFESEH Release\Camera.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib /LIBPATH:..\Dependancies\ImageMagick\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib CORE_RL_magick_.lib CORE_RL_Magick++_.lib CORE_RL_wand_.lib X11.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.lib" /MACHINE:X86 /SAFESEH Release\Camera.obj
          Release\CubeMapTexture.obj
          Release\Lab1.obj
          Release\Lab2.obj
@@ -35,13 +33,13 @@
      1>LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
          Generating code
          Finished generating code
-     1>SOIL.lib(image_DXT.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
-     1>SOIL.lib(image_helper.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
-     1>SOIL.lib(SOIL.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
-     1>SOIL.lib(stb_image_aug.obj) : warning LNK4204: 'C:\Users\User\Desktop\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
-         GameEngine.vcxproj -> C:\Users\User\Desktop\GameEngine\GameEngine\Release\GameEngine.exe
-     1>Done Building Project "C:\Users\User\Desktop\GameEngine\GameEngine\GameEngine.vcxproj" (Build target(s)).
+     1>SOIL.lib(image_DXT.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(image_helper.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(SOIL.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(stb_image_aug.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+         GameEngine.vcxproj -> C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.exe
+     1>Done Building Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.26
+Time Elapsed 00:00:02.85

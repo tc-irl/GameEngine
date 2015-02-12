@@ -7,12 +7,11 @@
 
 #include <map>
 #include <list>
+#include <string>
 
-#define MAX 100
+#define MAX 30
 class Lab4 : public Game
 {
-
-
 public:
 
 	Lab4(void);
@@ -32,6 +31,10 @@ public:
 	void checkForBoundingBoxCollison();
 	void sweepAndPrune();
 	float RandomNumber(float Min, float Max);
+	bool checkNarrowPhaseCollision(RigidBody *, RigidBody *);
+	glm::vec3 calculateMinkowskiDifference(RigidBody *rigidBody1, RigidBody *rigidBody2);
+	glm::vec3 GetSupportPoint(RigidBody *rigidBody1, RigidBody *rigidBody2, glm::vec3 direction);
+	bool simplexContainsOrigin(std::vector<glm::vec3> simplex, glm::vec3 dir);
 
 	glm::vec3 centroid;
 	float speed;
@@ -43,13 +46,17 @@ public:
 
 	MeshLoader *plane;
 	MeshLoader *cubes[MAX], *spheres[MAX], *boundingCubes[MAX];
+	MeshLoader *points[MAX * 8];
 	RigidBody *rigidBodies[MAX];
 
 	Shader *basicShader,*textureShader;
 	std::vector<glm::vec3> transformedVertices;
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 
-	std::list<std::pair<RigidBody*, RigidBody*>> collidingPairs;
+	std::vector<std::pair<int, int>> collidingPairs;
+	std::vector<std::pair<RigidBody *, RigidBody *>> collidingBodies;
+	std::vector<glm::vec3> simplex;
+
 	std::vector<glm::vec2> axisX, axisY, axisZ;  
 
 	bool pauseScene;
@@ -57,5 +64,13 @@ public:
 	bool set;
 
 	Mode mode;
+
+	struct Colliders
+	{
+		int objectID;
+		int collidingObject;
+	};
+
+	std::vector<Colliders*> collidingPairB;
 };
 

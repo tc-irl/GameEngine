@@ -28,12 +28,6 @@ public:
 	typedef enum RefractionIndex{AIRTOWATER, AIRTOICE, AIRTOGLASS, AIRTODIAMOND};
 	RefractionIndex refractiveIndex;
 
-	//Air	1.00
-	//	Water	1.33
-	//	Ice	1.309
-	//	Glass	1.52
-	//	Diamond	2.42
-
 	MeshLoader(GLuint initialShaderID, const char* filename);
 	~MeshLoader(void);
 
