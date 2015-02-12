@@ -1,14 +1,17 @@
-﻿Build started 12/2/2015 1:09:30 AM.
+﻿Build started 12/2/2015 7:47:14 PM.
      1>Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /I..\Dependancies\ImageMagick\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Lab4.cpp
          Lab4.cpp
-     1>Lab4.cpp(196): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Lab4.cpp(204): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Lab4.cpp(214): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Lab4.cpp(233): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Lab4.cpp(247): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Lab4.cpp(256): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\Lab4.h(12): warning C4005: 'MAX' : macro redefinition
+                 c:\users\user\desktop\college\gameengine\gameengine\RigidBody.h(12) : see previous definition of 'MAX'
+     1>Lab4.cpp(198): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(206): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(216): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(227): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(235): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Lab4.cpp(249): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Lab4.cpp(258): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib /LIBPATH:..\Dependancies\ImageMagick\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib CORE_RL_magick_.lib CORE_RL_Magick++_.lib CORE_RL_wand_.lib X11.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.lib" /MACHINE:X86 /SAFESEH Release\Camera.obj
          Release\CubeMapTexture.obj
@@ -42,4 +45,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.85
+Time Elapsed 00:00:02.88

@@ -9,7 +9,10 @@
 #include <list>
 #include <string>
 
-#define MAX 30
+#define MAX 2
+
+//using namespace glm;
+
 class Lab4 : public Game
 {
 public:
@@ -56,6 +59,7 @@ public:
 	std::vector<std::pair<int, int>> collidingPairs;
 	std::vector<std::pair<RigidBody *, RigidBody *>> collidingBodies;
 	std::vector<glm::vec3> simplex;
+	glm::vec3 dir;
 
 	std::vector<glm::vec2> axisX, axisY, axisZ;  
 

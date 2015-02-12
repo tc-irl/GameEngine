@@ -77,6 +77,9 @@ void Lab4::initTweakBar()
 	TwAddVarRW(bar, "Camera Rot", TW_TYPE_DIR3F, &camera->direction, " group='Camera' label='Camera Rot: '");
 	TwAddVarRW(bar, "B Cube Pos", TW_TYPE_DIR3F, &rigidBodies[0]->position, " group='Bounding' label='Bound P: '");
 	TwAddVarRW(bar, "B Cube Rot", TW_TYPE_QUAT4F, &rigidBodies[0]->orientation, " group='Bounding' label='Bound R: '");
+	TwAddVarRW(bar, "B Cube Pos2", TW_TYPE_DIR3F, &rigidBodies[1]->position, " group='Bounding' label='Bound P2: '");
+	TwAddVarRW(bar, "B Cube Rot2", TW_TYPE_QUAT4F, &rigidBodies[1]->orientation, " group='Bounding' label='Bound R2: '");
+
 
 	TwAddVarRW(bar, "Force", TW_TYPE_BOOLCPP, &forceEnabled, "group='Object Properties' label='Enable Forces: '");
 	TwAddVarRW(bar, "Mode", modeType, &mode, NULL);
@@ -102,7 +105,7 @@ void Lab4::initModels()
 
 		cubes[i] = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/cube.obj");
 		cubes[i]->IsTextureActive(true);
-	/*	cubes[i]->SetPos(glm::vec3(RandomNumber(-6,6),RandomNumber(-6,6),RandomNumber(-6,6)));*/
+		//cubes[i]->SetPos(glm::vec3(RandomNumber(-6,6),RandomNumber(-6,6),RandomNumber(-6,6)));
 		cubes[i]->SetPos(glm::vec3(RandomNumber(-2,2),RandomNumber(0,0),RandomNumber(0,0)));
 		cubes[i]->SetOrientation(glm::quat(glm::vec3(0,0,0)));
 		cubes[i]->SetScale(glm::vec3(0.5,0.5,0.5));
@@ -119,7 +122,7 @@ void Lab4::initModels()
 		spheres[i] = new MeshLoader(basicShader->GetProgramID(),"../Resources/Models/simpleSphere.obj");
 		spheres[i]->SetPos(rigidBodies[i]->centreOfMass);
 		spheres[i]->SetOrientation(glm::quat(glm::vec3(0,0,0)));
-		spheres[i]->SetScale(glm::vec3(rigidBodies[i]->distanceToCOM * cubes[i]->scale));
+		spheres[i]->SetScale(glm::vec3(rigidBodies[i]->distanceToCOM));
 
 		boundingCubes[i] = new MeshLoader(basicShader->GetProgramID(),"../Resources/Models/cube.obj");
 		boundingCubes[i]->SetPos(rigidBodies[i]->centreOfMass);
@@ -128,10 +131,10 @@ void Lab4::initModels()
 	}
 
 
-	//for(int i = 0; i < max * 8; i++)
-	//{
-	//	points[i] = new meshloader(basicshader->getprogramid(),"../resources/models/simplesphere.obj");
-	//}
+	for(int i = 0; i < MAX * 8; i++)
+	{
+		points[i] = new MeshLoader(basicShader->GetProgramID(),"../resources/models/simplesphere.obj");
+	}
 }
 
 void Lab4::initTextures()
@@ -214,17 +217,18 @@ void Lab4::update()
 			boundingCubes[i]->RenderPoly();
 		}
 
-		//for(int i = 0; i < MAX; i++)
-		//{
-		//	for(int j = 0; j < 8; j++)
-		//	{
-		//		points[i]->position = rigidBodies[i]->transformedPoints[j];			
-		//		points[i]->scale = glm::vec3(0.03,0.03,0.03);
-		//		points[i]->SetColor(glm::vec3(1,0,0));
-		//		points[i]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
-		//		points[i]->Render();
-		//	}
-		//}
+		for(int i = 0; i < MAX; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				points[i]->position = rigidBodies[i]->transformedPoints[j];			
+				points[i]->scale = glm::vec3(0.03,0.03,0.03);
+				points[i]->SetColor(glm::vec3(1,0,0));
+				points[i]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+				points[i]->Render();
+			}
+		}
+
 	}
 
 	plane->UseProgram();
@@ -261,8 +265,8 @@ void Lab4::update()
 
 void Lab4::checkForSphereCollision()
 {
-	collidingPairs.clear();
-	collidingPairB.clear();
+	//collidingPairs.clear();
+	//collidingPairB.clear();
 
 	if(mode == SPHERE)
 	{
@@ -277,12 +281,12 @@ void Lab4::checkForSphereCollision()
 						spheres[i]->SetColor(glm::vec3(1,0,0));
 						spheres[j]->SetColor(glm::vec3(1,0,0));
 
-						collidingPairs.push_back(std::make_pair(i,j));
+						//collidingPairs.push_back(std::make_pair(i,j));
 
-						Colliders *temp = new Colliders(); 
-						temp->objectID = i;
-						temp->collidingObject = j;
-						collidingPairB.push_back(temp);
+// 						Colliders *temp = new Colliders(); 
+// 						temp->objectID = i;
+// 						temp->collidingObject = j;
+// 						collidingPairB.push_back(temp);
 					}
 				}
 			}
@@ -317,18 +321,14 @@ void Lab4::checkForBoundingBoxCollison()
 
 							if(glm::length(boundingCubes[i]->position.z - boundingCubes[j]->position.z) < boundingCubes[i]->scale.z + boundingCubes[j]->scale.z)
 							{
-								boundingCubes[i]->SetColor(glm::vec3(1,0,0));
-								boundingCubes[j]->SetColor(glm::vec3(1,0,0));
+								//boundingCubes[i]->SetColor(glm::vec3(1,0,0));
+								//boundingCubes[j]->SetColor(glm::vec3(1,0,0));
 
-								//collidingPairs.push_back(std::make_pair(i,j));
-
-								//collidingBodies.push_back(std::make_pair(rigidBodies[i],rigidBodies[j]));
-								checkNarrowPhaseCollision(rigidBodies[i],rigidBodies[j]);
-
-								//Colliders *temp = new Colliders(); 
-								//temp->objectID = i;
-								//temp->collidingObject = j;
-								//collidingPairB.push_back(temp);
+								if(checkNarrowPhaseCollision(rigidBodies[i],rigidBodies[j]))
+								{
+									boundingCubes[i]->SetColor(glm::vec3(0,0,1));
+									boundingCubes[j]->SetColor(glm::vec3(0,0,1));
+								}
 							}
 						}
 					}
@@ -352,7 +352,7 @@ bool Lab4::checkNarrowPhaseCollision(RigidBody *rigidBody1, RigidBody *rigidBody
 {
 	simplex.clear();
 
-	glm::vec3 dir = rigidBody2->position - rigidBody1->position;
+	dir = rigidBody2->position - rigidBody1->position;
 
 	simplex.push_back(GetSupportPoint(rigidBody1,rigidBody2,dir));
 
@@ -377,10 +377,10 @@ bool Lab4::checkNarrowPhaseCollision(RigidBody *rigidBody1, RigidBody *rigidBody
 	}
 }
 
-glm::vec3 Lab4::GetSupportPoint(RigidBody *rigidBody1, RigidBody *rigidBody2, glm::vec3 direction)
+glm::vec3 Lab4::GetSupportPoint(RigidBody *rigidBody1, RigidBody *rigidBody2, glm::vec3 dir)
 {
-	glm::vec3 A = rigidBody1->GetFarthestPointInDirection(direction);
-	glm::vec3 B = rigidBody2->GetFarthestPointInDirection(-direction);
+	glm::vec3 A = rigidBody1->GetFarthestPointInDirection(dir);
+	glm::vec3 B = rigidBody2->GetFarthestPointInDirection(-dir);
 
 	return A - B;
 }
@@ -388,30 +388,198 @@ glm::vec3 Lab4::GetSupportPoint(RigidBody *rigidBody1, RigidBody *rigidBody2, gl
 bool Lab4::simplexContainsOrigin(std::vector<glm::vec3> simplex, glm::vec3 dir)
 {
 	glm::vec3 a,b,c,d;
-	glm::vec3 ab, ac;
+	glm::vec3 ab, ac, ao, abc;
 	glm::vec3 abPerp, acPerp, adPerp, bcPerp, bdPerp, cdPerp;
 
-	a = simplex.back();
 
 	if(simplex.size() == 2)
 	{
+		std::cout << "Got to 2 simplex" << std::endl;
+		a = simplex.back();
+		ao = -a;
 		// Line segment
-
-		b = simplex.front();
+		b = simplex.at(0);
 		ab = b - a;
 
-		abPerp = 
+		abPerp = glm::cross(glm::cross(ab,ao),ab);
 
+		if(glm::dot(ab,ao) > 0)
+		{
+			// direction perpendicular to ab
+			dir = abPerp;
+		}
+		else
+		{
+			// direction from a to origin
+			dir = ao;
+		}
+
+		return false;
 	}
 	else if(simplex.size() == 3)
 	{
+		std::cout << "Got to 3 simplex" << std::endl;
 		// Triangle 
+		a = simplex.at(2);
+		ao = -a;
+
+		b = simplex.at(1);
+		c = simplex.at(0);
+
+		ab = b - a;
+		ac = c - a;
+		abc = glm::cross(ab, ac);
+
+		abPerp = glm::cross(glm::cross(ab,ao),ab);
+		acPerp = glm::cross(glm::cross(ac,ao),ac);
+
+		if(glm::dot(glm::cross(abc,ac),ao) > 0)
+		{
+			if(glm::dot(ac,ao) > 0)
+			{
+				dir = acPerp;
+				simplex.erase(simplex.begin() + 1);
+			}
+			else
+			{
+				if(glm::dot(ab,ao) > 0)
+				{
+					dir = abPerp;
+					simplex.erase(simplex.begin());
+				}
+				else
+				{
+					dir = ao;
+					simplex.erase(simplex.begin());
+					simplex.erase(simplex.begin());
+				}
+			}
+		}
+		else
+		{
+			if(glm::dot(glm::cross(ab, abc),ao) > 0)
+			{
+				if(glm::dot(ab,ao) > 0)
+				{
+					dir = abPerp;
+					simplex.erase(simplex.begin());
+				}
+				else
+				{
+					dir = ao;
+					simplex.erase(simplex.begin());
+					simplex.erase(simplex.begin());
+				}
+			}
+			else
+			{
+				if(glm::dot(abc,ao) > 0)
+				{
+					dir = abc;
+				}
+				else
+				{
+					dir = -abc;
+					return true;
+				}
+			}
+		}
+
+		//return false;
 	}
 	else if(simplex.size() == 4)
 	{
 		// Tetrahedron 
+		a = simplex.at(3);
+		b = simplex.at(2);
+		c = simplex.at(1);
+		d = simplex.at(0);
+
 
 	}
-
+	
 	return false;
 }
+
+
+
+/************************************************************************/
+/* 
+//  based on video from: http://mollyrocket.com/849
+
+	if(dot(cross(abc,ac),ao) > 0)
+	{
+		if(dot(ac) > 0)
+		{
+			dir = cross(cross(ac, ao), ac);
+			simplex.remove(b);
+		}
+		else
+		{
+			if(dot(ab) > 0)
+			{
+				dir = cross(cross(ab,ao),ab);
+				simplex.erase(simplex.begin());
+			}
+			else
+			{
+				direction = ao;
+				simplex.erase(simplex.begin());
+				simplex.erase(simplex.begin());
+			}
+		}
+	}
+	else
+	{
+		if(dot(cross(ab, abc) > 0)
+		{
+			if(dot(ab) > 0)
+			{
+				dir = cross(cross(ab,ao),ab);
+				simplex.erase(simplex.begin());
+			}
+			else
+			{
+				dir = ao;
+				simplex.erase(simplex.begin());
+				simplex.erase(simplex.begin());
+			}
+		}
+		else
+		{
+			if(dot(abc) > 0)
+			{
+				dir = abc;
+			}
+			else
+			{
+				dir = -abc;
+			}
+		}
+	}
+
+*************************************************************************/
+
+/*
+abPerp = glm::cross(glm::cross(ac,ab),ab);
+acPerp = glm::cross(glm::cross(ab,ac),ac);
+
+// check ab region
+if(glm::dot(abPerp,ao) > 0)
+{
+	simplex.erase(simplex.begin()); // remove c
+	dir = abPerp;
+}
+else
+{
+	if(glm::dot(acPerp,ao) > 0)
+	{
+		simplex.erase(simplex.begin() + 1); // remove b
+		dir = acPerp;
+	}
+	else
+	{
+		return true; 
+	}
+}
+*/
