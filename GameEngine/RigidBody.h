@@ -9,7 +9,7 @@
 #include <vector>
 #include <iostream>
 
-#define MAX 30
+#define MAX 2
 
 class RigidBody
 {
@@ -45,6 +45,7 @@ public:
 
 	glm::vec3 minExtents, maxExtents;
 
+	glm::mat4 modelMatrix;
 	bool gravity;
 	bool forceEnabled;
 	float distanceToCOM;
@@ -68,7 +69,7 @@ public:
 	void update(float dt);
 	void updateModel(GLuint modelLoc);
 	float initialDistanceToCOM();
-	glm::vec3 GetFarthestPointInDirection(glm::vec3 direction);
+	glm::vec3 GetFarthestPointInDirection(glm::vec3 dir);
 
 
 };

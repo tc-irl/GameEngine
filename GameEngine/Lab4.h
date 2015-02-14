@@ -35,15 +35,16 @@ public:
 	void sweepAndPrune();
 	float RandomNumber(float Min, float Max);
 	bool checkNarrowPhaseCollision(RigidBody *, RigidBody *);
-	glm::vec3 calculateMinkowskiDifference(RigidBody *rigidBody1, RigidBody *rigidBody2);
-	glm::vec3 GetSupportPoint(RigidBody *rigidBody1, RigidBody *rigidBody2, glm::vec3 direction);
-	bool simplexContainsOrigin(std::vector<glm::vec3> simplex, glm::vec3 dir);
-
+	glm::vec3 GetSupportPoint(glm::vec3 furthestA, glm::vec3 furthestB);
+	bool simplexContainsOrigin(std::vector<glm::vec3> &simplex, glm::vec3 &dir);
+	bool checkEdge(std::vector<glm::vec3> &simplex, glm::vec3 &dir);
+	bool checkTriangle(std::vector<glm::vec3> &simplex,glm::vec3 &dir);
+	bool checkTetrahedron(std::vector<glm::vec3> &simplex, glm::vec3 &dir);
+	glm::vec3 GetFarthestPointInDirection(glm::vec3 dir, std::vector<glm::vec3> points);
 	glm::vec3 centroid;
 	float speed;
 	glm::vec3 direction;
 	glm::vec3 forcePoint;
-
 	glm::vec3 newColor;
 	double time, dt;// Current time and elapsed time
 
@@ -59,7 +60,6 @@ public:
 	std::vector<std::pair<int, int>> collidingPairs;
 	std::vector<std::pair<RigidBody *, RigidBody *>> collidingBodies;
 	std::vector<glm::vec3> simplex;
-	glm::vec3 dir;
 
 	std::vector<glm::vec2> axisX, axisY, axisZ;  
 

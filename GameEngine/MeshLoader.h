@@ -96,11 +96,13 @@ public:
 
 	glm::vec3 cameraPos;
 
-private:
-	GLuint VAO, VBO[4];
 
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> points;
+
+private:
+	GLuint VAO, VBO[4];
+
 	std::vector<glm::vec4> colors;
 
 	GLuint vSize, cSize, numElements;

@@ -199,24 +199,22 @@ void RigidBody::Rotate360(float dt)
 	orientation *= glm::quat(glm::vec3(0,0,dt/2));
 }
 
-glm::vec3 RigidBody::GetFarthestPointInDirection(glm::vec3 direction)
+glm::vec3 RigidBody::GetFarthestPointInDirection(glm::vec3 dir)
 {
-	glm::vec3 farthestPoint;
-	float farthest;
+	glm::vec3 farthestPoint = transformedPoints[0];
+	float farthest = glm::dot(transformedPoints[0],dir);
+	float temp;
 
-	farthest = 0;
-
-	for(int i = 0; i <transformedPoints.size();i++)
+	for(int i = 1; i <transformedPoints.size();i++)
 	{
-		float temp = glm::dot(direction,transformedPoints[i]);
-		
+		temp = glm::dot(dir,transformedPoints[i]);
+
 		if(temp > farthest)
 		{
 			farthest = temp;
-			farthestPoint = transformedPoints[i];
+		    farthestPoint = transformedPoints[i];
 		}
 	}
 
 	return farthestPoint;
 }
-

@@ -1,29 +1,36 @@
-﻿Build started 1/2/2015 3:31:02 AM.
-     1>Project "C:\Users\User\Desktop\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
+﻿Build started 14/2/2015 1:28:59 AM.
+     1>Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt RenderingLab1.cpp
-         RenderingLab1.cpp
-     1>c:\users\user\desktop\gameengine\gameengine\renderinglab1.cpp(182): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\gameengine\gameengine\renderinglab1.cpp(193): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt RigidBody.cpp
+         RigidBody.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(83): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(88): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(112): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(186): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(208): warning C4018: '<' : signed/unsigned mismatch
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\GameEngine\GameEngine\Debug\GameEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\GameEngine\GameEngine\Debug\GameEngine.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\GameEngine\GameEngine\Debug\GameEngine.lib" /MACHINE:X86 Debug\Camera.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.lib" /MACHINE:X86 Debug\Camera.obj
+         Debug\CubeMapTexture.obj
          Debug\Lab1.obj
          Debug\Lab2.obj
          Debug\Lab3.obj
+         Debug\Lab4.obj
          Debug\Lighting.obj
          Debug\Main.obj
          Debug\Mesh.obj
+         Debug\MeshLoader.obj
          Debug\ObjectBuffer.obj
          Debug\RenderingLab1.obj
+         Debug\RenderingLab2.obj
          Debug\RigidBody.obj
          Debug\Shader.obj
          Debug\SimpleMesh.obj
          Debug\Texture.obj
          Debug\TextureLoader.obj
          Debug\Window.obj
-         GameEngine.vcxproj -> C:\Users\User\Desktop\GameEngine\GameEngine\Debug\GameEngine.exe
-     1>Done Building Project "C:\Users\User\Desktop\GameEngine\GameEngine\GameEngine.vcxproj" (Build target(s)).
+         GameEngine.vcxproj -> C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.exe
+     1>Done Building Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.62
+Time Elapsed 00:00:01.84

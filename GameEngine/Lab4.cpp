@@ -57,6 +57,8 @@ void Lab4::initShaders()
 
 	textureShader->initShader(textureShader->TEXTURED);
 	possibleShaders[Shader::TEXTURED] = textureShader->GetProgramID();
+
+
 }
 
 void Lab4::initTweakBar()
@@ -106,9 +108,9 @@ void Lab4::initModels()
 		cubes[i] = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/cube.obj");
 		cubes[i]->IsTextureActive(true);
 		//cubes[i]->SetPos(glm::vec3(RandomNumber(-6,6),RandomNumber(-6,6),RandomNumber(-6,6)));
-		cubes[i]->SetPos(glm::vec3(RandomNumber(-2,2),RandomNumber(0,0),RandomNumber(0,0)));
+		cubes[i]->SetPos(glm::vec3(RandomNumber(-4,4),RandomNumber(0,0),RandomNumber(0,0)));
 		cubes[i]->SetOrientation(glm::quat(glm::vec3(0,0,0)));
-		cubes[i]->SetScale(glm::vec3(0.5,0.5,0.5));
+		cubes[i]->SetScale(glm::vec3(1,1,1));
 		cubes[i]->SetPossibleShaders(possibleShaders);
 
 		rigidBodies[i]->setVertices(cubes[i]->GetVertices(),cubes[i]->GetPoints());
@@ -118,6 +120,7 @@ void Lab4::initModels()
 		rigidBodies[i]->transVertices(rigidBodies[i]->orientation,rigidBodies[i]->position);
 		rigidBodies[i]->getCentreOfMass();
 		rigidBodies[i]->calculateDistanceToCOM();
+
 
 		spheres[i] = new MeshLoader(basicShader->GetProgramID(),"../Resources/Models/simpleSphere.obj");
 		spheres[i]->SetPos(rigidBodies[i]->centreOfMass);
@@ -133,7 +136,7 @@ void Lab4::initModels()
 
 	for(int i = 0; i < MAX * 8; i++)
 	{
-		points[i] = new MeshLoader(basicShader->GetProgramID(),"../resources/models/simplesphere.obj");
+		points[i] = new MeshLoader(basicShader->GetProgramID(),"../resources/models/simpleSphere.obj");
 	}
 }
 
@@ -187,6 +190,7 @@ void Lab4::update()
 		boundingCubes[i]->SetColor(glm::vec3(0,1,0));
 	}
 
+
 	if(mode == SPHERE)
 	{
 		checkForSphereCollision();
@@ -199,6 +203,8 @@ void Lab4::update()
 			spheres[i]->RenderPoly();
 		}
 	}
+
+
 	else if(mode == AABB)
 	{
 		for(int i = 0; i < MAX; i++)
@@ -217,17 +223,28 @@ void Lab4::update()
 			boundingCubes[i]->RenderPoly();
 		}
 
-		for(int i = 0; i < MAX; i++)
-		{
-			for(int j = 0; j < 8; j++)
-			{
-				points[i]->position = rigidBodies[i]->transformedPoints[j];			
-				points[i]->scale = glm::vec3(0.03,0.03,0.03);
-				points[i]->SetColor(glm::vec3(1,0,0));
-				points[i]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
-				points[i]->Render();
-			}
-		}
+		//for(int i = 0; i < MAX; i++)
+		//{
+		//	for(int j = 0; j < 8; j++)
+		//	{
+		//		if(i == 0)
+		//		{
+		//			points[i]->position = rigidBodies[0]->transformedPoints[j];			
+		//			points[i]->scale = glm::vec3(0.03,0.03,0.03);
+		//			points[i]->SetColor(glm::vec3(1,0,0));
+		//			points[i]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+		//			points[i]->Render();
+		//		}
+		//		else
+		//		{
+		//			points[i]->position = rigidBodies[1]->transformedPoints[j];			
+		//			points[i]->scale = glm::vec3(0.03,0.03,0.03);
+		//			points[i]->SetColor(glm::vec3(1,0,0));
+		//			points[i]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+		//			points[i]->Render();
+		//		}
+		//	}
+		//}
 
 	}
 
@@ -300,8 +317,6 @@ void Lab4::checkForBoundingBoxCollison()
 {
 	//std::cout << "Num points" << rigidBodies[0]->transformedPoints.size() << std::endl;
 
-	collidingPairs.clear();
-
 	if(mode == AABB)
 	{
 		for(int i = 0; i < MAX; i++)
@@ -310,6 +325,12 @@ void Lab4::checkForBoundingBoxCollison()
 			{
 				if(i != j)
 				{
+					if(checkNarrowPhaseCollision(rigidBodies[i],rigidBodies[j]))
+					{
+						boundingCubes[i]->SetColor(glm::vec3(0,0,1));
+						boundingCubes[j]->SetColor(glm::vec3(0,0,1));
+					}
+			
 					////////check the X axis
 					if(glm::length(boundingCubes[i]->position.x - boundingCubes[j]->position.x) < boundingCubes[i]->scale.x + boundingCubes[j]->scale.x)
 					{
@@ -323,21 +344,13 @@ void Lab4::checkForBoundingBoxCollison()
 							{
 								//boundingCubes[i]->SetColor(glm::vec3(1,0,0));
 								//boundingCubes[j]->SetColor(glm::vec3(1,0,0));
-
-								if(checkNarrowPhaseCollision(rigidBodies[i],rigidBodies[j]))
-								{
-									boundingCubes[i]->SetColor(glm::vec3(0,0,1));
-									boundingCubes[j]->SetColor(glm::vec3(0,0,1));
-								}
 							}
 						}
 					}
 				}
 			}
 		}
-
 	}
-
 }
 
 
@@ -347,239 +360,440 @@ float Lab4::RandomNumber(float Min, float Max)
 }
 
 // Following tutorial was used for GJK: http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
+// And video: http://mollyrocket.com/849
 
 bool Lab4::checkNarrowPhaseCollision(RigidBody *rigidBody1, RigidBody *rigidBody2)
 {
-	simplex.clear();
+	glm::vec3 dir = rigidBody2->position - rigidBody1->position;
 
-	dir = rigidBody2->position - rigidBody1->position;
+	glm::vec3 farA = rigidBody1->GetFarthestPointInDirection(dir);
+	glm::vec3 farB = rigidBody2->GetFarthestPointInDirection(-dir);
 
-	simplex.push_back(GetSupportPoint(rigidBody1,rigidBody2,dir));
+	glm::vec3 mDiff = farA - farB;
 
-	dir = -dir;
+	std::vector<glm::vec3> simplex;
+	simplex.push_back(mDiff);
 
-	while(true)
+	dir = -mDiff;
+
+	int count = 100;
+
+	while(count > 0)
 	{
-		simplex.push_back(GetSupportPoint(rigidBody1,rigidBody2,dir));
-		
-		// make sure that the last point we added actually passed the origin
-		if(glm::dot(simplex.back(),dir) <= 0)
+		farA = rigidBody1->GetFarthestPointInDirection(dir);
+		farB = rigidBody2->GetFarthestPointInDirection(-dir);
+
+		mDiff = farA - farB;
+
+		if(glm::dot(mDiff,dir) < 0)
 		{
 			return false;
 		}
-		else
+
+		simplex.push_back(mDiff);
+
+		if(simplexContainsOrigin(simplex,dir))
 		{
-			if(simplexContainsOrigin(simplex,dir))
-			{
-				return true;
-			}
+			std::cout << "Colliding" << std::endl;
+			return true;
 		}
+
+		count--;
 	}
-}
 
-glm::vec3 Lab4::GetSupportPoint(RigidBody *rigidBody1, RigidBody *rigidBody2, glm::vec3 dir)
-{
-	glm::vec3 A = rigidBody1->GetFarthestPointInDirection(dir);
-	glm::vec3 B = rigidBody2->GetFarthestPointInDirection(-dir);
-
-	return A - B;
-}
-
-bool Lab4::simplexContainsOrigin(std::vector<glm::vec3> simplex, glm::vec3 dir)
-{
-	glm::vec3 a,b,c,d;
-	glm::vec3 ab, ac, ao, abc;
-	glm::vec3 abPerp, acPerp, adPerp, bcPerp, bdPerp, cdPerp;
-
-
-	if(simplex.size() == 2)
-	{
-		std::cout << "Got to 2 simplex" << std::endl;
-		a = simplex.back();
-		ao = -a;
-		// Line segment
-		b = simplex.at(0);
-		ab = b - a;
-
-		abPerp = glm::cross(glm::cross(ab,ao),ab);
-
-		if(glm::dot(ab,ao) > 0)
-		{
-			// direction perpendicular to ab
-			dir = abPerp;
-		}
-		else
-		{
-			// direction from a to origin
-			dir = ao;
-		}
-
-		return false;
-	}
-	else if(simplex.size() == 3)
-	{
-		std::cout << "Got to 3 simplex" << std::endl;
-		// Triangle 
-		a = simplex.at(2);
-		ao = -a;
-
-		b = simplex.at(1);
-		c = simplex.at(0);
-
-		ab = b - a;
-		ac = c - a;
-		abc = glm::cross(ab, ac);
-
-		abPerp = glm::cross(glm::cross(ab,ao),ab);
-		acPerp = glm::cross(glm::cross(ac,ao),ac);
-
-		if(glm::dot(glm::cross(abc,ac),ao) > 0)
-		{
-			if(glm::dot(ac,ao) > 0)
-			{
-				dir = acPerp;
-				simplex.erase(simplex.begin() + 1);
-			}
-			else
-			{
-				if(glm::dot(ab,ao) > 0)
-				{
-					dir = abPerp;
-					simplex.erase(simplex.begin());
-				}
-				else
-				{
-					dir = ao;
-					simplex.erase(simplex.begin());
-					simplex.erase(simplex.begin());
-				}
-			}
-		}
-		else
-		{
-			if(glm::dot(glm::cross(ab, abc),ao) > 0)
-			{
-				if(glm::dot(ab,ao) > 0)
-				{
-					dir = abPerp;
-					simplex.erase(simplex.begin());
-				}
-				else
-				{
-					dir = ao;
-					simplex.erase(simplex.begin());
-					simplex.erase(simplex.begin());
-				}
-			}
-			else
-			{
-				if(glm::dot(abc,ao) > 0)
-				{
-					dir = abc;
-				}
-				else
-				{
-					dir = -abc;
-					return true;
-				}
-			}
-		}
-
-		//return false;
-	}
-	else if(simplex.size() == 4)
-	{
-		// Tetrahedron 
-		a = simplex.at(3);
-		b = simplex.at(2);
-		c = simplex.at(1);
-		d = simplex.at(0);
-
-
-	}
-	
 	return false;
 }
 
+	bool doOnce = false;
 
+bool Lab4::simplexContainsOrigin(std::vector<glm::vec3> &simplex, glm::vec3 &dir)
+{
+	glm::vec3 A,B,C,D;
 
-/************************************************************************/
-/* 
-//  based on video from: http://mollyrocket.com/849
-
-	if(dot(cross(abc,ac),ao) > 0)
+	switch(simplex.size())
 	{
-		if(dot(ac) > 0)
+	case 2: // line
+		B = simplex[0];
+		A = simplex[1];
+
+		if(glm::dot(B-A, -A) > 0)
 		{
-			dir = cross(cross(ac, ao), ac);
-			simplex.remove(b);
+			dir = glm::cross(glm::cross(B-A, -A), B-A);
 		}
 		else
 		{
-			if(dot(ab) > 0)
-			{
-				dir = cross(cross(ab,ao),ab);
-				simplex.erase(simplex.begin());
-			}
-			else
-			{
-				direction = ao;
-				simplex.erase(simplex.begin());
-				simplex.erase(simplex.begin());
-			}
+			dir = -A;
 		}
-	}
-	else
-	{
-		if(dot(cross(ab, abc) > 0)
+
+		return false;
+
+	case 3: // triangle
+
+		return checkTriangle(simplex, dir);
+
+	case 4:	// tetrahedron
+		D = simplex[0];
+		C = simplex[1];
+		B = simplex[2];
+		A = simplex[3];
+
+		//if(!doOnce)
+		//{
+		//	points[0]->position = D;
+		//	points[1]->position = C;
+		//	points[2]->position = B;
+		//	points[3]->position = A;
+
+		//	points[0]->scale = glm::vec3(0.03,0.03,0.03);
+		//	points[1]->scale = glm::vec3(0.03,0.03,0.03);
+		//	points[2]->scale = glm::vec3(0.03,0.03,0.03);
+		//	points[3]->scale = glm::vec3(0.03,0.03,0.03);
+
+		//	points[0]->SetColor(glm::vec3(1,0,0));
+		//	points[1]->SetColor(glm::vec3(1,0,0));
+		//	points[2]->SetColor(glm::vec3(1,0,0));
+		//	points[3]->SetColor(glm::vec3(1,0,0));
+
+		//	doOnce = true;
+
+		//}
+
+		////points[0]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+		////points[0]->Render();
+		////points[1]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+		////points[1]->Render();
+
+		////points[2]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+		////points[2]->Render();
+		////points[3]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+		////points[3]->Render();
+		////
+		glm::vec3 ABC = glm::cross(B-A, C-A);
+		glm::vec3 ADB = glm::cross(D-A, B-A);
+		glm::vec3 ACD = glm::cross(C-A, D-A);
+
+		if(glm::dot(ABC, -A) > 0)
+		{			
+			simplex.erase(simplex.begin());
+
+			return checkTriangle(simplex, dir);
+		}
+		else if(glm::dot(ADB, -A) > 0)
 		{
-			if(dot(ab) > 0)
-			{
-				dir = cross(cross(ab,ao),ab);
-				simplex.erase(simplex.begin());
-			}
-			else
-			{
-				dir = ao;
-				simplex.erase(simplex.begin());
-				simplex.erase(simplex.begin());
-			}
+			simplex.erase(simplex.begin() + 1);
+			simplex[0] = B;
+			simplex[1] = D;
+
+			return checkTriangle(simplex, dir);
+		}
+		else if(glm::dot(ACD, -A) > 0)
+		{
+			simplex.erase(simplex.begin() + 2);
+
+			return checkTriangle(simplex, dir);
+		}
+
+		return true;
+	}
+}
+
+bool Lab4::checkTriangle(std::vector<glm::vec3> &simplex,glm::vec3 &dir)
+{
+	glm::vec3 C = simplex[0];
+	glm::vec3 B = simplex[1];
+	glm::vec3 A = simplex[2];
+
+	// face
+	glm::vec3 ABC = glm::cross(B-A, C-A);
+
+	if(glm::dot(glm::cross(ABC, C-A), -A) > 0) // AC plane 
+	{
+		if(glm::dot(C-A, -A) > 0) // outside AC edge
+		{
+			dir = glm::cross(glm::cross(C-A, -A), C-A);
+			simplex.erase(simplex.begin() + 1);
 		}
 		else
 		{
-			if(dot(abc) > 0)
+			if(glm::dot(B-A, -A) > 0) // outside AB edge
 			{
-				dir = abc;
+				dir = glm::cross(glm::cross(B-A, -A), B-A);
+				simplex.erase(simplex.begin());
 			}
-			else
+			else // outside A
 			{
-				dir = -abc;
+				dir = -A;
+				simplex.erase(simplex.begin());
+				simplex.erase(simplex.begin());
+			}
+		}
+	}
+	else // inside AC 
+	{
+		if(glm::dot(glm::cross(B-A, ABC), -A) > 0) // AB plane 
+		{
+			if(glm::dot(B-A, -A) > 0) // outside AB plane
+			{
+				dir = glm::cross(glm::cross(B-A, -A), B-A);
+				simplex.erase(simplex.begin());
+			}
+			else // outside A
+			{
+				dir = -A;
+				simplex.erase(simplex.begin());
+				simplex.erase(simplex.begin());
+			}
+		}
+		else // orthogonal to face
+		{
+			if(glm::dot(ABC, -A) > 0) // outside face
+			{
+				dir = ABC;
+			}
+			else // inside face
+			{
+				simplex[0] = B;
+				simplex[1] = C;
+
+				dir = -ABC;
 			}
 		}
 	}
 
-*************************************************************************/
-
-/*
-abPerp = glm::cross(glm::cross(ac,ab),ab);
-acPerp = glm::cross(glm::cross(ab,ac),ac);
-
-// check ab region
-if(glm::dot(abPerp,ao) > 0)
-{
-	simplex.erase(simplex.begin()); // remove c
-	dir = abPerp;
+	return false;
 }
-else
-{
-	if(glm::dot(acPerp,ao) > 0)
-	{
-		simplex.erase(simplex.begin() + 1); // remove b
-		dir = acPerp;
-	}
-	else
-	{
-		return true; 
-	}
-}
-*/
+//
+//glm::vec3 Lab4::GetFarthestPointInDirection(glm::vec3 dir, std::vector<glm::vec3> points)
+//{
+//	glm::vec3 farthestPoint;
+//
+//	float farthest = glm::dot(points[0],dir);
+//
+//	//std::cout << "Point 0 = " << "(" << transformedPoints[0].x << "," << transformedPoints[0].y << "," << transformedPoints[0].z << ")" << std::endl;
+//
+//	for(int i = 1; i <points.size();i++)
+//	{
+//		//std::cout << "Point " << i << " = " << "(" << transformedPoints[i].x << "," << transformedPoints[i].y << "," << transformedPoints[i].z << ")" << std::endl;
+//		float temp = glm::dot(dir,points[i]);
+//
+//		if(temp > farthest)
+//		{
+//			farthest = temp;
+//			farthestPoint = points[i];
+//		}
+//	}
+//
+//	return farthestPoint;
+//}
+
+
+//bool Lab4::checkNarrowPhaseCollision(RigidBody *rigidBody1, RigidBody *rigidBody2)
+//{
+//	std::vector<glm::vec3> simplex;
+//
+//	glm::vec3 dir = rigidBody2->position - rigidBody1->position;
+//
+//	glm::vec3 furthestA = rigidBody1->GetFarthestPointInDirection(dir);
+//	glm::vec3 furthestB = rigidBody2->GetFarthestPointInDirection(-dir);
+//
+//	glm::vec3 supportPoint = GetSupportPoint(furthestA,furthestB);
+//
+//	simplex.push_back(supportPoint);
+//
+//	dir = -supportPoint;
+//
+//	int count = 0;
+//
+//	while(count < 100)
+//	{
+//		furthestA = rigidBody1->GetFarthestPointInDirection(dir);
+//		furthestB = rigidBody2->GetFarthestPointInDirection(-dir);
+//
+//		supportPoint = GetSupportPoint(furthestA,furthestB);
+//
+//		// make sure that the last point we added actually passed the origin
+//		if(glm::dot(supportPoint,dir) < 0)
+//		{
+//			return NULL;
+//		}
+//
+//		simplex.push_back(supportPoint);
+//
+//		if(simplexContainsOrigin(simplex,dir))
+//		{
+//			std::cout << "Colliding" << std::endl;
+//			return true;
+//		}
+//
+//		count++;
+//	}
+//
+//	return false;
+//}
+//
+//glm::vec3 Lab4::GetSupportPoint(glm::vec3 furthestA, glm::vec3 furthestB)
+//{
+//	glm::vec3 C = furthestA - furthestB;
+//	return C;
+//}
+//
+//bool Lab4::simplexContainsOrigin(std::vector<glm::vec3> &simplex, glm::vec3 &dir)
+//{
+//	glm::vec3 a,b,c,d;
+//
+//	if(simplex.size() == 2)
+//	{
+//		a = simplex[1];
+//		b = simplex[0];
+//
+//		glm::vec3 ab = b - a;
+//		glm::vec3 ao = -a;
+//
+//		glm::vec3 abPerp = glm::cross(glm::cross(ab,ao),ab);
+//
+//		if(glm::dot(ab,ao) > 0)
+//		{
+//			dir = abPerp;
+//		}
+//		else
+//		{
+//			dir = ao;
+//		}
+//
+//		return false;
+//	}
+//	else if(simplex.size() == 3)
+//	{
+//		return checkTriangle(simplex,dir);
+//	}
+//
+//	else if(simplex.size() == 4)
+//	{
+//		a = simplex[3];
+//		b = simplex[2];
+//		c = simplex[1];
+//		d = simplex[0];
+//
+//		glm::vec3 ao = -a;
+//
+//		glm::vec3 ab = b - a;
+//		glm::vec3 ac = c - a;
+//		glm::vec3 ad = d - a;
+//
+//		glm::vec3 abc = glm::cross(ab, ac);
+//		glm::vec3 acd = glm::cross(ac, ad);
+//		glm::vec3 adb = glm::cross(ad, ab);
+//
+//		glm::vec3 abPerp = glm::cross(glm::cross(ab,ao),ab);
+//		glm::vec3 acPerp = glm::cross(glm::cross(ac,ao),ac);
+//		glm::vec3 ab_abc = glm::cross(ab,abc);
+//		glm::vec3 abc_ac = glm::cross(abc,ac);
+//
+//		//case 1
+//		if(glm::dot(abc,ao) > 0)
+//		{
+//			std::cout << "Case 1 Hit" << std::endl;
+//
+//			simplex.erase(simplex.begin()); // erase d
+//
+//			return checkTriangle(simplex,dir);
+//		}
+//		else if(glm::dot(acd,ao) > 0)
+//		{
+//			simplex.erase(simplex.begin() + 2);
+//
+//			std::cout << "Case 2 Hit" << std::endl;
+//
+//			return checkTriangle(simplex,dir);
+//		}
+//		else if(glm::dot(adb,ao) > 0)
+//		{
+//			simplex.erase(simplex.begin() + 1);
+//			simplex[0] = b;
+//			simplex[1] = d;
+//
+//			std::cout << "Case 3 Hit" << std::endl;
+//
+//			return checkTriangle(simplex,dir);
+//		}
+//
+//		return true;
+//
+//	}
+//}
+//
+//bool Lab4::checkTriangle(std::vector<glm::vec3> &simplex,glm::vec3 &dir)
+//{
+//	glm::vec3 c = simplex[0];
+//	glm::vec3 b = simplex[1];
+//	glm::vec3 a = simplex[2];
+//
+//	glm::vec3 ao = -a;
+//
+//	glm::vec3 ab = b - a;
+//	glm::vec3 ac = c - a;
+//
+//	glm::vec3 abc = glm::cross(ab, ac);
+//
+//	glm::vec3 abPerp = glm::cross(glm::cross(ab,ao),ab);
+//	glm::vec3 acPerp = glm::cross(glm::cross(ac,ao),ac);
+//	glm::vec3 ab_abc = glm::cross(ab,abc);
+//	glm::vec3 abc_ac = glm::cross(abc,ac);
+//
+//	if(glm::dot(abc_ac,ao) > 0)
+//	{
+//		if(glm::dot(ac,ao) > 0)
+//		{
+//			dir = acPerp;
+//			simplex.erase(simplex.begin() + 1);
+//		}
+//		else
+//		{
+//			if(glm::dot(ab,ao) > 0)
+//			{
+//				dir = abPerp;
+//				simplex.erase(simplex.begin());
+//			}
+//			else
+//			{
+//				dir = ao;
+//				simplex.erase(simplex.begin());
+//				simplex.erase(simplex.begin());
+//			}
+//		}
+//	}
+//	else
+//	{
+//		if(glm::dot(ab_abc,ao) > 0) // AB plane 
+//		{
+//			if(glm::dot(ab,ao) > 0)
+//			{
+//				dir = abPerp;
+//				simplex.erase(simplex.begin());
+//			}
+//			else
+//			{
+//				dir = ao;
+//				simplex.erase(simplex.begin());
+//				simplex.erase(simplex.begin());
+//			}
+//		}
+//		else
+//		{
+//			if(glm::dot(abc, ao) > 0) // outside face
+//			{
+//				dir = abc;
+//			}
+//			else // inside face
+//			{
+//				simplex[0] = b;
+//				simplex[1] = c;
+//
+//				dir = -abc;
+//			}
+//		}
+//	}
+//
+//	return false;
+//
+//}
