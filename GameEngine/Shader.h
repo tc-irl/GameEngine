@@ -11,8 +11,8 @@ class Shader
 {
 public:
 
-	typedef enum ShaderType {NONE, BASIC, TEXTURED, PHONG, TOON, DIFFUSE, PHONG_TEXTURED, TOON_TEXTURED, OREN_NAYAR, OREN_TEXTURED}; ////// --> Lab 1
-	//typedef enum ShaderType {SKYBOX, REFLECTION, REFRACTION, COMBINED, TEXTURED};
+	//typedef enum ShaderType {NONE, BASIC, TEXTURED, PHONG, TOON, DIFFUSE, PHONG_TEXTURED, TOON_TEXTURED, OREN_NAYAR, OREN_TEXTURED}; ////// --> Lab 1
+	typedef enum ShaderType {SKYBOX, REFLECTION, REFRACTION, COMBINED, TEXTURED};
 	ShaderType shaderType;
 
 	Shader();

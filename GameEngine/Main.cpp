@@ -5,18 +5,19 @@
 #include "Lab4.h"
 #include "RenderingLab1.h"
 #include "RenderingLab2.h"
+#include "RenderingLab3.h"
 
 int main(int argc, char **argv)
 {
-	Lab4 *game;
+	//Lab4 *game;
 
-	game = new Lab4();
-	game->init(argv);
-	game->run();
-
-	//RenderingLab2 *game;
-
-	//game = new RenderingLab2();
+	//game = new Lab4();
 	//game->init(argv);
 	//game->run();
+
+	RenderingLab2 *game;
+
+	game = new RenderingLab2();
+	game->init(argv);
+	game->run();
 }

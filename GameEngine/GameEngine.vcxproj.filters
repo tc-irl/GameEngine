@@ -111,6 +111,12 @@
     <ClCompile Include="CubeMapTexture.cpp">
       <Filter>Source Files\Engine\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingLab3.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -168,6 +174,12 @@
       <Filter>Header Files\Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="CubeMapTexture.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingLab3.h">
       <Filter>Header Files\Engine\Rendering</Filter>
     </ClInclude>
   </ItemGroup>

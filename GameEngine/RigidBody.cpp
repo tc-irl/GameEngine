@@ -1,7 +1,5 @@
 ﻿#include "RigidBody.h"
 
-
-
 RigidBody::RigidBody()
 {
 	position = glm::vec3(0,0,0);
@@ -9,8 +7,9 @@ RigidBody::RigidBody()
 	scale = glm::vec3(1,1,1);
 
 	gravity = false;
+	collidingEnabled = false;
 
-	mass = 1.0f; 
+	mass = 3.0f; 
 	inverseMass = 1.0f;
 
 	velocity = glm::vec3();
@@ -25,12 +24,9 @@ RigidBody::RigidBody()
 	invIBody = glm::mat3();
 }
 
-void RigidBody::enableGravity()
+void RigidBody::enableGravity(float dt)
 {
-	if(gravity)
-	{
-		force += glm::vec3(0.0f,-9.81f, 0.0f);
-	}	
+	force += glm::vec3(0.0f,-9.81f, 0.0f);
 }
 
 void RigidBody::applyForce(glm::vec3 point, glm::vec3 force)
@@ -45,7 +41,9 @@ void RigidBody::update(float dt)
 	// http://stackoverflow.com/questions/12758143/3d-rigid-body-physics-opengl -> Helped with Inertial tensor, could have implement IBody the way done here
 	// https://www.scss.tcd.ie/John.Dingliana/cs7057/cs7057-1415-03a-RigidBodyMotion.pdf -> Helped with most of the requirements. 
 
-	limitBoundary();
+	//limitBoundary();
+
+	//float damping = glm::pow(4.0f, dt);
 
 	inverseMass = 1.0f / mass;
 
@@ -61,8 +59,16 @@ void RigidBody::update(float dt)
 
 	invIBody = glm::inverse(IBody);
 
-	position += (linearMomentum * inverseMass) * dt; 
-	orientation *= glm::normalize(glm::quat(invIBody * glm::toMat3(glm::quat(angularMomentum * dt))));
+	position += (linearMomentum) * dt; 
+	//orientation *= glm::normalize(glm::quat(invIBody * glm::toMat3(glm::quat(angularMomentum * dt))));
+	orientation = glm::normalize(glm::quat(invIBody * glm::toMat3(glm::quat(angularMomentum * dt))) * orientation);
+
+	torque = glm::vec3();
+
+	if (position.y < 1 && collidingEnabled == true)
+	{
+		position.y = 1;
+	}
 }
 
 glm::mat4 RigidBody::getTransformationMatrix()
@@ -218,3 +224,49 @@ glm::vec3 RigidBody::GetFarthestPointInDirection(glm::vec3 dir)
 
 	return farthestPoint;
 }
+
+void RigidBody::collisionResponse(float dt, glm::vec3 pA, glm::vec3 pB, glm::vec3 normal)
+{
+	this->pA = pA;
+	this->pB = pB;
+
+	glm::vec3 rA = pA - position; // position of the rigidbody is based on the centre of mass
+	glm::vec3 rB = pB;
+
+	glm::vec3 j = calculateCollisionImpulse(dt,rA,rB,normal,0.64) * normal;
+
+	linearMomentum += j;
+	//applyForce(pA, j);
+	angularMomentum += glm::cross(rA, j);
+
+}
+
+float RigidBody::calculateCollisionImpulse(float dt, glm::vec3 rA, glm::vec3 rB, glm::vec3 normal, float cR)
+{
+	// j = N / t1 + t2 + t3 + t4
+	// N = -(1 + e) * vrel
+	// vrel = dot(normal, pA - pB)
+	// pA = linearVelocityA + cross(angularVelocityA, rA)
+	// pB = linearVelocityB + cross(angularVelocityB, rB);
+	// t1 = invMassA (1 / mA)
+	// t2 = invMassB (1 / mB)
+	// t3 = dot(normal, (cross(invIBodyA * cross(rA, normal)),rA);
+	// t4 = dot(normal, (cross(invIBodyB * cross(rB, normal)),rB);
+
+	glm::vec3 pA, pB;
+	float t1,t2,t3,t4,numerator,j, vRel;
+	
+	pA = (linearMomentum * inverseMass) + glm::cross(angularMomentum * invIBody,rA);
+	pB = glm::cross(glm::vec3(0,0,0), rB); // 0
+	vRel = glm::dot(normal,pA - pB);
+	numerator = (-(1 + cR) * vRel);
+
+	t1 = inverseMass;
+	t2 = 0; // plane
+	t3 = glm::dot(normal,glm::cross(invIBody * glm::cross(rA,normal),rA));
+	t4 = 0; // plane
+
+	j = (numerator) / (t1 + t2 + t3 + t4);
+	return std::max(0.0f,j);
+}
+

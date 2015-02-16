@@ -49,12 +49,16 @@ public:
 	bool gravity;
 	bool forceEnabled;
 	float distanceToCOM;
+
+	glm::vec3 pA;
+	glm::vec3 pB;
+	bool collidingEnabled;
 public:
 
 	void calculateVelocity(float speed, glm::vec3 direction) {velocity = speed * direction;}
 	void setVertices(std::vector<glm::vec3> vertices, std::vector<glm::vec3> indices);
 
-	void enableGravity();
+	void enableGravity(float dt);
 	void applyForce(glm::vec3 point, glm::vec3 force);
 
 	glm::mat4 getTransformationMatrix();
@@ -70,7 +74,7 @@ public:
 	void updateModel(GLuint modelLoc);
 	float initialDistanceToCOM();
 	glm::vec3 GetFarthestPointInDirection(glm::vec3 dir);
-
-
+	void collisionResponse(float dt, glm::vec3 pA, glm::vec3 pB, glm::vec3 normal);
+	float calculateCollisionImpulse(float dt, glm::vec3 rA, glm::vec3 rB, glm::vec3 normal, float cR);
 };
 

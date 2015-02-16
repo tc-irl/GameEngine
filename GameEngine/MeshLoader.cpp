@@ -122,6 +122,7 @@ void MeshLoader::LoadMesh(const char* filename)
 	{
 		float *normals = new float[mesh->mNumVertices * 3];
 
+
 		for(int i = 0; i < mesh->mNumVertices; i++)
 		{
 			normals[i * 3] = mesh->mNormals[i].x;
@@ -166,6 +167,8 @@ void MeshLoader::LoadMesh(const char* filename)
 
 void MeshLoader::SetTexture(const char* filename)
 {
+	textureName = filename;
+
 	glUniform1i(gSampler, 0);
 
 	texture = new Texture(GL_TEXTURE_2D, filename);
@@ -316,6 +319,7 @@ void MeshLoader::RenderPoly()
 
 void MeshLoader::UpdateShader()
 {
+	std::cout << possibleShaders[shaderType] << std::endl;
 	SetShader(possibleShaders[shaderType]);
 	UseProgram();
 }
@@ -337,4 +341,49 @@ void MeshLoader::SetSkyBox()
 void MeshLoader::SetCurrentRatio(float ratio)
 {
 	glUniform1f(ratioID,ratio);
+}
+
+void MeshLoader::DefineLine(glm::vec3 point1, glm::vec3 point2)
+{
+	temp.clear();
+	std::vector<glm::vec3> cols;
+
+	temp.push_back(point1);
+	temp.push_back(point2);
+
+	for(int i = 0; i < temp.size(); i++)
+	{
+		cols.push_back(glm::vec3(0,1,0));
+	}
+
+
+	GLuint tSize = temp.size() * sizeof(glm::vec3);
+	GLuint cSize = temp.size() * sizeof(glm::vec4);
+
+	glGenVertexArrays( 1, &lineVao );
+	glBindVertexArray( lineVao );
+	//Initialize VBO
+	glGenBuffers( 1, &lineVbo );
+	glBindBuffer( GL_ARRAY_BUFFER, lineVbo );
+	glBufferData( GL_ARRAY_BUFFER, tSize + cSize, NULL, GL_DYNAMIC_DRAW );
+	glBufferSubData( GL_ARRAY_BUFFER, 0, tSize, (const GLvoid*)(&temp[0]) );
+	glBufferSubData( GL_ARRAY_BUFFER, tSize, cSize, (const GLvoid*)(&cols[0]) );
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray (0);
+
+	// Just incase we use colors
+	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, 0,  BUFFER_OFFSET(tSize));
+	glEnableVertexAttribArray (vColor);
+
+	//Unbind
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void MeshLoader::DrawLine()
+{
+	glBindVertexArray(lineVao);
+	glDrawArrays(GL_LINE_LOOP, 0,temp.size());
+	glBindVertexArray(0);
 }

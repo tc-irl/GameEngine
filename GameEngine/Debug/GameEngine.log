@@ -1,13 +1,26 @@
-﻿Build started 14/2/2015 1:28:59 AM.
+﻿Build started 16/2/2015 1:31:06 AM.
      1>Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt RigidBody.cpp
-         RigidBody.cpp
-     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(83): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(88): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(112): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(186): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(208): warning C4018: '<' : signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Lab4.cpp
+         Lab4.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\line.h(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.h(13): warning C4005: 'MAX' : macro redefinition
+                 c:\users\user\desktop\college\gameengine\gameengine\rigidbody.h(12) : see previous definition of 'MAX'
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(206): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(216): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(226): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(236): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(246): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(252): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(266): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(274): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(280): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(598): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(604): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(610): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(613): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(635): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(501): warning C4715: 'Lab4::simplexContainsOrigin' : not all control paths return a value
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.lib" /MACHINE:X86 Debug\Camera.obj
          Debug\CubeMapTexture.obj
@@ -16,6 +29,7 @@
          Debug\Lab3.obj
          Debug\Lab4.obj
          Debug\Lighting.obj
+         Debug\Line.obj
          Debug\Main.obj
          Debug\Mesh.obj
          Debug\MeshLoader.obj
@@ -33,4 +47,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.84
+Time Elapsed 00:00:02.62

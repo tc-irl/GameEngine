@@ -34,6 +34,7 @@ public:
 	void LoadMesh(const char* filename);
 
 	void SetTexture(const char* filename);
+	std::string GetTexture() {return textureName;}
 	void SetCubeMapTexture(const char* directory);
 	void SetColor(glm::vec3 color);
 	void SetShader(GLuint shaderID) {this->shaderID = shaderID; SetAttributesAndUniforms();}
@@ -76,6 +77,9 @@ public:
 	void RenderPoly();
 	void RenderCubeMap();
 	void UpdateRefractionIndex();
+
+	void DrawLine();
+	void DefineLine(glm::vec3 point1, glm::vec3 point2);
 public:
 	glm::vec3 position;
 	glm::quat orientation;
@@ -99,6 +103,9 @@ public:
 
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> points;
+	std::vector<glm::vec3> temp;
+
+	GLuint lineVao,lineVbo;
 
 private:
 	GLuint VAO, VBO[4];
@@ -116,6 +123,6 @@ private:
 
 	std::string filename;
 	GLuint modelLoc, viewLoc, projLoc;
-
+	std::string textureName;
 };
 

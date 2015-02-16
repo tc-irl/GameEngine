@@ -4,6 +4,7 @@
 #include "MeshLoader.h"
 #include "Texture.h"
 #include "RigidBody.h"
+#include "Line.h"
 
 #include <map>
 #include <list>
@@ -20,7 +21,7 @@ public:
 	Lab4(void);
 	~Lab4(void);
 
-	typedef enum Mode {NONE, SPHERE, AABB, MULTI};
+	typedef enum Mode {NONE, SPHERE, AABB, AABB_PLANE, MULTI};
 
 	void run() override;
 	void init(char** argv);
@@ -35,12 +36,24 @@ public:
 	void sweepAndPrune();
 	float RandomNumber(float Min, float Max);
 	bool checkNarrowPhaseCollision(RigidBody *, RigidBody *);
-	glm::vec3 GetSupportPoint(glm::vec3 furthestA, glm::vec3 furthestB);
+	glm::vec3 GetSupportPoint(glm::vec3 farA, glm::vec3 farB);
 	bool simplexContainsOrigin(std::vector<glm::vec3> &simplex, glm::vec3 &dir);
 	bool checkEdge(std::vector<glm::vec3> &simplex, glm::vec3 &dir);
 	bool checkTriangle(std::vector<glm::vec3> &simplex,glm::vec3 &dir);
-	bool checkTetrahedron(std::vector<glm::vec3> &simplex, glm::vec3 &dir);
-	glm::vec3 GetFarthestPointInDirection(glm::vec3 dir, std::vector<glm::vec3> points);
+	bool checkTetrahedron(std::vector<glm::vec3> & simplex, glm::vec3 & dir);
+
+	void checkForBoundingBoxCollisonWithPlane();
+	float GetDistanceToPlane(glm::vec3 point); 
+	bool checkBoxToPlaneCollision();
+	glm::vec3 GetClosestPointToPlane(std::vector<glm::vec3> points);
+	glm::vec3 GetPointOnPlane(glm::vec3 closestPoint);
+	void DrawLine();
+	void DefineLine(glm::vec3 point1, glm::vec3 point2);
+
+	float distanceToClosestPoint;
+	glm::vec3 closestPoint;
+	glm::vec3 planePoint;
+
 	glm::vec3 centroid;
 	float speed;
 	glm::vec3 direction;
@@ -52,6 +65,11 @@ public:
 	MeshLoader *cubes[MAX], *spheres[MAX], *boundingCubes[MAX];
 	MeshLoader *points[MAX * 8];
 	RigidBody *rigidBodies[MAX];
+
+	MeshLoader *sphere;
+
+	Line *line;
+	Line *directionNormal;
 
 	Shader *basicShader,*textureShader;
 	std::vector<glm::vec3> transformedVertices;
@@ -65,6 +83,8 @@ public:
 
 	bool pauseScene;
 	bool forceEnabled;
+	bool gravityEnabled;
+	bool collisionsEnabled;
 	bool set;
 
 	Mode mode;
