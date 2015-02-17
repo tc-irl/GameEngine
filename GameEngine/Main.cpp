@@ -15,9 +15,9 @@ int main(int argc, char **argv)
 	//game->init(argv);
 	//game->run();
 
-	RenderingLab2 *game;
+	RenderingLab3 *game;
 
-	game = new RenderingLab2();
+	game = new RenderingLab3();
 	game->init(argv);
 	game->run();
 }

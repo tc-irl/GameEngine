@@ -1,8 +1,45 @@
 #pragma once
-class RenderingLab3
+#include "Game.h"
+#include "MeshLoader.h"
+#include "Texture.h"
+#include "Lighting.h"
+#include "CubeMapTexture.h"
+
+class RenderingLab3 : public Game
 {
 public:
+
 	RenderingLab3(void);
-	~RenderingLab3(void);
+	~RenderingLab3(void) {};
+
+	void run() override;
+	void init(char** argv);
+	void initTweakBar();
+	void initShaders();
+	void initModels();
+	void initLights();
+	void initTextures();
+	void update();
+	void UpdateLighting(GLuint shaderID, Lighting *light);
+	void initRefractions();
+	//std::map <std::string, GLuint> possibleShaders;
+	std::map <Shader::ShaderType, GLuint> possibleShaders;
+	std::map <MeshLoader::RefractionIndex, float> refractions;
+
+	Shader *skyBoxShader, *reflectionShader, *refractionShader, *combinedShader, *texturedShader;
+
+	Lighting *monkeyLight, *teapotLight, *headLight;
+
+	TwBar *bar;
+
+	MeshLoader *plane, *cube, *teapot, *monkey, *head;
+	MeshLoader *skybox;
+
+	GLuint gSampler;
+
+	double time, dt;// Current time and elapsed time
+
+	bool pauseScene;
+
 };
 
