@@ -26,9 +26,9 @@ public:
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 	std::map <MeshLoader::RefractionIndex, float> refractions;
 
-	Shader *skyBoxShader, *reflectionShader, *refractionShader, *combinedShader, *texturedShader;
+	Shader *skyBoxShader, *reflectionShader, *refractionShader, *refractionDispShader, *combinedShader, *combinedDispShader, *texturedShader, *fresnelShader;
 
-	Lighting *monkeyLight, *teapotLight, *headLight;
+	Lighting *monkeyLight, *teapotLight, *headLight, *cubeLight;
 
 	TwBar *bar;
 
@@ -40,6 +40,6 @@ public:
 	double time, dt;// Current time and elapsed time
 
 	bool pauseScene;
-
+	Shader *normalMapShader;
 };
 

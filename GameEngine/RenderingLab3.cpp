@@ -32,10 +32,14 @@ RenderingLab3::RenderingLab3(void)
 	skyBoxShader = new Shader();
 	reflectionShader = new Shader();
 	refractionShader = new Shader();
+	refractionDispShader = new Shader();
 	combinedShader = new Shader();
+	combinedDispShader = new Shader();
 	texturedShader = new Shader();
+	normalMapShader = new Shader();
+	fresnelShader = new Shader();
 
-	window = new Window(800,600,"Lab 2: Rendering");
+	window = new Window(800,600,"Lab 3: Rendering");
 	camera = new Camera(window->GetWindow());
 
 	pauseScene = false;
@@ -62,11 +66,23 @@ void RenderingLab3::initShaders()
 	refractionShader->initShader(refractionShader->REFRACTION);
 	possibleShaders[Shader::REFRACTION] = refractionShader->GetProgramID();
 
+	refractionDispShader->initShader(refractionDispShader->REFRACTION_DISP);
+	possibleShaders[Shader::REFRACTION_DISP] = refractionDispShader->GetProgramID();
+
 	combinedShader->initShader(combinedShader->COMBINED);
 	possibleShaders[Shader::COMBINED] = combinedShader->GetProgramID();
 
+	combinedDispShader->initShader(combinedDispShader->COMBINED_DISP);
+	possibleShaders[Shader::COMBINED_DISP] = combinedDispShader->GetProgramID();
+
 	texturedShader->initShader(texturedShader->TEXTURED);
 	possibleShaders[Shader::TEXTURED] = texturedShader->GetProgramID();
+
+	normalMapShader->initShader(normalMapShader->NORMAL_MAP);
+	possibleShaders[Shader::NORMAL_MAP] = normalMapShader->GetProgramID();
+
+	fresnelShader->initShader(fresnelShader->FRESNEL);
+	possibleShaders[Shader::FRESNEL] = fresnelShader->GetProgramID();
 }
 
 void RenderingLab3::initModels()
@@ -78,12 +94,13 @@ void RenderingLab3::initModels()
 	teapot->SetPossibleShaders(possibleShaders);
 	teapot->SetRefractionTypes(refractions);
 
-	//head = new MeshLoader(texturedShader->GetProgramID(), "../Resources/Models/sphere.obj");
-	//head->IsSkyboxActive(false);
-	//head->SetPos(glm::vec3(0,0,-2));
-	//head->SetScale(glm::vec3(0.8,0.8,0.8));
-	//head->SetPossibleShaders(possibleShaders);
-	//head->SetRefractionTypes(refractions); 
+	cube = new MeshLoader(normalMapShader->GetProgramID(), "../Resources/Models/cube.obj");
+	cube->IsSkyboxActive(false);
+	cube->IsTextureActive(true);
+	cube->SetPos(glm::vec3(-3,0,0));
+	cube->SetScale(glm::vec3(0.8,0.8,0.8));
+	cube->SetPossibleShaders(possibleShaders);
+	cube->SetRefractionTypes(refractions);
 
 	skybox = new MeshLoader(skyBoxShader->GetProgramID(),"../Resources/Models/cube2.obj");
 	skybox->IsSkyboxActive(true);
@@ -95,8 +112,14 @@ void RenderingLab3::initModels()
 void RenderingLab3::initTextures()
 {
 	teapot->SetColor(glm::vec3(1,1,1));
-	teapot->SetShaderType(skyBoxShader->shaderType);
-	teapot->SetTexture("../Resources/Textures/bricks.jpg");
+	teapot->SetShaderType(fresnelShader->shaderType);
+	teapot->SetTexture("../Resources/Textures/bricks2.jpg");
+	teapot->SetNormalTexture("../Resources/Textures/bricks2_normal.png");
+
+	cube->SetColor(glm::vec3(1,1,1));
+	cube->SetShaderType(normalMapShader->shaderType);
+	cube->SetTexture("../Resources/Textures/bricks2.jpg");
+	cube->SetNormalTexture("../Resources/Textures/bricks2_normal.png");
 
 	//head->SetColor(glm::vec3(1,1,1));
 	//head->SetShaderType(texturedShader->shaderType);
@@ -111,6 +134,7 @@ void RenderingLab3::initLights()
 	//monkeyLight = new Lighting(orenNayar->GetProgramID());
 	//teapotLight = new Lighting(toonShader->GetProgramID());
 	//headLight = new Lighting(phongShader->GetProgramID());
+	cubeLight = new Lighting(normalMapShader->GetProgramID());
 }
 
 void RenderingLab3::initTweakBar()
@@ -121,7 +145,8 @@ void RenderingLab3::initTweakBar()
 	bar = TwNewBar("Attributes: ");
 
 	TwEnumVal modeEV[] = {{Shader::ShaderType::SKYBOX, "Skybox"}, {Shader::ShaderType::REFLECTION, "Reflection"},
-	{Shader::ShaderType::REFRACTION, "Refraction"}, {Shader::ShaderType::COMBINED, "Combined"}, {Shader::ShaderType::TEXTURED, "Textured"}};
+	{Shader::ShaderType::REFRACTION, "Refraction"}, {Shader::ShaderType::COMBINED, "Combined"}, {Shader::ShaderType::TEXTURED, "Textured"},{Shader::ShaderType::REFRACTION_DISP, "Refraction Disp"},
+	{Shader::ShaderType::COMBINED_DISP, "Combined Disp"}, {Shader::ShaderType::FRESNEL, "Fresnel"}, {Shader::ShaderType::NORMAL_MAP, "Normal Map"}};
 
 	TwEnumVal modeEV2[] = {{MeshLoader::RefractionIndex::AIRTOWATER, "Air to Water"}, {MeshLoader::RefractionIndex::AIRTOICE, "Air to Ice"},
 	{MeshLoader::RefractionIndex::AIRTOGLASS, "Air to Glass"}, {MeshLoader::RefractionIndex::AIRTODIAMOND, "Air to Diamond"}};
@@ -129,7 +154,7 @@ void RenderingLab3::initTweakBar()
 	TwType modeType;
 	TwType modeType2;
 
-	modeType = TwDefineEnum("ShaderType", modeEV, 5);
+	modeType = TwDefineEnum("ShaderType", modeEV, 9);
 	modeType2 = TwDefineEnum("RefractionType",modeEV2, 4);
 
 	TwAddVarRW(bar, "Pause", TW_TYPE_BOOLCPP, &pauseScene, "label='Pause Scene: '");
@@ -143,6 +168,24 @@ void RenderingLab3::initTweakBar()
 	TwAddVarRW(bar, "Teapot Mat Col", TW_TYPE_COLOR4F, &teapot->matColor,"group='Teapot' label='Teapot Color: '");
 	TwAddVarRW(bar, "Teapot Ref Factor", TW_TYPE_FLOAT, &teapot->reflectionFactor, "step='0.1' group='Teapot' label='Reflection Factor: '");
 	TwAddVarRW(bar, "Teapot RI", modeType2, &teapot->refractiveIndex,"group='Teapot' label='Refraction Mode: '");
+	TwAddVarRW(bar, "Teapot RIR", TW_TYPE_FLOAT, &teapot->ratioR,"group='Teapot' step='0.01' label='Refraction R: '");
+	TwAddVarRW(bar, "Teapot RIG", TW_TYPE_FLOAT, &teapot->ratioG,"group='Teapot' step='0.01' label='Refraction G: '");
+	TwAddVarRW(bar, "Teapot RIB", TW_TYPE_FLOAT, &teapot->ratioB,"group='Teapot' step='0.01' label='Refraction B: '");
+
+	TwAddVarRW(bar, "Cube Position", TW_TYPE_DIR3F, &cube->position, " group='Cube' label='Cube Pos: '");
+	TwAddVarRW(bar, "Cube Rot", TW_TYPE_QUAT4F, &cube->orientation, " group='Cube' label='Cube Rot: '");
+	TwAddVarRW(bar, "Cube Mode", modeType, &cube->shaderType,"group='Cube' label='Cube Mode: '");
+	TwAddVarRW(bar, "Cube Texture", TW_TYPE_BOOLCPP, &cube->useTexture, " group='Cube' label='Cube Textured: '");
+	TwAddVarRW(bar, "Cube Normal", TW_TYPE_BOOLCPP, &cube->useNormalTexture, " group='Cube' label='Cube Textured: '");
+	TwAddVarRW(bar, "Cube Light Position", TW_TYPE_DIR3F, &cubeLight->position, " group='Cube Lighting' label='Light Direction: '");
+	TwAddVarRW(bar, "Cube Diffuse Color", TW_TYPE_COLOR3F, &cubeLight->diffuseColor, " group='Cube Lighting' label='Diffuse Color: '");
+	TwAddVarRW(bar, "Cube Diffuse Intensity", TW_TYPE_FLOAT, &cubeLight->diffuseIntensity, "step='0.1' group='Cube Lighting' label='Diffuse Intensity: '");
+	TwAddVarRW(bar, "Cube Ambient Color", TW_TYPE_COLOR3F, &cubeLight->ambientColor, " group='Cube Lighting' label='Ambient Color: '");
+	TwAddVarRW(bar, "Cube Ambient Intensity", TW_TYPE_FLOAT, &cubeLight->ambientIntensity, "step='0.1' group='Cube Lighting' label='Ambient Intensity: '");
+	TwAddVarRW(bar, "Cube Specular Color", TW_TYPE_COLOR3F, &cubeLight->specularColor, " group='Cube Lighting' label='Specular Color: '");
+	TwAddVarRW(bar, "Cube Specular Intensity", TW_TYPE_FLOAT, &cubeLight->specularIntensity, "step='0.1' group='Cube Lighting' label='Specular Intensity: '");
+	TwAddVarRW(bar, "Cube Specular Shininess", TW_TYPE_FLOAT, &cubeLight->specularShininess, "step='0.1' group='Cube Lighting' label='Specular Shininess: '");
+	TwAddVarRW(bar, "Cube Material Roughness", TW_TYPE_FLOAT, &cubeLight->roughness, "step='0.1' group='Cube Lighting' label='Roughness: '");
 
 	//TwAddVarRW(bar, "Head Position", TW_TYPE_DIR3F, &head->position, " group='Head' label='Head Pos: '");
 	//TwAddVarRW(bar, "Head Rot", TW_TYPE_QUAT4F, &head->orientation, " group='Head' label='Head Rot: '");
@@ -191,18 +234,19 @@ void RenderingLab3::update()
 
 	camera->computeMatricesFromInputs();
 
-
 	teapot->Rotate360(dt);
 	teapot->UpdateShader();
 	teapot->UpdateRefractionIndex();
+	teapot->UpdateRefractionIndexRGB();
 	teapot->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
 	teapot->Render();
 
-	//head->Rotate360(dt);
-	//head->UpdateShader();
-	//head->UpdateRefractionIndex();
-	//head->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
-	//head->Render();
+	cube->Rotate360(dt);
+	cube->UpdateShader();
+	UpdateLighting(cube->GetShader(), cubeLight);
+	cube->UpdateRefractionIndex();
+	cube->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+	cube->Render();
 
 	glCullFace(GL_FRONT);
 	glDepthFunc(GL_LEQUAL);

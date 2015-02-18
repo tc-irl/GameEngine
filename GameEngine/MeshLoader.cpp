@@ -10,13 +10,23 @@ MeshLoader::MeshLoader(GLuint initialShaderID, const char* filename)
 	orientation = glm::quat(glm::vec3(0,0,0));
 	scale = glm::vec3(1,1,1);
 
-	useTexture = false;
+	useTexture = true;
+	useNormalTexture = true;
+	dispersion = false;
+
 	SetAttributesAndUniforms();
 	LoadMesh(filename);
 
 	reflectionFactor = 1.0f;
 
 	refractiveIndex = AIRTODIAMOND;
+	refractiveIndexR = AIRTODIAMOND;
+	refractiveIndexG = AIRTODIAMOND;
+	refractiveIndexB = AIRTODIAMOND;
+
+	ratioR = 0.65;
+	ratioG = 0.67;
+	ratioB = 0.69;
 }
 
 MeshLoader::~MeshLoader(void)
@@ -54,7 +64,8 @@ void MeshLoader::LoadMesh(const char* filename)
 		| aiProcess_OptimizeMeshes
 		| aiProcess_RemoveRedundantMaterials
 		| aiProcess_GenSmoothNormals
-		| aiProcess_FlipUVs);
+		| aiProcess_FlipUVs
+		| aiProcess_CalcTangentSpace);
 
 	if(!scene) 
 	{
@@ -122,7 +133,6 @@ void MeshLoader::LoadMesh(const char* filename)
 	{
 		float *normals = new float[mesh->mNumVertices * 3];
 
-
 		for(int i = 0; i < mesh->mNumVertices; i++)
 		{
 			normals[i * 3] = mesh->mNormals[i].x;
@@ -161,6 +171,27 @@ void MeshLoader::LoadMesh(const char* filename)
 		delete indices;
 	}
 
+	if(mesh->HasTangentsAndBitangents())
+	{
+		float *tangents = new float[mesh->mNumVertices * 3];
+
+		for(int i = 0; i < mesh->mNumVertices; i++)
+		{
+			tangents[i * 3] = mesh->mTangents[i].x;
+			tangents[i * 3 + 1] = mesh->mTangents[i].y;
+			tangents[i * 3 + 2] = mesh->mTangents[i].z;
+		}
+
+		glGenBuffers(1,&VBO [NORMAL_MAP_BUFFER]);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO [NORMAL_MAP_BUFFER]);
+		glBufferData(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(GLfloat), tangents, GL_STATIC_DRAW);
+		 
+		glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+		glEnableVertexAttribArray (5);
+
+		delete tangents;
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
@@ -177,6 +208,36 @@ void MeshLoader::SetTexture(const char* filename)
 	{
 		std::cout << "Unable to load texture" << std::endl;
 	}
+}
+
+//void MeshLoader::SetNormalTexture(const char* textureName, const char* normalName)
+//{
+//	this->filename = textureName;
+//	this->normalTextureName = normalName;
+//
+//	normalTexture = new Texture(GL_TEXTURE_2D,filename,normalTextureName,gSampler, nSampler);
+//
+//	//if (!normalTexture->Load()) 
+//	//{
+//	//	std::cout << "Unable to load normal texture" << std::endl;
+//	//}
+//
+//}
+
+
+void MeshLoader::SetNormalTexture(const char* textureName)
+{
+	this->filename = textureName;
+
+	glUniform1i(nSampler, 1);
+
+	normalTexture = new Texture(GL_TEXTURE_2D,filename);
+
+	if (!normalTexture->Load()) 
+	{
+		std::cout << "Unable to load normal texture" << std::endl;
+	}
+
 }
 
 void MeshLoader::SetCubeMapTexture(const char* directory)
@@ -222,6 +283,7 @@ void MeshLoader::SetAttributesAndUniforms()
 	vColor = glGetAttribLocation(shaderID, "vColor");
 	gSampler = glGetUniformLocation(shaderID, "gSampler");
 	cSampler = glGetUniformLocation(shaderID, "cSampler");
+	nSampler = glGetUniformLocation(shaderID, "nSampler");
 	modelLoc = glGetUniformLocation(shaderID, "model");
 	viewLoc = glGetUniformLocation(shaderID, "view");
 	projLoc = glGetUniformLocation(shaderID, "projection");
@@ -231,6 +293,10 @@ void MeshLoader::SetAttributesAndUniforms()
 	reflectFactor = glGetUniformLocation(shaderID, "reflectFactor");
 	materialColor = glGetUniformLocation(shaderID, "materialColor");
 	ratioID = glGetUniformLocation(shaderID, "ratio");
+	normalMap = glGetUniformLocation(shaderID, "vTangent");
+	ratioRID = glGetUniformLocation(shaderID, "ratioR");
+	ratioGID = glGetUniformLocation(shaderID, "ratioG");
+	ratioBID = glGetUniformLocation(shaderID, "ratioB");
 }
 
 glm::mat4 MeshLoader::GetTransformationMatrix()
@@ -293,7 +359,28 @@ void MeshLoader::Render()
 {
 	if(useTexture)
 	{
+		// Bind our diffuse texture in Texture Unit 0
+		glActiveTexture(GL_TEXTURE0);
 		texture->Bind(GL_TEXTURE0);
+		// Set our "DiffuseTextureSampler" sampler to user Texture Unit 0
+		glUniform1i(gSampler, 0);
+
+	}
+	else
+	{
+		texture->UnBind();
+	}
+
+	if(useNormalTexture)
+	{
+		glActiveTexture(GL_TEXTURE1);
+		normalTexture->Bind(GL_TEXTURE1);
+		// Set our "Normal	TextureSampler" sampler to user Texture Unit 0
+		glUniform1i(nSampler, 1);
+	}
+	else
+	{
+		normalTexture->UnBind();
 	}
 
 	glBindVertexArray(VAO);
@@ -319,7 +406,6 @@ void MeshLoader::RenderPoly()
 
 void MeshLoader::UpdateShader()
 {
-	std::cout << possibleShaders[shaderType] << std::endl;
 	SetShader(possibleShaders[shaderType]);
 	UseProgram();
 }
@@ -327,6 +413,12 @@ void MeshLoader::UpdateShader()
 void MeshLoader::UpdateRefractionIndex()
 {
 	SetCurrentRatio(refractions[refractiveIndex]);
+}
+
+void MeshLoader::UpdateRefractionIndexRGB()
+{
+	//SetCurrentRatio(refractions[refractiveIndexR],refractions[refractiveIndexG],refractions[refractiveIndexB]);
+	SetCurrentRatio(ratioR,ratioG,ratioB);
 }
 
 
@@ -338,52 +430,20 @@ void MeshLoader::SetSkyBox()
 	glUniform1f(reflectFactor, reflectionFactor);
 }
 
+void MeshLoader::EnableDispersion()
+{
+	glUniform1f(disperionID,dispersion);
+}
+
+
 void MeshLoader::SetCurrentRatio(float ratio)
 {
 	glUniform1f(ratioID,ratio);
 }
 
-void MeshLoader::DefineLine(glm::vec3 point1, glm::vec3 point2)
+void MeshLoader::SetCurrentRatio(float ratioR, float ratioG,float ratioB)
 {
-	temp.clear();
-	std::vector<glm::vec3> cols;
-
-	temp.push_back(point1);
-	temp.push_back(point2);
-
-	for(int i = 0; i < temp.size(); i++)
-	{
-		cols.push_back(glm::vec3(0,1,0));
-	}
-
-
-	GLuint tSize = temp.size() * sizeof(glm::vec3);
-	GLuint cSize = temp.size() * sizeof(glm::vec4);
-
-	glGenVertexArrays( 1, &lineVao );
-	glBindVertexArray( lineVao );
-	//Initialize VBO
-	glGenBuffers( 1, &lineVbo );
-	glBindBuffer( GL_ARRAY_BUFFER, lineVbo );
-	glBufferData( GL_ARRAY_BUFFER, tSize + cSize, NULL, GL_DYNAMIC_DRAW );
-	glBufferSubData( GL_ARRAY_BUFFER, 0, tSize, (const GLvoid*)(&temp[0]) );
-	glBufferSubData( GL_ARRAY_BUFFER, tSize, cSize, (const GLvoid*)(&cols[0]) );
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray (0);
-
-	// Just incase we use colors
-	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, 0,  BUFFER_OFFSET(tSize));
-	glEnableVertexAttribArray (vColor);
-
-	//Unbind
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-}
-
-void MeshLoader::DrawLine()
-{
-	glBindVertexArray(lineVao);
-	glDrawArrays(GL_LINE_LOOP, 0,temp.size());
-	glBindVertexArray(0);
+	glUniform1f(ratioRID,ratioR);
+	glUniform1f(ratioGID,ratioG);
+	glUniform1f(ratioBID,ratioB);
 }

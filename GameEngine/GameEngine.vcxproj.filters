@@ -280,5 +280,14 @@
     <None Include="..\Resources\Shaders\refract.vs">
       <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
+    <None Include="normalMap.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\normalMap.ps">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\normalMap.vs">
+      <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
   </ItemGroup>
 </Project>

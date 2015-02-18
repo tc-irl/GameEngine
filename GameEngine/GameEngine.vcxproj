@@ -147,6 +147,8 @@
     <None Include="..\Resources\Shaders\diffuse.vs" />
     <None Include="..\Resources\Shaders\drawTest.ps" />
     <None Include="..\Resources\Shaders\drawTest.vs" />
+    <None Include="..\Resources\Shaders\normalMap.ps" />
+    <None Include="..\Resources\Shaders\normalMap.vs" />
     <None Include="..\Resources\Shaders\objNoTexture.ps" />
     <None Include="..\Resources\Shaders\objNoTexture.vs" />
     <None Include="..\Resources\Shaders\objWithTexture.ps" />
@@ -171,6 +173,7 @@
     <None Include="..\Resources\Shaders\toon.vs" />
     <None Include="..\Resources\Shaders\toonTextured.ps" />
     <None Include="..\Resources\Shaders\toonTextured.vs" />
+    <None Include="normalMap.ps" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

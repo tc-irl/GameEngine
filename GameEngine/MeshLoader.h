@@ -23,10 +23,10 @@
 class MeshLoader
 {
 public:
-	static enum BUFFERS { VERTEX_BUFFER, TEXCOORD_BUFFER, NORMAL_BUFFER, INDEX_BUFFER }; 
+	static enum BUFFERS { VERTEX_BUFFER, TEXCOORD_BUFFER, NORMAL_BUFFER, INDEX_BUFFER, NORMAL_MAP_BUFFER}; 
 	
 	typedef enum RefractionIndex{AIRTOWATER, AIRTOICE, AIRTOGLASS, AIRTODIAMOND};
-	RefractionIndex refractiveIndex;
+	RefractionIndex refractiveIndex, refractiveIndexR,refractiveIndexG,refractiveIndexB;
 
 	MeshLoader(GLuint initialShaderID, const char* filename);
 	~MeshLoader(void);
@@ -40,6 +40,7 @@ public:
 	void SetShader(GLuint shaderID) {this->shaderID = shaderID; SetAttributesAndUniforms();}
 	GLuint GetShader(){return shaderID;}
 	void IsTextureActive(bool useTexture) {this->useTexture = useTexture;}
+	void IsNormalActive(bool useNormalTexture) {this->useNormalTexture = useNormalTexture;}
 	void IsSkyboxActive(bool drawSkyBox) {this->drawSkyBox = drawSkyBox;}
 
 	void SetPos(glm::vec3 position){this->position = position;}
@@ -55,7 +56,7 @@ public:
 	Shader::ShaderType GetShaderType() {return shaderType;}
 
 	void SetCurrentRatio(float ratio);
-
+	void SetCurrentRatio(float ratioR, float ratioG,float ratioB);
 	std::vector<glm::vec3> GetVertices() { return vertices; }
 	std::vector<glm::vec3> GetPoints() { return points; }
 
@@ -80,6 +81,14 @@ public:
 
 	void DrawLine();
 	void DefineLine(glm::vec3 point1, glm::vec3 point2);
+	void UpdateRefractionIndexRGB();
+	void SetNormalTexture(const char* filename);
+	void SetNormalTexture(const char* texture, const char* normal);
+	void EnableDispersion();
+	void BindTexture();
+	void UnBindTexture();
+	void BindNormal();
+	void UnBindNormal();
 public:
 	glm::vec3 position;
 	glm::quat orientation;
@@ -95,8 +104,10 @@ public:
 
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 	std::map <RefractionIndex, float> refractions;
+	bool useNormalTexture;
 	bool useTexture;
 	bool drawSkyBox;
+	bool dispersion;
 
 	glm::vec3 cameraPos;
 
@@ -107,6 +118,10 @@ public:
 
 	GLuint lineVao,lineVbo;
 
+	float ratioR;
+	float ratioG;
+	float ratioB;
+
 private:
 	GLuint VAO, VBO[4];
 
@@ -114,9 +129,9 @@ private:
 
 	GLuint vSize, cSize, numElements;
 
-	Texture *texture;
+	Texture *texture, *normalTexture;
 	CubeMapTexture *cubeTexture;
-	GLuint gSampler,cSampler, vColor, vEye;
+	GLuint gSampler,cSampler, vColor, vEye, normalMap;
 	GLuint shaderID, drawSky, camPos;
 	GLuint reflectFactor, materialColor;
 	GLuint ratioID;
@@ -124,5 +139,12 @@ private:
 	std::string filename;
 	GLuint modelLoc, viewLoc, projLoc;
 	std::string textureName;
+	GLuint ratioRID;
+	GLuint ratioGID;
+	GLuint ratioBID;
+	GLuint nSampler;
+	std::string normalTextureName;
+	GLuint disperionID;
+	const char* normalName;
 };
 

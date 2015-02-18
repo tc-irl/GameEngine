@@ -179,9 +179,12 @@ void Shader::initShader(ShaderType shaderType)
 	if(shaderType == SKYBOX) {filename = "../Resources/Shaders/cube";}
 	else if(shaderType == REFLECTION) {filename = "../Resources/Shaders/reflect";}
 	else if(shaderType == REFRACTION) {filename = "../Resources/Shaders/refract";}
+	else if(shaderType == REFRACTION_DISP) {filename = "../Resources/Shaders/refractDispersion";}
 	else if(shaderType == COMBINED) {filename = "../Resources/Shaders/combined";}
+	else if(shaderType == COMBINED_DISP) {filename = "../Resources/Shaders/combinedDispersion";}
 	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
-
+	else if(shaderType == NORMAL_MAP){filename = "../Resources/Shaders/normalMap";}
+	else if(shaderType == FRESNEL){filename = "../Resources/Shaders/fresnel";}
 
 
 	LoadFile(filename + ".vs",vs);
