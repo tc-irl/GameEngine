@@ -26,13 +26,13 @@ public:
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 	std::map <MeshLoader::RefractionIndex, float> refractions;
 
-	Shader *skyBoxShader, *reflectionShader, *refractionShader, *refractionDispShader, *combinedShader, *combinedDispShader, *texturedShader, *fresnelShader;
+	Shader *skyBoxShader, *reflectionShader, *refractionShader, *refractionDispShader, *combinedShader, *combinedDispShader, *texturedShader, *fresnelShader, *normalFresnel;
 
-	Lighting *monkeyLight, *teapotLight, *headLight, *cubeLight;
+	Lighting *sphereLight, *teapotLight, *headLight, *cubeLight;
 
 	TwBar *bar;
 
-	MeshLoader *plane, *cube, *teapot, *monkey, *head;
+	MeshLoader *plane, *cube, *sphere, *monkey, *head;
 	MeshLoader *skybox;
 
 	GLuint gSampler;

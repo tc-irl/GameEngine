@@ -1,26 +1,62 @@
-﻿Build started 16/2/2015 1:31:06 AM.
+﻿Build started 18/2/2015 11:51:26 PM.
      1>Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Lab4.cpp
-         Lab4.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Lab4.cpp Lighting.cpp Line.cpp Main.cpp MeshLoader.cpp RenderingLab2.cpp RenderingLab3.cpp RigidBody.cpp Shader.cpp SimpleMesh.cpp Texture.cpp
+         Texture.cpp
+         Shader.cpp
+         RigidBody.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(89): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(94): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(118): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(192): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(214): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.cpp(236): warning C4305: 'argument' : truncation from 'double' to 'float'
+         RenderingLab3.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(237): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(241): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(244): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(248): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(258): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(275): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(280): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(281): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(282): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\college\gameengine\gameengine\renderinglab3.cpp(283): warning C4305: '=' : truncation from 'double' to 'float'
+         RenderingLab2.cpp
+         MeshLoader.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(27): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(28): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(29): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(89): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(116): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(136): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(157): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(178): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\meshloader.cpp(265): warning C4018: '<' : signed/unsigned mismatch
+         Main.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\rigidbody.h(12): warning C4005: 'MAX' : macro redefinition
+                 c:\users\user\desktop\college\gameengine\gameengine\objectbuffer.h(21) : see previous definition of 'MAX'
+     1>c:\users\user\desktop\college\gameengine\gameengine\lab3.h(11): warning C4005: 'MAX' : macro redefinition
+                 c:\users\user\desktop\college\gameengine\gameengine\rigidbody.h(12) : see previous definition of 'MAX'
      1>c:\users\user\desktop\college\gameengine\gameengine\line.h(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
      1>c:\users\user\desktop\college\gameengine\gameengine\lab4.h(13): warning C4005: 'MAX' : macro redefinition
-                 c:\users\user\desktop\college\gameengine\gameengine\rigidbody.h(12) : see previous definition of 'MAX'
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(206): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(216): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(226): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(236): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(246): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(252): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(266): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(274): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(280): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(598): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(604): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(610): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(613): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(635): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\user\desktop\college\gameengine\gameengine\lab4.cpp(501): warning C4715: 'Lab4::simplexContainsOrigin' : not all control paths return a value
+                 c:\users\user\desktop\college\gameengine\gameengine\lab3.h(11) : see previous definition of 'MAX'
+         Lab4.cpp
+         Generating Code...
+         Compiling...
+         SimpleMesh.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\simplemesh.cpp(140): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\simplemesh.cpp(158): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\simplemesh.cpp(165): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\simplemesh.cpp(191): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\simplemesh.cpp(211): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\simplemesh.cpp(232): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\user\desktop\college\gameengine\gameengine\simplemesh.cpp(306): warning C4018: '<' : signed/unsigned mismatch
+         Line.cpp
+     1>c:\users\user\desktop\college\gameengine\gameengine\line.h(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>c:\users\user\desktop\college\gameengine\gameengine\line.cpp(13): warning C4018: '<' : signed/unsigned mismatch
+         Lighting.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.lib" /MACHINE:X86 Debug\Camera.obj
          Debug\CubeMapTexture.obj
@@ -36,15 +72,21 @@
          Debug\ObjectBuffer.obj
          Debug\RenderingLab1.obj
          Debug\RenderingLab2.obj
+         Debug\RenderingLab3.obj
          Debug\RigidBody.obj
          Debug\Shader.obj
          Debug\SimpleMesh.obj
          Debug\Texture.obj
          Debug\TextureLoader.obj
          Debug\Window.obj
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>SOIL.lib(image_DXT.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(image_helper.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(SOIL.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>SOIL.lib(stb_image_aug.obj) : warning LNK4204: 'C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\vc110.pdb' is missing debugging information for referencing module; linking object as if no debug info
          GameEngine.vcxproj -> C:\Users\User\Desktop\College\GameEngine\GameEngine\Debug\GameEngine.exe
      1>Done Building Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.62
+Time Elapsed 00:00:09.98

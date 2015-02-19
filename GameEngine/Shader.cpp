@@ -107,6 +107,7 @@ void Shader::UseProgram()
 	glUseProgram(shaderProgramID);
 }
 
+
 void Shader::ValidateProgram()
 {
 	glValidateProgram(shaderProgramID);
@@ -185,6 +186,7 @@ void Shader::initShader(ShaderType shaderType)
 	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
 	else if(shaderType == NORMAL_MAP){filename = "../Resources/Shaders/normalMap";}
 	else if(shaderType == FRESNEL){filename = "../Resources/Shaders/fresnel";}
+	else if(shaderType == NORMAL_FRESNEL){filename = "../Resources/Shaders/normalMapFresnel";}
 
 
 	LoadFile(filename + ".vs",vs);
@@ -194,7 +196,7 @@ void Shader::initShader(ShaderType shaderType)
 	AddShader(shaderProgramID, ps.c_str(), GL_FRAGMENT_SHADER);
 
 	LinkProgram();
-	ValidateProgram();
+	//ValidateProgram();
 	UseProgram();
 
 	setMVPUniforms();
