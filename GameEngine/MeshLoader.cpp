@@ -11,7 +11,7 @@ MeshLoader::MeshLoader(GLuint initialShaderID, const char* filename)
 	scale = glm::vec3(1,1,1);
 
 	useTexture = true;
-	useNormalTexture = true;
+	useNormalTexture = false;
 	dispersion = false;
 
 	SetAttributesAndUniforms();
@@ -210,21 +210,6 @@ void MeshLoader::SetTexture(const char* filename)
 	}
 }
 
-//void MeshLoader::SetNormalTexture(const char* textureName, const char* normalName)
-//{
-//	this->filename = textureName;
-//	this->normalTextureName = normalName;
-//
-//	normalTexture = new Texture(GL_TEXTURE_2D,filename,normalTextureName,gSampler, nSampler);
-//
-//	//if (!normalTexture->Load()) 
-//	//{
-//	//	std::cout << "Unable to load normal texture" << std::endl;
-//	//}
-//
-//}
-
-
 void MeshLoader::SetNormalTexture(const char* textureName)
 {
 	this->filename = textureName;
@@ -366,10 +351,6 @@ void MeshLoader::Render()
 		glUniform1i(gSampler, 0);
 
 	}
-	else
-	{
-		texture->UnBind();
-	}
 
 	if(useNormalTexture)
 	{
@@ -378,10 +359,7 @@ void MeshLoader::Render()
 		// Set our "Normal	TextureSampler" sampler to user Texture Unit 0
 		glUniform1i(nSampler, 1);
 	}
-	else
-	{
-		normalTexture->UnBind();
-	}
+
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, numElements, GL_UNSIGNED_INT, NULL);

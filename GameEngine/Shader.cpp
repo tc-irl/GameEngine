@@ -166,8 +166,8 @@ void Shader::initShader(ShaderType shaderType)
 
 	CreateProgram();
 
-//	if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
-//	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+	if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
+	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
 	//else if(shaderType == PHONG){filename = "../Resources/Shaders/phong";}
 	//else if(shaderType == TOON){filename = "../Resources/Shaders/toon";}
 	//else if(shaderType == DIFFUSE){filename = "../Resources/Shaders/diff";}
@@ -175,19 +175,24 @@ void Shader::initShader(ShaderType shaderType)
 	//else if(shaderType == TOON_TEXTURED) {filename = "../Resources/Shaders/toonTextured";}
 	//else if(shaderType == OREN_NAYAR) {filename = "../Resources/Shaders/orennayar";}
 	//else if(shaderType == OREN_TEXTURED) {filename = "../Resources/Shaders/orenTextured";}
-//	else if(shaderType == SKYBOX) {filename = "../Resources/Shaders/skybox";}
+	//else if(shaderType == SKYBOX) {filename = "../Resources/Shaders/skybox";}
 
-	if(shaderType == SKYBOX) {filename = "../Resources/Shaders/cube";}
-	else if(shaderType == REFLECTION) {filename = "../Resources/Shaders/reflect";}
-	else if(shaderType == REFRACTION) {filename = "../Resources/Shaders/refract";}
-	else if(shaderType == REFRACTION_DISP) {filename = "../Resources/Shaders/refractDispersion";}
-	else if(shaderType == COMBINED) {filename = "../Resources/Shaders/combined";}
-	else if(shaderType == COMBINED_DISP) {filename = "../Resources/Shaders/combinedDispersion";}
-	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
-	else if(shaderType == NORMAL_MAP){filename = "../Resources/Shaders/normalMap";}
-	else if(shaderType == FRESNEL){filename = "../Resources/Shaders/fresnel";}
-	else if(shaderType == NORMAL_FRESNEL){filename = "../Resources/Shaders/normalMapFresnel";}
+	//if(shaderType == SKYBOX) {filename = "../Resources/Shaders/cube";}
+	//else if(shaderType == REFLECTION) {filename = "../Resources/Shaders/reflect";}
+	//else if(shaderType == REFRACTION) {filename = "../Resources/Shaders/refract";}
+	//else if(shaderType == REFRACTION_DISP) {filename = "../Resources/Shaders/refractDispersion";}
+	//else if(shaderType == COMBINED) {filename = "../Resources/Shaders/combined";}
+	//else if(shaderType == COMBINED_DISP) {filename = "../Resources/Shaders/combinedDispersion";}
+	//else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+	//else if(shaderType == NORMAL_MAP){filename = "../Resources/Shaders/normalMap";}
+	//else if(shaderType == FRESNEL){filename = "../Resources/Shaders/fresnel";}
+	//else if(shaderType == NORMAL_FRESNEL){filename = "../Resources/Shaders/normalMapFresnel";}
+	//else if(shaderType == SKIN{filename = "../Resources/Shaders/skinShader";}
+	//if(shaderType == MODEL){ filename = "../Resources/Shaders/objWithTexture";}
+	//else if(shaderType == PARTICLE){filename = "../Resources/Shaders/Particle";}
 
+
+//	if(shaderType == SKIN){ filename = "../Resources/Shaders/skinShader";}
 
 	LoadFile(filename + ".vs",vs);
 	AddShader(shaderProgramID, vs.c_str(), GL_VERTEX_SHADER);

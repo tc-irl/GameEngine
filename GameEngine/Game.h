@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Window.h"
 #include "Shader.h"
+#include "FPSCamera.h"
 class Game
 {
 public:
@@ -9,6 +10,7 @@ public:
 
 public:
 	Camera *camera;
+	//FPSCamera *camera;
 	Window *window;
 	Shader *shader;
 	TwBar *bar;

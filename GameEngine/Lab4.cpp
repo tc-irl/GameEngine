@@ -109,7 +109,7 @@
 //	{
 //		rigidBodies[i] = new RigidBody();
 //
-//		cubes[i] = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/cube.obj");
+//		cubes[i] = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/monkey.obj");
 //		cubes[i]->IsTextureActive(true);
 //		//cubes[i]->SetPos(glm::vec3(RandomNumber(-6,6),RandomNumber(4,6),RandomNumber(-6,6)));
 //		cubes[i]->SetPos(glm::vec3(RandomNumber(-4,4),RandomNumber(4,6),RandomNumber(0,0)));
@@ -126,6 +126,7 @@
 //		rigidBodies[i]->calculateDistanceToCOM();
 //
 //		spheres[i] = new MeshLoader(basicShader->GetProgramID(),"../Resources/Models/simpleSphere.obj");
+//		spheres[i]->IsTextureActive(false);
 //		spheres[i]->SetPos(rigidBodies[i]->centreOfMass);
 //		spheres[i]->SetOrientation(glm::quat(glm::vec3(0,0,0)));
 //		spheres[i]->SetScale(glm::vec3(rigidBodies[i]->distanceToCOM));
@@ -165,7 +166,7 @@
 //	for(int i = 0; i < MAX; i++)
 //	{
 //		cubes[i]->SetShaderType(textureShader->shaderType);
-//		cubes[i]->SetTexture("../Resources/Textures/wood.png");
+//		cubes[i]->SetTexture("../Resources/Textures/orange.jpg");
 //	}
 //}
 //

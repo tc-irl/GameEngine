@@ -122,7 +122,7 @@
 //		spheres[i] = new MeshLoader(basicShader->GetProgramID(),"../Resources/Models/simpleSphere.obj");
 //		spheres[i]->SetPos(rigidBodies[i]->centreOfMass);
 //		spheres[i]->SetOrientation(glm::quat(glm::vec3(0,0,0)));
-//		spheres[i]->SetScale(glm::vec3(rigidBodies[i]->distanceToCOM * cubes[i]->scale));
+//		spheres[i]->SetScale(glm::vec3(rigidBodies[i]->distanceToCOM));
 //
 //		boundingCubes[i] = new MeshLoader(basicShader->GetProgramID(),"../Resources/Models/cube.obj");
 //		boundingCubes[i]->SetPos(rigidBodies[i]->centreOfMass);
@@ -231,7 +231,7 @@
 //			}
 //		}
 //
-//		rigidBodies[i]->enableGravity();
+//		//rigidBodies[i]->enableGravity(dt);
 //		rigidBodies[i]->getCentreOfMass();
 //		rigidBodies[i]->calculateDistanceToCOM();
 //		rigidBodies[i]->transVertices(rigidBodies[i]->orientation, rigidBodies[i]->position);

@@ -28,11 +28,11 @@ public:
 
 	Shader *skyBoxShader, *reflectionShader, *refractionShader, *refractionDispShader, *combinedShader, *combinedDispShader, *texturedShader, *fresnelShader, *normalFresnel;
 
-	Lighting *sphereLight, *teapotLight, *headLight, *cubeLight;
+	Lighting *sphereLight, *teapotLight, *carLight, *cubeLight;
 
 	TwBar *bar;
 
-	MeshLoader *plane, *cube, *sphere, *monkey, *head;
+	MeshLoader *plane, *cube, *teapot, *monkey, *car;
 	MeshLoader *skybox;
 
 	GLuint gSampler;

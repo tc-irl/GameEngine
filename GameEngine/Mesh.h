@@ -1,84 +1,51 @@
-///**********************************************************************************************/
-///* Mesh Loading Class.
-//
-//Tutorial followed - http://www.nexcius.net/2014/04/13/loading-meshes-using-assimp-in-opengl/ */
-///*********************************************************************************************/
-//
-//#pragma once
-//#include <gl/glew.h>
-//#include <glfw/glfw3.h>
-//#include <glm/glm.hpp>
-//#include <glm/gtc/quaternion.hpp>
-//#include <glm/gtc/matrix_transform.hpp>
-//#include <glm/gtc/quaternion.hpp>
-//#include <glm/gtx/transform.hpp>
-//#include <glm/gtx/quaternion.hpp>
-//
-//#include <scene.h> // Assimp file
-//#include <mesh.h> // Assimp file
-//#include <Importer.hpp>
-//#include <postprocess.h>
-//#include <vector>
-//#include "Texture.h"
-//
-//#ifndef MESH_H
-//#define MESH_H
-//
-//#include <iostream>
-//class Mesh
-//{
-//
-//public: 
-//	
-//	// We need this struct to handle the case of multiple meshes being in loaded in at once, e.g. a complex model. 
-//	struct MeshEntry 
-//	{
-//		static enum BUFFERS { VERTEX_BUFFER, TEXCOORD_BUFFER, NORMAL_BUFFER, INDEX_BUFFER }; 
-//
-//		GLuint VAO;
-//		GLuint VBO[4];
-//
-//		std::vector<glm::vec3> vertices;
-//		GLuint vColor;
-//
-//		GLuint numElements;
-//
-//		MeshEntry(aiMesh *mesh);
-//		~MeshEntry();
-//
-//		void render();
-//		void renderPoly();
-//	};
-//
-//	std::vector<MeshEntry*> meshEntries;
-//public:
-//
-//	Mesh(const char *filename, bool textureIncluded);
-//	Mesh::Mesh(const char *filename, bool useTexture, glm::vec3 position, glm::quat orientation, glm::vec3 scale);
-//	~Mesh(void);
-//	
-//	Texture *texture;
-//	GLuint gSampler;
-//	glm::vec3 position;
-//	glm::quat orientation;
-//	glm::vec3 scale;
-//
-//	bool useTexture;
-//	
-//	void initTexture(const std::string &filename, GLuint shaderID); // Just using our own textures, rather than loading from file itself.
-//
-//	void update(GLuint modelLoc, float deltaTime);
-//	void render();
-//	void renderPoly();
-//
-//	glm::vec3 centroid;
-//	GLuint numIndices;
-//	
-//	glm::vec3 getCentreOfMass();
-//	void transVertices(glm::quat orientation,glm::vec3 position);
-//
-//	glm::mat4 getTransformationMatrix();
-//
-//};
-//
-//#endif
+#pragma once
+
+#include <scene.h> // Assimp file
+#include <mesh.h> // Assimp file
+#include <Importer.hpp>
+#include <postprocess.h>
+#include <vector>
+
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+struct Vertex
+{
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec2 TexCoords;
+};
+
+
+struct Tex
+{
+	GLuint id; 
+	string type;
+	aiString path;
+};
+
+class Mesh
+{
+public:
+
+	vector<Vertex> vertices;
+	vector<GLuint> indices;
+	vector<Tex> textures;
+
+	Mesh(vector<Vertex> vertices, vector<GLuint> indices, vector<Tex> textures);
+	void Draw(GLuint shaderID);
+
+private:
+	GLuint VAO, VBO, EBO;
+
+	void setupMesh();
+};

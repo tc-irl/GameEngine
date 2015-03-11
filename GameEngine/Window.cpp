@@ -41,7 +41,6 @@ Window::Window(int width, int height, const std::string& title)
 	glfwSetInputMode(window, GLFW_CURSOR,GLFW_CURSOR);
 	glfwSetCursorPos(window, 1024/2, 768/2);
 	
-
 	glEnable(GL_DEPTH_TEST);
 
 	// Accept fragment if it closer to the camera than the former one
@@ -55,7 +54,6 @@ Window::~Window(void)
 {
 	glfwDestroyWindow(window);
 }
-
 
 void Window::SwapBuffers()
 {

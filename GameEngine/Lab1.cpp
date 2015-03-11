@@ -6,10 +6,8 @@
 //The Tweak bar and how to integrate it can be found at: 
 //
 //http://anttweakbar.sourceforge.net/doc/tools:anttweakbar
-//*/
-///************************************************************************/
 //
-//
+//************************************************************************/
 ///*
 //Create new ones.
 //This function searches linearly in ParticlesContainer, except that it starts at the last known place, so this function usually returns immediately:
@@ -119,31 +117,34 @@
 //{
 //	// Particle Shader //
 //
-//	particleShader->CreateProgram();
+//	particleShader->initShader(particleShader->PARTICLE);
+//	modelShader->initShader(modelShader->MODEL);
 //
-//	particleShader->LoadFile("../Resources/Shaders/Particle.vertexshader",vs);
-//	particleShader->AddShader(particleShader->GetProgramID(), vs.c_str(), GL_VERTEX_SHADER);
+//	//particleShader->CreateProgram();
 //
-//	particleShader->LoadFile("../Resources/Shaders/Particle.fragmentshader",ps);
-//	particleShader->AddShader(particleShader->GetProgramID(), ps.c_str(), GL_FRAGMENT_SHADER);
+//	//particleShader->LoadFile("../Resources/Shaders/Particle.vertexshader",vs);
+//	//particleShader->AddShader(particleShader->GetProgramID(), vs.c_str(), GL_VERTEX_SHADER);
 //
-//	particleShader->LinkProgram();
-//	particleShader->ValidateProgram();
-//	particleShader->UseProgram();
+//	//particleShader->LoadFile("../Resources/Shaders/Particle.fragmentshader",ps);
+//	//particleShader->AddShader(particleShader->GetProgramID(), ps.c_str(), GL_FRAGMENT_SHADER);
 //
-//	// Model Shader //
+//	//particleShader->LinkProgram();
+//	//particleShader->ValidateProgram();
+//	//particleShader->UseProgram();
 //
-//	modelShader->CreateProgram();
+//	//// Model Shader //
 //
-//	modelShader->LoadFile("../Resources/Shaders/simpleVertexShader.vs",vs2);
-//	modelShader->AddShader(modelShader->GetProgramID(), vs2.c_str(), GL_VERTEX_SHADER);
+//	//modelShader->CreateProgram();
 //
-//	modelShader->LoadFile("../Resources/Shaders/simpleFragmentShader.ps",ps2);
-//	modelShader->AddShader(modelShader->GetProgramID(), ps2.c_str(), GL_FRAGMENT_SHADER);
+//	//modelShader->LoadFile("../Resources/Shaders/simpleVertexShader.vs",vs2);
+//	//modelShader->AddShader(modelShader->GetProgramID(), vs2.c_str(), GL_VERTEX_SHADER);
 //
-//	modelShader->LinkProgram();
-//	modelShader->ValidateProgram();
-//	modelShader->UseProgram();
+//	//modelShader->LoadFile("../Resources/Shaders/simpleFragmentShader.ps",ps2);
+//	//modelShader->AddShader(modelShader->GetProgramID(), ps2.c_str(), GL_FRAGMENT_SHADER);
+//
+//	//modelShader->LinkProgram();
+//	//modelShader->ValidateProgram();
+//	//modelShader->UseProgram();
 //
 //}
 //
@@ -214,7 +215,7 @@
 //		prevTime = time;
 //
 //		window->Update();
-//		glUseProgram(particleShader->GetProgramID());
+//		particleShader->UseProgram();
 //
 //		glEnable(GL_BLEND);
 //		glBlendFunc(GL_SRC_ALPHA, GL_ONE);

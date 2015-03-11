@@ -12,7 +12,6 @@
 class Lab3 : public Game
 {
 
-
 public:
 
 	Lab3(void);

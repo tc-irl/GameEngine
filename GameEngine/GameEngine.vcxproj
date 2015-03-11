@@ -94,17 +94,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cloth.cpp" />
+    <ClCompile Include="ClothSimulation.cpp" />
+    <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="CubeMapTexture.cpp" />
+    <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="Lab1.cpp" />
     <ClCompile Include="Lab2.cpp" />
     <ClCompile Include="Lab3.cpp" />
     <ClCompile Include="Lab4.cpp" />
     <ClCompile Include="Lighting.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="LoaderLab.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="ObjectBuffer.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="RenderingLab1.cpp" />
     <ClCompile Include="RenderingLab2.cpp" />
     <ClCompile Include="RenderingLab3.cpp" />
@@ -117,7 +124,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cloth.h" />
+    <ClInclude Include="ClothSimulation.h" />
+    <ClInclude Include="Constraint.h" />
     <ClInclude Include="CubeMapTexture.h" />
+    <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Lab1.h" />
     <ClInclude Include="Lab2.h" />
@@ -125,9 +136,12 @@
     <ClInclude Include="Lab4.h" />
     <ClInclude Include="Lighting.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="LoaderLab.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectBuffer.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="RenderingLab1.h" />
     <ClInclude Include="RenderingLab2.h" />
     <ClInclude Include="RenderingLab3.h" />
@@ -155,8 +169,8 @@
     <None Include="..\Resources\Shaders\objWithTexture.vs" />
     <None Include="..\Resources\Shaders\orennayar.ps" />
     <None Include="..\Resources\Shaders\orennayar.vs" />
-    <None Include="..\Resources\Shaders\Particle.fragmentshader" />
-    <None Include="..\Resources\Shaders\Particle.vertexshader" />
+    <None Include="..\Resources\Shaders\Particle.ps" />
+    <None Include="..\Resources\Shaders\Particle.vs" />
     <None Include="..\Resources\Shaders\phongTextured.ps" />
     <None Include="..\Resources\Shaders\phongTextured.vs" />
     <None Include="..\Resources\Shaders\reflect.ps" />
@@ -173,7 +187,6 @@
     <None Include="..\Resources\Shaders\toon.vs" />
     <None Include="..\Resources\Shaders\toonTextured.ps" />
     <None Include="..\Resources\Shaders\toonTextured.vs" />
-    <None Include="normalMap.ps" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

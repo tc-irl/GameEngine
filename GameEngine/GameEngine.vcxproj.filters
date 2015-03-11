@@ -52,6 +52,9 @@
     <Filter Include="Resource Files\Shaders\Other">
       <UniqueIdentifier>{ccb8ee31-a536-42cf-9671-28f2bf244289}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PhysicsFinal">
+      <UniqueIdentifier>{9242ba51-c27b-4c33-8a1e-5dbf2f5b6574}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lab1.cpp">
@@ -116,6 +119,27 @@
     </ClCompile>
     <ClCompile Include="RenderingLab3.cpp">
       <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="LoaderLab.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>Source Files\Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>PhysicsFinal</Filter>
+    </ClCompile>
+    <ClCompile Include="Cloth.cpp">
+      <Filter>PhysicsFinal</Filter>
+    </ClCompile>
+    <ClCompile Include="ClothSimulation.cpp">
+      <Filter>PhysicsFinal</Filter>
+    </ClCompile>
+    <ClCompile Include="Constraint.cpp">
+      <Filter>PhysicsFinal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +206,27 @@
     <ClInclude Include="RenderingLab3.h">
       <Filter>Header Files\Engine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="LoaderLab.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>Header Files\Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ClothSimulation.h">
+      <Filter>PhysicsFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="Cloth.h">
+      <Filter>PhysicsFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="Constraint.h">
+      <Filter>PhysicsFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>PhysicsFinal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\diffuse.vs">
@@ -218,12 +263,6 @@
       <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\textures.vs">
-      <Filter>Resource Files\Shaders\Other</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\Particle.vertexshader">
-      <Filter>Resource Files\Shaders\Other</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\Particle.fragmentshader">
       <Filter>Resource Files\Shaders\Other</Filter>
     </None>
     <None Include="..\Resources\Shaders\diff.ps">
@@ -280,14 +319,17 @@
     <None Include="..\Resources\Shaders\refract.vs">
       <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
-    <None Include="normalMap.ps">
-      <Filter>Resource Files\Shaders\Rendering</Filter>
-    </None>
     <None Include="..\Resources\Shaders\normalMap.ps">
       <Filter>Resource Files\Shaders\Rendering</Filter>
     </None>
     <None Include="..\Resources\Shaders\normalMap.vs">
       <Filter>Resource Files\Shaders\Rendering</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\Particle.ps">
+      <Filter>Resource Files\Shaders\Other</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\Particle.vs">
+      <Filter>Resource Files\Shaders\Other</Filter>
     </None>
   </ItemGroup>
 </Project>

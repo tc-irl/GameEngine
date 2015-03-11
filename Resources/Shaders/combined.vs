@@ -1,3 +1,5 @@
+// Based on Antons OpenGL 4 Tutorials book
+
 #version 410
 
 layout (location = 0) in vec3 position;
