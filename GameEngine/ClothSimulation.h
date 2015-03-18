@@ -4,10 +4,12 @@
 #include "MeshLoader.h"
 #include "Texture.h"
 #include "Cloth.h"
+#include "Lighting.h"
 #include "RigidBody.h"
 #include <string>
 
 using namespace std;
+
 
 class ClothSimulation : public Game
 {
@@ -23,11 +25,13 @@ public:
 	void initTweakBar();
 	void initModels();
 	void initTextures();
+	void initLights();
 	void update();
+	void UpdateLighting(GLuint shaderID, Lighting *light);
 	float RandomNumber(float Min, float Max);
 	
 	Cloth *cloth;
-	MeshLoader *plane;
+	MeshLoader *plane, *ball;
 	Shader *basicShader, *textureShader;
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 
@@ -35,6 +39,9 @@ public:
 
 	bool pauseScene;
 	double time, dt;// Current time and elapsed time
+	glm::vec3 forceDirection;
+	glm::vec3 windDirection;
 
+	Lighting *light;
 };
 

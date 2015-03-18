@@ -12,7 +12,7 @@ private:
 	Particle * p2;
 public:
 	Constraint(Particle *p1, Particle *p2);
-	~Constraint(void);
+	~Constraint(void) {};
 
 	void SetInitialDistance(float initialDistance) {this->initialDistance = initialDistance;}
 	float GetInitialDistance() {return initialDistance;}

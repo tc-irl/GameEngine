@@ -98,6 +98,7 @@
     <ClCompile Include="ClothSimulation.cpp" />
     <ClCompile Include="Constraint.cpp" />
     <ClCompile Include="CubeMapTexture.cpp" />
+    <ClCompile Include="FinalRendering.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="Lab1.cpp" />
     <ClCompile Include="Lab2.cpp" />
@@ -120,6 +121,7 @@
     <ClCompile Include="SimpleMesh.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +130,7 @@
     <ClInclude Include="ClothSimulation.h" />
     <ClInclude Include="Constraint.h" />
     <ClInclude Include="CubeMapTexture.h" />
+    <ClInclude Include="FinalRendering.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Lab1.h" />
@@ -150,6 +153,7 @@
     <ClInclude Include="SimpleMesh.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

@@ -166,8 +166,8 @@ void Shader::initShader(ShaderType shaderType)
 
 	CreateProgram();
 
-	if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
-	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+	//if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
+	//else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
 	//else if(shaderType == PHONG){filename = "../Resources/Shaders/phong";}
 	//else if(shaderType == TOON){filename = "../Resources/Shaders/toon";}
 	//else if(shaderType == DIFFUSE){filename = "../Resources/Shaders/diff";}
@@ -193,6 +193,9 @@ void Shader::initShader(ShaderType shaderType)
 
 
 //	if(shaderType == SKIN){ filename = "../Resources/Shaders/skinShader";}
+
+	if(shaderType == BASIC){ filename = "../Resources/Shaders/cloth";}
+	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
 
 	LoadFile(filename + ".vs",vs);
 	AddShader(shaderProgramID, vs.c_str(), GL_VERTEX_SHADER);

@@ -44,10 +44,11 @@ Window::Window(int width, int height, const std::string& title)
 	glEnable(GL_DEPTH_TEST);
 
 	// Accept fragment if it closer to the camera than the former one
-	glDepthFunc(GL_LESS); 
+	glDepthFunc(GL_LEQUAL); 
 
-	// Cull triangles which normal is not towards the camera
-	glEnable(GL_CULL_FACE);
+	glFrontFace( GL_CCW );
+
+	//glEnable(GL_CULL_FACE);
 }
 
 Window::~Window(void)

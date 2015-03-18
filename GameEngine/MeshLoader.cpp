@@ -237,8 +237,6 @@ void MeshLoader::SetCubeMapTexture(const char* directory)
 	}
 }
 
-
-
 void MeshLoader::SetColor(glm::vec3 color)
 {
 	this->color = color;

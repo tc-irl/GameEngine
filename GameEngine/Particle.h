@@ -17,9 +17,11 @@ private:
 	glm::vec3 normal;
 
 public:
+	Particle() {};
 	Particle(glm::vec3 position);
-	~Particle(void);
+	~Particle(void) {};
 
+	void MakeUnmovable() {fixed = true;}
 	void SetFixed(bool fixed) {this->fixed = fixed;}
 	bool GetFixed() {return fixed;}
 

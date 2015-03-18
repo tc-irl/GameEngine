@@ -55,6 +55,9 @@
     <Filter Include="PhysicsFinal">
       <UniqueIdentifier>{9242ba51-c27b-4c33-8a1e-5dbf2f5b6574}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderingFinal">
+      <UniqueIdentifier>{e10d262b-c2dc-4e31-b9f0-6ea09b6d2cd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lab1.cpp">
@@ -141,6 +144,12 @@
     <ClCompile Include="Constraint.cpp">
       <Filter>PhysicsFinal</Filter>
     </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>PhysicsFinal</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalRendering.cpp">
+      <Filter>RenderingFinal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -226,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>PhysicsFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>PhysicsFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalRendering.h">
+      <Filter>RenderingFinal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
