@@ -7,7 +7,7 @@ Particle::Particle(glm::vec3 position, glm::vec3 clothPos, glm::quat clothOrient
 	previousPos = position;
 
 	acceleration = glm::vec3(0,0,0);
-	mass = 1.0f;
+	mass = 3.0f;
 	fixed = false;
 	normal = glm::vec3(0,0,0);
 }

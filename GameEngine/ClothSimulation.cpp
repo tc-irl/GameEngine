@@ -114,7 +114,7 @@ void ClothSimulation::initModels()
 	ball->IsTextureActive(true);
 	ball->SetPos(glm::vec3(7,6,5.3));
 	ball->SetOrientation(glm::quat(glm::vec3(0,0,0)));
-	ball->SetScale(glm::vec3(2.5,2.5,2.5));
+	ball->SetScale(glm::vec3(2,2,2));
 	ball->SetPossibleShaders(possibleShaders);
 
 	//clothModel = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/cloth.obj");

@@ -12,7 +12,7 @@
 #include <glm/gtx/quaternion.hpp>
 
 
-#define CONSTRAINT_ITERATIONS 15 // how many iterations of constraint satisfaction each frame (more is rigid, less is soft)
+#define CONSTRAINT_ITERATIONS 3 // how many iterations of constraint satisfaction each frame (more is rigid, less is soft)
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 using namespace std;
