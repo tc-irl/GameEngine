@@ -83,7 +83,6 @@ void Triangle::Draw()
 {
 	glBindVertexArray (vao);
 	glDrawArrays (GL_TRIANGLES, 0, 3);
-	//glDrawElements(GL_TRIANGLES, points.size(), GL_UNSIGNED_INT, NULL);
 	glBindVertexArray(0);
 }
 

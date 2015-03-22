@@ -191,11 +191,18 @@ void Shader::initShader(ShaderType shaderType)
 	//if(shaderType == MODEL){ filename = "../Resources/Shaders/objWithTexture";}
 	//else if(shaderType == PARTICLE){filename = "../Resources/Shaders/Particle";}
 
-
 //	if(shaderType == SKIN){ filename = "../Resources/Shaders/skinShader";}
 
 	if(shaderType == BASIC){ filename = "../Resources/Shaders/cloth";}
 	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+
+	//if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
+	//else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
+	//else if(shaderType == NORMAL_MAP){filename = "../Resources/Shaders/normalMap";}
+	//else if(shaderType == RELIEF_MAP){filename = "../Resources/Shaders/reliefMap";}
+	//else if(shaderType == POM){filename = "../Resources/Shaders/pom";}
+	//else if(shaderType == POM_SHADOW){filename = "../Resources/Shaders/pomShadow";}
+	//else if(shaderType == SKYBOX){filename = "../Resources/Shaders/cube";}
 
 	LoadFile(filename + ".vs",vs);
 	AddShader(shaderProgramID, vs.c_str(), GL_VERTEX_SHADER);

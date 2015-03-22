@@ -7,6 +7,7 @@
 #include "RenderingLab1.h"
 #include "RenderingLab2.h"
 #include "RenderingLab3.h"
+#include "FinalRendering.h"
 #include "LoaderLab.h"
 
 int main(int argc, char **argv)
@@ -17,9 +18,9 @@ int main(int argc, char **argv)
 	//game->init(argv);
 	//game->run();
 
-	//RenderingLab3 *game;
+	//FinalRendering *game;
 
-	//game = new RenderingLab3();
+	//game = new FinalRendering();
 	//game->init(argv);
 	//game->run();
 

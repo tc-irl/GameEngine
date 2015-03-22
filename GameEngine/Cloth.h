@@ -20,6 +20,7 @@ using namespace std;
 class Cloth
 {
 private:
+
 	int numParticlesHeight;
 	int numParticlesWidth;
 	int numParticles;
@@ -49,7 +50,16 @@ public:
 	glm::quat orientation;
 	glm::vec3 scale;
 
+	bool movable;
+
+	typedef enum Mode {CLOTH_HANGING, CLOTH_DROPPING};
+
 public:
+
+	Mode mode;
+	Mode previousMode;
+	bool windEnabled, forceEnabled;
+	bool clothDropped;
 	Cloth(float width, float height, int numParticlesHeight, int numParticlesWidth);
 	~Cloth(void);
 
@@ -81,6 +91,9 @@ public:
 	void GenerateBuffer();
 
 	void Update(glm::mat4 view, glm::mat4 proj);
+	void ChangeMode(Mode mode);
+	void Reset();
+	void DropCloth();
 	void DrawTriangle();
 	void DrawCloth();
 	float RandomNumber(float Min, float Max);

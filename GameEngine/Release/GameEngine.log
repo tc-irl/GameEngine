@@ -1,17 +1,18 @@
-﻿Build started 18/3/2015 4:32:58 PM.
+﻿Build started 22/3/2015 8:22:35 PM.
      1>Project "C:\Users\User\Desktop\College\GameEngine\GameEngine\GameEngine.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\Dependancies\AntTweakBar\include /I..\Dependancies\glew\include /I..\Dependancies\glfw\include /I..\Dependancies\glm /I..\Dependancies\assimp\include /I..\Dependancies\soil\src /I..\Dependancies\ImageMagick\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Cloth.cpp
          Cloth.cpp
-     1>Cloth.cpp(181): warning C4018: '<' : signed/unsigned mismatch
      1>Cloth.cpp(203): warning C4018: '<' : signed/unsigned mismatch
-     1>Cloth.cpp(229): warning C4018: '<' : signed/unsigned mismatch
+     1>Cloth.cpp(225): warning C4018: '<' : signed/unsigned mismatch
+     1>Cloth.cpp(263): warning C4018: '<' : signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\Dependancies\AntTweakBar\lib /LIBPATH:..\Dependancies\glew\lib\Release\Win32 /LIBPATH:"..\Dependancies\glfw\lib-msvc110" /LIBPATH:..\Dependancies\assimp\lib /LIBPATH:..\Dependancies\soil\lib /LIBPATH:..\Dependancies\ImageMagick\lib glew32.lib glfw3.lib opengl32.lib SOIL.lib AntTweakBar.lib AntTweakBar64.lib assimp.lib CORE_RL_magick_.lib CORE_RL_Magick++_.lib CORE_RL_wand_.lib X11.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Desktop\College\GameEngine\GameEngine\Release\GameEngine.lib" /MACHINE:X86 /SAFESEH Release\Camera.obj
          Release\Cloth.obj
          Release\ClothSimulation.obj
          Release\Constraint.obj
          Release\CubeMapTexture.obj
+         Release\FinalRendering.obj
          Release\FPSCamera.obj
          Release\Lab1.obj
          Release\Lab2.obj
@@ -32,6 +33,7 @@
          Release\RigidBody.obj
          Release\Shader.obj
          Release\SimpleMesh.obj
+         Release\Skybox.obj
          Release\Texture.obj
          Release\TextureLoader.obj
          Release\Triangle.obj
@@ -49,4 +51,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.81
+Time Elapsed 00:00:02.86

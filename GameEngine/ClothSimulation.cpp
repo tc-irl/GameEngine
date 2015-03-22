@@ -37,7 +37,7 @@ ClothSimulation::ClothSimulation(void)
 	
 	windDirection = glm::vec3(0.5f,0,0.2f);
 	forceDirection = glm::vec3(0,-0.2f,0);
-	mode = NONE;
+	cloth->mode = Cloth::CLOTH_HANGING;
 }
 
 void ClothSimulation::init(char **argv)
@@ -65,10 +65,10 @@ void ClothSimulation::initTweakBar()
 
 	bar = TwNewBar("Attributes: ");
 
-	//TwEnumVal modeEV[] = { {NONE, "None"}, {SPHERE, "Sphere"}, {AABB, "AABB"}, {AABB_PLANE,"Plane Collision"}, {MULTI,"Multi"}};
-	//TwType modeType;
+	TwEnumVal modeEV[] = { {Cloth::CLOTH_HANGING, "Cloth Hanging"}, {Cloth::CLOTH_DROPPING, "Cloth Dropping"}};
+	TwType modeType;
 
-	//modeType = TwDefineEnum("SeasonType", modeEV, 5);
+	modeType = TwDefineEnum("modeType", modeEV, 2);
 
 	TwAddVarRW(bar, "Pause", TW_TYPE_BOOLCPP, &pauseScene, " group='Control' label='Pause: '");
 	TwAddVarRW(bar, "Camera Position", TW_TYPE_DIR3F, &camera->position, " group='Camera' label='Camera Pos: '");
@@ -76,7 +76,12 @@ void ClothSimulation::initTweakBar()
 	TwAddVarRW(bar, "Wind Rot", TW_TYPE_DIR3F, &windDirection, " group='Forces' label='Wind Direction: '");
 	TwAddVarRW(bar, "Force Rot", TW_TYPE_DIR3F, &forceDirection, " group='Forces' label='Force Direction: '");
 	TwAddVarRW(bar, "Ball Pos", TW_TYPE_DIR3F, &ball->position, " group='Ball' label='Ball Position: '");
-	TwAddVarRW(bar, "Cloth Pos", TW_TYPE_DIR3F, &cloth->position, " group='Ball' label='Ball Position: '");
+	TwAddVarRW(bar, "Cloth Pos", TW_TYPE_DIR3F, &cloth->position, " group='Cloth' label='Cloth Position: '");
+	TwAddVarRW(bar, "Cloth Rot", TW_TYPE_DIR3F, &cloth->orientation, " group='Cloth' label='Cloth Rotation: '");
+
+	TwAddVarRW(bar, "Fixed", TW_TYPE_BOOLCPP, &cloth->movable, " group='Cloth' label='Cloth Fixed: '");
+	TwAddVarRW(bar, "Force", TW_TYPE_BOOLCPP, &cloth->forceEnabled, " group='Cloth' label='Force: '");
+	TwAddVarRW(bar, "Wind", TW_TYPE_BOOLCPP, &cloth->windEnabled, " group='Cloth' label='Wind: '");
 	//TwAddVarRW(bar, "Light Position", TW_TYPE_DIR3F, &light->position, " group='Teapot Lighting' label='Light Direction: '");
 	//TwAddVarRW(bar, "Light Diffuse Color", TW_TYPE_COLOR3F, &light->diffuseColor, " group='Teapot Lighting' label='Diffuse Color: '");
 	//TwAddVarRW(bar, "Light Diffuse Intensity", TW_TYPE_FLOAT, &light->diffuseIntensity, "step='0.1' group='Teapot Lighting' label='Diffuse Intensity: '");
@@ -88,7 +93,7 @@ void ClothSimulation::initTweakBar()
 	//TwAddVarRW(bar, "Light Material Roughness", TW_TYPE_FLOAT, &light->roughness, "step='0.1' group='Teapot Lighting' label='Roughness: '");
 
 
-	//TwAddVarRW(bar, "Mode", modeType, &mode, NULL);
+	TwAddVarRW(bar, "Mode", modeType, &cloth->mode, NULL);
 
 	glfwSetMouseButtonCallback(window->GetWindow(),MouseButtonCB);
 	glfwSetCursorPosCallback(window->GetWindow(),MousePosCB);
@@ -107,9 +112,9 @@ void ClothSimulation::initModels()
 
 	ball = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/simpleSphere.obj");
 	ball->IsTextureActive(true);
-	ball->SetPos(glm::vec3(0,6,5));
+	ball->SetPos(glm::vec3(7,6,5.3));
 	ball->SetOrientation(glm::quat(glm::vec3(0,0,0)));
-	ball->SetScale(glm::vec3(1,1,1));
+	ball->SetScale(glm::vec3(2.5,2.5,2.5));
 	ball->SetPossibleShaders(possibleShaders);
 
 	//clothModel = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/cloth.obj");
@@ -128,7 +133,7 @@ void ClothSimulation::initTextures()
 	plane->SetTexture("../Resources/Textures/tile.png");
 	plane->SetShaderType(textureShader->shaderType);
 
-	ball->SetTexture("../Resources/Textures/beige.png");
+	ball->SetTexture("../Resources/Textures/red.png");
 	ball->SetShaderType(textureShader->shaderType);
 	//clothModel->SetTexture("../Resources/Textures/beige.png");
 	//clothModel->SetShaderType(textureShader->shaderType);
@@ -169,10 +174,11 @@ void ClothSimulation::update()
 	camera->computeMatricesFromInputs();
 
 	basicShader->UseProgram();
-	cloth->AddForce(forceDirection *TIME_STEPSIZE2);
-	cloth->AddWind(windDirection *TIME_STEPSIZE2);
+
+	cloth->AddForce(forceDirection * TIME_STEPSIZE2);
+	cloth->AddWind(windDirection * TIME_STEPSIZE2);
 	cloth->TimeStep(); // calculate the particle positions of the next frame
-	//cloth->AddPlaneCollision(plane->GetPos());
+	cloth->AddPlaneCollision(plane->GetPos());
 	cloth->AddBallCollision(ball->GetPos(), ball->GetScale().x + 0.1);
 	//UpdateLighting(basicShader->GetProgramID(), light);
 	cloth->Update(camera->getViewMatrix(), camera->getProjectionMatrix());

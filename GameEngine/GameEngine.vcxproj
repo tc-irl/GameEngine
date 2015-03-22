@@ -119,6 +119,7 @@
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMesh.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Triangle.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMesh.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Triangle.h" />

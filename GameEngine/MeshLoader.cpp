@@ -12,6 +12,7 @@ MeshLoader::MeshLoader(GLuint initialShaderID, const char* filename)
 
 	useTexture = true;
 	useNormalTexture = false;
+	useHeightTexture = false;
 	dispersion = false;
 
 	SetAttributesAndUniforms();
@@ -211,6 +212,21 @@ void MeshLoader::SetTexture(const char* filename)
 }
 
 void MeshLoader::SetNormalTexture(const char* textureName)
+{
+	this->filename = textureName;
+
+	glUniform1i(nSampler, 1);
+
+	normalTexture = new Texture(GL_TEXTURE_2D,filename);
+
+	if (!normalTexture->Load()) 
+	{
+		std::cout << "Unable to load normal texture" << std::endl;
+	}
+
+}
+
+void MeshLoader::SetHeightTexture(const char* textureName)
 {
 	this->filename = textureName;
 

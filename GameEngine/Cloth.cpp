@@ -17,13 +17,18 @@ Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticles
 	particles.resize(numParticles); //I am essentially using this vector as an array with room for num_particles_width*num_particles_height particles
 	orderedParticles.resize(numParticles);
 
+	movable = false;
+
+	forceEnabled = true;
+	windEnabled = false;
+
 	// creating particles in a grid of particles from (0,0,0) to (width,-height,0)
 	for(int x=0; x<numParticlesWidth; x++)
 	{
 		for(int y=0; y<numParticlesHeight; y++)
 		{
 			glm::vec3 pos = glm::vec3(width * (x/(float)numParticlesWidth),-height * (y/(float)numParticlesHeight),0);
-			particles[y*numParticlesWidth+x] = Particle(pos); // insert particle in column x at y'th row
+			particles[y*numParticlesWidth+x] = Particle(pos, position, orientation, scale); // insert particle in column x at y'th row
 		}
 	}
 
@@ -52,13 +57,12 @@ Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticles
 	}
 
 
-	// making the upper left most three and right most three particles unmovable
 	for(int i=0;i<3; i++)
 	{
 		GetParticle(0+i ,0)->OffsetPosition(glm::vec3(0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
 		//GetParticle(0+i ,0)->MakeUnmovable();
 
-		GetParticle(0+i ,0)->OffsetPosition(glm::vec3(-0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+		GetParticle(numParticlesWidth-i ,0)->OffsetPosition(glm::vec3(-0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
 		GetParticle(numParticlesWidth-i ,0)->MakeUnmovable();
 	}
 }
@@ -85,20 +89,26 @@ void Cloth::AddForce(glm::vec3 direction)
 {
 	std::vector<Particle>::iterator it;
 
-	for(it = particles.begin(); it != particles.end(); it++)
+	if(forceEnabled)
 	{
-		(*it).AddForce(direction); // add the forces to each particle
+		for(it = particles.begin(); it != particles.end(); it++)
+		{
+			(*it).AddForce(direction); // add the forces to each particle
+		}
 	}
 }
 
 void Cloth::AddWind(glm::vec3 direction)
 {
-	for(int x = 0; x<numParticlesWidth-2; x++)
+	if(windEnabled)
 	{
-		for(int y=0; y<numParticlesHeight-2; y++)
+		for(int x = 0; x<numParticlesWidth-2; x++)
 		{
-			ApplyForceToTriangle(GetParticle(x+1,y),GetParticle(x,y),GetParticle(x,y+1),direction);
-			ApplyForceToTriangle(GetParticle(x+1,y+1),GetParticle(x+1,y),GetParticle(x,y+1),direction);
+			for(int y=0; y<numParticlesHeight-2; y++)
+			{
+				ApplyForceToTriangle(GetParticle(x+1,y),GetParticle(x,y),GetParticle(x,y+1),direction);
+				ApplyForceToTriangle(GetParticle(x+1,y+1),GetParticle(x+1,y),GetParticle(x,y+1),direction);
+			}
 		}
 	}
 }
@@ -108,7 +118,7 @@ void Cloth::AddBallCollision(glm::vec3 centre, float radius)
 	std::vector<Particle>::iterator it;
 	for(it = particles.begin(); it != particles.end(); it++)
 	{
-		glm::vec3 temp = glm::vec3((*it).GetPos().x,(*it).GetPos().y + 12, (*it).GetPos().z)  - centre;
+		glm::vec3 temp = (glm::vec3((*it).GetPos().x,(*it).GetPos().y, (*it).GetPos().z) * orientation * scale + position)  - centre;
 		float l = glm::length(temp);
 
 		if (l < radius) // if the particle is inside the ball
@@ -120,7 +130,18 @@ void Cloth::AddBallCollision(glm::vec3 centre, float radius)
 
 void Cloth::AddPlaneCollision(glm::vec3 planePos)
 {
-	//pointOnPlane = closestPoint - (glm::dot((closestPoint - glm::vec3(0,0,0)),normal)) * normal; 
+	std::vector<Particle>::iterator it;
+	for(it = particles.begin(); it != particles.end(); it++)
+	{
+		glm::vec3 temp = (glm::vec3((*it).GetPos().x,(*it).GetPos().y, (*it).GetPos().z) * orientation * scale + position);
+
+		if (temp.y <= 0.1) // if the particle is inside the ball
+		{
+			
+			//glm::vec3 nextPos = (*it).GetNextPosition();
+			(*it).MakeUnmovable(); // project the particle to the surface of the ball
+		}
+	}
 }
 
 void Cloth::AddSelfCollision()
@@ -130,6 +151,14 @@ void Cloth::AddSelfCollision()
 
 void Cloth::TimeStep()
 {
+
+	std::vector<Particle>::iterator it;
+
+	for(it = particles.begin(); it != particles.end(); it++)
+	{
+		(*it).CalculateNextPosition(position, orientation, scale); // calculate the position of each particle at the next time step.
+	}
+
 	std::vector<Constraint>::iterator constraint;
 
 	for(int i=0; i<CONSTRAINT_ITERATIONS; i++) // iterate over all constraints several times
@@ -138,13 +167,6 @@ void Cloth::TimeStep()
 		{
 			(*constraint).HandleContraint(); // satisfy constraint.
 		}
-	}
-
-	std::vector<Particle>::iterator it;
-
-	for(it = particles.begin(); it != particles.end(); it++)
-	{
-		(*it).CalculateNextPosition(); // calculate the position of each particle at the next time step.
 	}
 }
 
@@ -208,6 +230,18 @@ void Cloth::DrawCloth()
 
 void Cloth::Update(glm::mat4 view, glm::mat4 proj)
 {
+	if(movable == true)
+	{
+		DropCloth();
+	}
+	Mode temp = previousMode;
+	Mode currentMode = mode;
+
+	if(temp != currentMode)
+	{
+		ChangeMode(currentMode);
+	}
+
 	orderedParticles.clear();
 
 	for(int x = 0; x<numParticlesWidth-2; x++)
@@ -258,4 +292,75 @@ glm::mat4 Cloth::GetTransformationMatrix()
 float Cloth::RandomNumber(float Min, float Max)
 {
 	return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
+}
+
+void Cloth::ChangeMode(Mode mode)
+{
+	previousMode = mode;
+
+	if(mode == CLOTH_HANGING)
+	{
+		for(int i=0;i<3; i++)
+		{
+			GetParticle(0+i ,0)->OffsetPosition(glm::vec3(0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+			//GetParticle(0+i ,0)->MakeUnmovable();
+
+			GetParticle(0+i ,0)->OffsetPosition(glm::vec3(-0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+			GetParticle(numParticlesWidth-i ,0)->MakeUnmovable();
+		}
+
+		for(int i = 0; i < 3; i++)
+		{
+			GetParticle(0 ,numParticlesHeight-i)->OffsetPosition(glm::vec3(0,height,height));// moving the particle a bit towards the center, to make it hang more natural
+			GetParticle(0 ,numParticlesHeight-i)->SetFixed(false);
+
+			GetParticle(numParticlesWidth-i ,numParticlesHeight-i)->OffsetPosition(glm::vec3(0,height,height));
+			GetParticle(numParticlesWidth-i ,numParticlesHeight-i)->SetFixed(false);
+		}
+	}
+	else
+	{
+		// making the upper left most three and right most three particles unmovable
+		for(int i=0;i<3; i++)
+		{
+			GetParticle(0+i ,0)->OffsetPosition(glm::vec3(0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+			//GetParticle(0+i ,0)->MakeUnmovable();
+
+			GetParticle(0+i ,0)->OffsetPosition(glm::vec3(-0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+			GetParticle(numParticlesWidth-i ,0)->MakeUnmovable();
+		}
+
+		for(int i = 0; i < 3; i++)
+		{
+			GetParticle(0 ,numParticlesHeight-i)->OffsetPosition(glm::vec3(0,height,height));// moving the particle a bit towards the center, to make it hang more natural
+			GetParticle(0 ,numParticlesHeight-i)->MakeUnmovable();
+
+			GetParticle(numParticlesWidth-i ,numParticlesHeight-i)->OffsetPosition(glm::vec3(0,height,height));
+			GetParticle(numParticlesWidth-i ,numParticlesHeight-i)->MakeUnmovable();
+		}
+	}
+}
+
+void Cloth::DropCloth()
+{
+	// making the upper left most three and right most three particles unmovable
+	for(int i=0;i<3; i++)
+	{
+		GetParticle(0+i ,0)->OffsetPosition(glm::vec3(0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+		//GetParticle(0+i ,0)->MakeUnmovable();
+
+		GetParticle(0+i ,0)->OffsetPosition(glm::vec3(-0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+		GetParticle(numParticlesWidth-i ,0)->SetFixed(false);
+	}
+
+	for(int i = 0; i < 3; i++)
+	{
+		GetParticle(0 ,numParticlesHeight-i)->SetFixed(false);
+		GetParticle(numParticlesWidth-i ,numParticlesHeight-i)->SetFixed(false);
+	}
+}
+
+void Cloth::Reset()
+{
+
 }

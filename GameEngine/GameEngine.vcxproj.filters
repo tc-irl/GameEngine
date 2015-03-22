@@ -150,6 +150,9 @@
     <ClCompile Include="FinalRendering.cpp">
       <Filter>RenderingFinal</Filter>
     </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>RenderingFinal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -240,6 +243,9 @@
       <Filter>PhysicsFinal</Filter>
     </ClInclude>
     <ClInclude Include="FinalRendering.h">
+      <Filter>RenderingFinal</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
       <Filter>RenderingFinal</Filter>
     </ClInclude>
   </ItemGroup>

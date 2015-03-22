@@ -1,9 +1,14 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #define DAMPING 0.01f // how much to damp the cloth simulation each frame
-#define TIME_STEPSIZE2 0.5f*0.5f // how large time step each particle takes each frame
+#define TIME_STEPSIZE2 0.5f*0.5f*0.5f // how large time step each particle takes each frame
 
 class Particle
 {
@@ -18,7 +23,8 @@ private:
 
 public:
 	Particle() {};
-	Particle(glm::vec3 position);
+	//Particle(glm::vec3 position);
+	Particle(glm::vec3 position, glm::vec3 clothPos, glm::quat clothOrientation, glm::vec3 clothScale);
 	~Particle(void) {};
 
 	void MakeUnmovable() {fixed = true;}
@@ -43,9 +49,10 @@ public:
 
 	void AddToNormal(glm::vec3 normal);
 	void AddForce(glm::vec3 force);
-	void CalculateNextPosition();
+	//void CalculateNextPosition();
+	void CalculateNextPosition(glm::vec3 clothPos, glm::quat clothOrientation, glm::vec3 clothScale);
 	void OffsetPosition(glm::vec3 velocity);
-
+	glm::vec3 GetNextPosition();
 
 };
 

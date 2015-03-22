@@ -24,7 +24,7 @@ class MeshLoader
 {
 public:
 	static enum BUFFERS { VERTEX_BUFFER, TEXCOORD_BUFFER, NORMAL_BUFFER, INDEX_BUFFER, NORMAL_MAP_BUFFER}; 
-	
+
 	typedef enum RefractionIndex{AIRTOWATER, AIRTOICE, AIRTOGLASS, AIRTODIAMOND};
 	RefractionIndex refractiveIndex, refractiveIndexR,refractiveIndexG,refractiveIndexB;
 
@@ -41,6 +41,7 @@ public:
 	GLuint GetShader(){return shaderID;}
 	void IsTextureActive(bool useTexture) {this->useTexture = useTexture;}
 	void IsNormalActive(bool useNormalTexture) {this->useNormalTexture = useNormalTexture;}
+	void IsHeightMapActive(bool useHeightTexture) {this->useHeightTexture = useHeightTexture;}
 	void IsSkyboxActive(bool drawSkyBox) {this->drawSkyBox = drawSkyBox;}
 
 	void SetPos(glm::vec3 position){this->position = position;}
@@ -89,6 +90,7 @@ public:
 	void UnBindTexture();
 	void BindNormal();
 	void UnBindNormal();
+	void SetHeightTexture(const char* textureName);
 public:
 	glm::vec3 position;
 	glm::quat orientation;
@@ -129,7 +131,7 @@ private:
 
 	GLuint vSize, cSize, numElements;
 
-	Texture *texture, *normalTexture;
+	Texture *texture, *normalTexture, *heightTexture;
 	CubeMapTexture *cubeTexture;
 	GLuint gSampler,cSampler, vColor, vEye, normalMap;
 	GLuint shaderID, drawSky, camPos;
@@ -146,5 +148,6 @@ private:
 	std::string normalTextureName;
 	GLuint disperionID;
 	const char* normalName;
+	bool useHeightTexture;
 };
 
