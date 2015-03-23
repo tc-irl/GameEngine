@@ -23,7 +23,7 @@ public:
 	void update();
 	void UpdateLighting(GLuint shaderID, Lighting *light);
 	void initRefractions();
-	//std::map <std::string, GLuint> possibleShaders;
+
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 	std::map <MeshLoader::RefractionIndex, float> refractions;
 
@@ -41,6 +41,5 @@ public:
 	double time, dt;// Current time and elapsed time
 
 	bool pauseScene;
-
 };
 

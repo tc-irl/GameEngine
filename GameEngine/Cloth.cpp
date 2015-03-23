@@ -102,9 +102,9 @@ void Cloth::AddWind(glm::vec3 direction)
 {
 	if(windEnabled)
 	{
-		for(int x = 0; x<numParticlesWidth-2; x++)
+		for(int x = 0; x<numParticlesWidth-1; x++)
 		{
-			for(int y=0; y<numParticlesHeight-2; y++)
+			for(int y=0; y<numParticlesHeight-1; y++)
 			{
 				ApplyForceToTriangle(GetParticle(x+1,y),GetParticle(x,y),GetParticle(x,y+1),direction);
 				ApplyForceToTriangle(GetParticle(x+1,y+1),GetParticle(x+1,y),GetParticle(x,y+1),direction);
@@ -230,6 +230,31 @@ void Cloth::DrawCloth()
 
 void Cloth::Update(glm::mat4 view, glm::mat4 proj)
 {
+	// reset normals (which where written to last frame)
+	std::vector<Particle>::iterator particle;
+	for(particle = particles.begin(); particle != particles.end(); particle++)
+	{
+		(*particle).ResetNormal();
+	}
+
+	//create smooth per particle normals by adding up all the (hard) triangle normals that each particle is part of
+	for(int x = 0; x<numParticlesWidth-1; x++)
+	{
+		for(int y=0; y<numParticlesHeight-1; y++)
+		{
+			glm::vec3 normal = CalcNormal(GetParticle(x+1,y),GetParticle(x,y),GetParticle(x,y+1));
+			GetParticle(x+1,y)->AddToNormal(normal);
+			GetParticle(x,y)->AddToNormal(normal);
+			GetParticle(x,y+1)->AddToNormal(normal);
+
+			normal = CalcNormal(GetParticle(x+1,y+1),GetParticle(x+1,y),GetParticle(x,y+1));
+			GetParticle(x+1,y+1)->AddToNormal(normal);
+			GetParticle(x+1,y)->AddToNormal(normal);
+			GetParticle(x,y+1)->AddToNormal(normal);
+		}
+	}
+
+
 	if(movable == true)
 	{
 		DropCloth();

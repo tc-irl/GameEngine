@@ -144,7 +144,7 @@ private:
 	GLuint ratioRID;
 	GLuint ratioGID;
 	GLuint ratioBID;
-	GLuint nSampler;
+	GLuint nSampler, hSampler;
 	std::string normalTextureName;
 	GLuint disperionID;
 	const char* normalName;

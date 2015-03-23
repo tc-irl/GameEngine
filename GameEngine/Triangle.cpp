@@ -89,14 +89,20 @@ void Triangle::Draw()
 void Triangle::Update()
 {
 	points.clear();
+	normals.clear();
 
 	points.push_back(p1->GetPos());
 	points.push_back(p2->GetPos());
 	points.push_back(p3->GetPos());
 
+	normals.push_back(p1->GetNormal());
+	normals.push_back(p2->GetNormal());
+	normals.push_back(p3->GetNormal());
+
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferSubData( GL_ARRAY_BUFFER, 0, vSize, (const GLvoid*)(&points[0]));
+	glBufferSubData( GL_ARRAY_BUFFER, vSize + cSize, nSize, (const GLvoid*)(&normals[0]));
 	glBindVertexArray(0);
 }

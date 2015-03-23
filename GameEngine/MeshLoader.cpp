@@ -283,6 +283,7 @@ void MeshLoader::SetAttributesAndUniforms()
 	gSampler = glGetUniformLocation(shaderID, "gSampler");
 	cSampler = glGetUniformLocation(shaderID, "cSampler");
 	nSampler = glGetUniformLocation(shaderID, "nSampler");
+	hSampler = glGetUniformLocation(shaderID, "hSampler");
 	modelLoc = glGetUniformLocation(shaderID, "model");
 	viewLoc = glGetUniformLocation(shaderID, "view");
 	projLoc = glGetUniformLocation(shaderID, "projection");
@@ -374,6 +375,13 @@ void MeshLoader::Render()
 		glUniform1i(nSampler, 1);
 	}
 
+	//if(useHeightTexture)
+	//{
+	//	glActiveTexture(GL_TEXTURE2);
+	//	heightTexture->Bind(GL_TEXTURE2);
+	//	// Set our "Normal	TextureSampler" sampler to user Texture Unit 0
+	//	glUniform1i(hSampler, 2);
+	//}
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, numElements, GL_UNSIGNED_INT, NULL);

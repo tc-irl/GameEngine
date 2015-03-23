@@ -18,15 +18,15 @@ int main(int argc, char **argv)
 	//game->init(argv);
 	//game->run();
 
-	//FinalRendering *game;
+	FinalRendering *game;
 
-	//game = new FinalRendering();
-	//game->init(argv);
-	//game->run();
-
-	ClothSimulation *game;
-
-	game = new ClothSimulation();
+	game = new FinalRendering();
 	game->init(argv);
 	game->run();
+
+	//ClothSimulation *game;
+
+	//game = new ClothSimulation();
+	//game->init(argv);
+	//game->run();
 }
