@@ -10,6 +10,10 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
 
 
 #define CONSTRAINT_ITERATIONS 3 // how many iterations of constraint satisfaction each frame (more is rigid, less is soft)
@@ -30,6 +34,7 @@ private:
 
 	std::vector<Particle> particles;
 	std::vector<Particle*> orderedParticles;
+
 	std::vector<glm::vec3> orderedColors;
 	std::vector<Constraint> constraints;
 	std::vector<Triangle> triangles;
@@ -56,9 +61,14 @@ public:
 
 public:
 
+	bool enabled;
+
+	bool point1, point2;
+
+
 	Mode mode;
 	Mode previousMode;
-	bool windEnabled, forceEnabled;
+	bool windEnabled, forceEnabled, selfCollisionEnabled;
 	bool clothDropped;
 	Cloth(float width, float height, int numParticlesHeight, int numParticlesWidth);
 	~Cloth(void);
@@ -86,6 +96,10 @@ public:
 	void AddWind(glm::vec3 direction);
 	void AddBallCollision(glm::vec3 centre, float radius);
 	void AddPlaneCollision(glm::vec3 planePos);
+	void AddSelfCollision(Particle *p1,Particle *p2,Particle *p3);
+	void AddSelfCollision();
+	void CalculateCollisions(Particle *cP, Particle *p1,Particle *p2,Particle *p3);
+	void AddTearing(glm::vec3 centre, float radius);
 
 	void TimeStep();
 	void GenerateBuffer();
@@ -97,6 +111,5 @@ public:
 	void DrawTriangle();
 	void DrawCloth();
 	float RandomNumber(float Min, float Max);
-	void AddSelfCollision();
 };
 

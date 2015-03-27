@@ -3,7 +3,7 @@
 
 Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticlesWidth)
 {
-	position = glm::vec3(0,12,0);
+	position = glm::vec3(0,0,0);
 	orientation = glm::quat(glm::vec3(0,0,0));
 	scale = glm::vec3(1,1,1);
 
@@ -21,14 +21,21 @@ Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticles
 
 	forceEnabled = true;
 	windEnabled = false;
+	point1 = false;
+	point2 = false;
 
+	selfCollisionEnabled = false;
+
+	int i = 0;
 	// creating particles in a grid of particles from (0,0,0) to (width,-height,0)
 	for(int x=0; x<numParticlesWidth; x++)
 	{
 		for(int y=0; y<numParticlesHeight; y++)
 		{
+			
 			glm::vec3 pos = glm::vec3(width * (x/(float)numParticlesWidth),-height * (y/(float)numParticlesHeight),0);
-			particles[y*numParticlesWidth+x] = Particle(pos, position, orientation, scale); // insert particle in column x at y'th row
+			particles[y*numParticlesWidth+x] = Particle(pos, i); // insert particle in column x at y'th row
+			i++;
 		}
 	}
 
@@ -53,7 +60,8 @@ Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticles
 			if (x<numParticlesWidth-2) SetConstraint(GetParticle(x,y),GetParticle(x+2,y));
 			if (y<numParticlesHeight-2) SetConstraint(GetParticle(x,y),GetParticle(x,y+2));
 			if (x<numParticlesWidth-2 && y<numParticlesHeight-2) SetConstraint(GetParticle(x,y),GetParticle(x+2,y+2));
-			if (x<numParticlesWidth-2 && y<numParticlesHeight-2) SetConstraint(GetParticle(x+2,y),GetParticle(x,y+2));			}
+			if (x<numParticlesWidth-2 && y<numParticlesHeight-2) SetConstraint(GetParticle(x+2,y),GetParticle(x,y+2));			
+		}
 	}
 
 
@@ -130,24 +138,97 @@ void Cloth::AddBallCollision(glm::vec3 centre, float radius)
 
 void Cloth::AddPlaneCollision(glm::vec3 planePos)
 {
+	//std::vector<Particle>::iterator it;
+	//for(it = particles.begin(); it != particles.end(); it++)
+	//{
+	//	glm::vec3 temp = (glm::vec3((*it).GetPos().x,(*it).GetPos().y, (*it).GetPos().z) * orientation * scale + position);
+
+	//	if (temp.y <= 0.1) // if the particle is inside the ball
+	//	{
+	//		
+	//		//glm::vec3 nextPos = (*it).GetNextPosition();
+	//		(*it).MakeUnmovable(); // project the particle to the surface of the ball
+	//	}
+	//}
+
 	std::vector<Particle>::iterator it;
 	for(it = particles.begin(); it != particles.end(); it++)
 	{
 		glm::vec3 temp = (glm::vec3((*it).GetPos().x,(*it).GetPos().y, (*it).GetPos().z) * orientation * scale + position);
 
-		if (temp.y <= 0.1) // if the particle is inside the ball
+		if (temp.y <= planePos.y) // if the particle is inside the ball
 		{
-			
-			//glm::vec3 nextPos = (*it).GetNextPosition();
-			(*it).MakeUnmovable(); // project the particle to the surface of the ball
+			(*it).position.y = planePos.y + 0.01f;
 		}
 	}
 }
 
-void Cloth::AddSelfCollision()
+void Cloth::AddTearing(glm::vec3 centre, float radius)
 {
-	// TO DO
+	std::vector<Particle>::iterator it;
+
+	std::vector<Particle> hitParticles;
+	std::vector<Particle>::iterator hit;
+	std::vector<Constraint>::iterator constraint;
+	std::vector<Triangle>::iterator triangle;
+	
+	for(it = particles.begin(); it != particles.end(); it++)
+	{
+		glm::vec3 temp = (glm::vec3((*it).GetPos().x,(*it).GetPos().y, (*it).GetPos().z) * orientation * scale + position)  - centre;
+
+		float l = glm::length(temp);
+
+		if (l < radius) // if the particle is inside the ball
+		{
+			//particles.erase(it);
+			hitParticles.push_back((*it));
+
+			for(constraint = constraints.begin(); constraint != constraints.end(); constraint++)
+			{
+				if(constraint->p1->GetID() == (*it).GetID() || constraint->p2->GetID() == (*it).GetID())
+				{
+					constraints.erase(constraint);
+				}
+			}
+
+			for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
+			{
+				
+				if(triangle->p1->GetID() == (*it).GetID() || triangle->p2->GetID() == (*it).GetID() || triangle->p3->GetID() == (*it).GetID())
+				{
+					triangles[triangle - triangles.begin()].drawTriangle = false;
+
+				}
+			}
+		}
+	}
 }
+
+void Cloth::CalculateCollisions(Particle *cP, Particle *p1,Particle *p2,Particle *p3)
+{
+	glm::vec3 normal = CalcNormal(p1,p2,p3);
+	float length = glm::length(normal);
+	glm::vec3 temp = cP->GetPos() - p1->GetPos();
+
+	float result = glm::dot(temp, (normal / length) - 1.0f);
+}
+
+//void Cloth::AddSelfCollision()
+//{
+//	if(selfCollisionEnabled)
+//	{
+//		for(int x = 0; x<numParticlesWidth-1; x++)
+//		{
+//			for(int y=0; y<numParticlesHeight-1; y++)
+//			{
+//			}
+//		}
+//	}
+//
+//	//glm::vec3 normal = CalcNormal(p1,p2,p3);
+//}
+
+
 
 void Cloth::TimeStep()
 {
@@ -202,21 +283,7 @@ void Cloth::GenerateBuffer()
 
 	for(int i = 0; i < triangles.size(); i++)
 	{
-
 		triangles[i].SetColor(orderedColors[i]);
-
-		//if(i % 3 == 0)
-		//{
-		//	triangles[i].SetColor(glm::vec3(1,1,1));
-		//}
-		//else if(i % 3 == 1)
-		//{
-		//	triangles[i].SetColor(glm::vec3(1,0.5f,0));
-		//}
-		//else
-		//{
-		//	triangles[i].SetColor(glm::vec3(1,0.5f,0));
-		//}
 	}
 }
 
@@ -387,5 +454,5 @@ void Cloth::DropCloth()
 
 void Cloth::Reset()
 {
-
+	//
 }

@@ -8,6 +8,7 @@ private:
 	float initialDistance;
 	float currentDistance;
 
+public:
 	Particle * p1;
 	Particle * p2;
 public:
@@ -21,5 +22,8 @@ public:
 	float GetCurrentDistance() {return currentDistance;}
 
 	void HandleContraint();
+
+
+	bool CompareParticles(Particle *p);
 };
 

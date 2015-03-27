@@ -181,6 +181,7 @@ void MeshLoader::LoadMesh(const char* filename)
 			tangents[i * 3] = mesh->mTangents[i].x;
 			tangents[i * 3 + 1] = mesh->mTangents[i].y;
 			tangents[i * 3 + 2] = mesh->mTangents[i].z;
+
 		}
 
 		glGenBuffers(1,&VBO [NORMAL_MAP_BUFFER]);
@@ -230,13 +231,13 @@ void MeshLoader::SetHeightTexture(const char* textureName)
 {
 	this->filename = textureName;
 
-	glUniform1i(nSampler, 1);
+	glUniform1i(hSampler, 2);
 
-	normalTexture = new Texture(GL_TEXTURE_2D,filename);
+	heightTexture = new Texture(GL_TEXTURE_2D,filename);
 
-	if (!normalTexture->Load()) 
+	if (!heightTexture->Load()) 
 	{
-		std::cout << "Unable to load normal texture" << std::endl;
+		std::cout << "Unable to load height texture" << std::endl;
 	}
 
 }
@@ -375,13 +376,13 @@ void MeshLoader::Render()
 		glUniform1i(nSampler, 1);
 	}
 
-	//if(useHeightTexture)
-	//{
-	//	glActiveTexture(GL_TEXTURE2);
-	//	heightTexture->Bind(GL_TEXTURE2);
-	//	// Set our "Normal	TextureSampler" sampler to user Texture Unit 0
-	//	glUniform1i(hSampler, 2);
-	//}
+	if(useHeightTexture)
+	{
+		glActiveTexture(GL_TEXTURE2);
+		heightTexture->Bind(GL_TEXTURE2);
+		// Set our "Normal	TextureSampler" sampler to user Texture Unit 0
+		glUniform1i(hSampler, 2);
+	}
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, numElements, GL_UNSIGNED_INT, NULL);

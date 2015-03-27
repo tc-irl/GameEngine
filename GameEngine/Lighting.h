@@ -17,6 +17,8 @@ public:
 
 	glm::vec3 position;
 	glm::quat orientation;
+
+	glm::vec3 cameraPosition;
 	
 	glm::vec3 toonColor; 
 	glm::vec3 toonLightDirection;
@@ -33,6 +35,8 @@ public:
 	glm::vec3 specularColor;
 	float specularIntensity;
 	float specularShininess; 
+	float parallaxScale;
+	float bias;
 
 	float roughness;
 	GLuint shaderID;
@@ -41,7 +45,8 @@ public:
 	std::map<Shader::ShaderType, GLuint> possibleShaders;
 	GLuint specularColorID, specularIntensityID, specularShininessID, lightDirLoc, ambientColorID, ambientIntensityID;
 	GLuint diffuseColorID, diffuseIntensityID, diffuseDirectionID, roughnessID;
-	GLuint modelLoc, viewLoc, projLoc, vEye;
+	GLuint modelLoc, viewLoc, projLoc, normLoc, vEye, camPos;
+	GLuint pScale,pBias;
 
 	glm::vec3 eye;
 public:
@@ -54,10 +59,12 @@ public:
 	void SetPos(glm::vec3 position){this->position = position;}
 	void SetOrientation(glm::quat){this->orientation = orientation;}
 	void SetEye(glm::vec3 eye) {this->eye = eye;}
+	void SetCameraPosition(glm::vec3 cameraPosition) {this->cameraPosition = cameraPosition;}
 
 	void SetEyeDir();
 	void SetToonDirection(glm::vec3 direction){this->toonLightDirection = direction;}
 	void SetDiffuseDirection(glm::vec3 direction){this->diffuseDirection = direction;}
+	void SetParallaxScale(float parallaxScale) {this->parallaxScale = parallaxScale;}
 
 	void SetToonLight();
 	void SetDirectionalLight();
