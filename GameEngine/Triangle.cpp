@@ -9,6 +9,8 @@ Triangle::Triangle(GLuint shaderID, Particle *p1, Particle *p2, Particle *p3)
 	this->p3 = p3;
 
 	GenerateBuffer();
+
+	drawTriangle = true;
 }
 
 void Triangle::GenerateBuffer()
@@ -81,9 +83,12 @@ void Triangle::SetColor(glm::vec3 color)
 
 void Triangle::Draw()
 {
-	glBindVertexArray (vao);
-	glDrawArrays (GL_TRIANGLES, 0, 3);
-	glBindVertexArray(0);
+	if(drawTriangle)
+	{
+		glBindVertexArray (vao);
+		glDrawArrays (GL_TRIANGLES, 0, 3);
+		glBindVertexArray(0);
+	}
 }
 
 void Triangle::Update()
@@ -105,4 +110,16 @@ void Triangle::Update()
 	glBufferSubData( GL_ARRAY_BUFFER, 0, vSize, (const GLvoid*)(&points[0]));
 	glBufferSubData( GL_ARRAY_BUFFER, vSize + cSize, nSize, (const GLvoid*)(&normals[0]));
 	glBindVertexArray(0);
+}
+
+bool Triangle::CompareParticles(Particle *p)
+{
+	if(p == p1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

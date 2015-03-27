@@ -18,7 +18,6 @@ out mat3 tbnMatrix;
 
 void main()
 {
-	
 	position_eye = vec3 (view * model * vec4 (position, 1.0));
 	normal_eye = vec3 (view * model * vec4 (normal, 0.0));
 

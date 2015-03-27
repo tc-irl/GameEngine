@@ -19,6 +19,8 @@ public:
 	void SetP2(Particle *p2) {this->p2 = p2;}
 	void SetP3(Particle *p3) {this->p3 = p3;}
 
+	bool CompareParticles(Particle *p);
+
 	glm::mat4 GetTransformationMatrix();
 
 	void Update();
@@ -40,6 +42,8 @@ public:
 	GLuint modelLoc, viewLoc, projLoc;
 
 	GLuint shaderID;
+
+	bool drawTriangle;
 
 };
 

@@ -13,39 +13,108 @@ uniform float diffuseIntensity;
 uniform float specularShininess;
 uniform vec3 vLightDir;
 
+in vec2 texCoord0;
+
 in vec3 position_eye;
 in vec3 normal_eye;
 in mat3 tbnMatrix;
+in vec3 worldPos0;
 
-in vec2 texCoord0;
 uniform sampler2D gSampler;
 uniform sampler2D nSampler;
+uniform sampler2D hSampler;
+
+uniform vec3 cameraPosition;
+
+uniform vec3 vEye;
+uniform float parallaxScale;
+uniform	float bias;
+
+in vec3 toLight; 
+in vec3 toEye;
 
 uniform mat4 view;
 
 out vec4 FragColor;
 
-void main()
-{
-	vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture2D(nSampler, texCoord0).xyz - 1));
 
-	float intensity;
+vec2 CalcParallaxMapping(in vec2 T, out float parallaxHeight)
+{
+	// float h = parallaxScale * (1.0 - texture2D(hSampler, texCoord0.xy).r) + bias;
+
+	// vec2 tex = texCoord0.xy - toEye.xy * h;
+
+	// return tex;
+ vec3 directionToEye = normalize(position_eye - worldPos0);
+	return texCoord0.xy + (directionToEye * tbnMatrix).xy * (texture2D(hSampler, texCoord0.xy).r * parallaxScale + bias);
+}
+
+
+float parallaxSoftShadowMultiplier(in vec2 initialTexCoord, in float initialHeight)
+{
+	return 1.0f;
+}
+
+vec4 CalcLighting(in vec2 T, float shadowMultiplier)
+{
+// 	vec3 N = normalize(tbnMatrix * (255.0/128.0 * texture2D(normalMap, texCoords).xyz - 1));
+// // restore normal from normal map
+//    //vec3 N = normalize(texture(nSampler, T).xyz * 2 - 1);
+//    vec3 D = texture(gSampler, T).rgb;
+
+//    // ambient lighting
+//    float iamb = 0.2;
+//    // diffuse lighting
+//    float idiff = clamp(dot(N, toLight), 0, 1);
+//    // specular lighting
+//    float ispec = 0;
+
+//    if(dot(N, toLight) > 0.2)
+//    {
+//       vec3 R = reflect(-toLight, N);
+//       ispec = pow(dot(R, toEye), 32) / 1.5;
+//    }
+
+//    vec4 resColor;
+//    resColor.rgb = D * (iamb + (idiff + ispec));
+//    resColor.a = 1;
+
+//    return resColor;
+
+
 	vec4 color = texture(gSampler,texCoord0);
 
-    vec4 ambientC = vec4(ambientColor, 1.0f) * ambientIntensity;
-	vec4 diffuseC = vec4(diffuseColor, 1.0f) * diffuseIntensity * max(0.0, dot(normalize(normal), -vLightDir));	
+	vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture2D(nSampler, T).xyz - 1));
 
-	vec3 surface_to_viewer_eye = normalize (position_eye);
+	vec4 specularC = vec4(0,0,0,0);
 
-	vec3 reflection_eye = reflect (-vLightDir, normal);
-	float dot_prod_specular = dot (reflection_eye, surface_to_viewer_eye);
-	dot_prod_specular = max (dot_prod_specular, 0.0);
-	float specular_factor = pow (dot_prod_specular, specularShininess);
+	float diffuseFactor = clamp(dot(normal, -vLightDir), 0.0, 1.0);
+    
+    vec4 diffuseC = vec4(diffuseColor, 1.0) * diffuseIntensity * diffuseFactor;
+    //vec4 diffuseC = vec4(ambientColor, 1.0) * diffuseIntensity;
 
-	vec4 specularC = vec4(specularColor, 1.0f) * specularIntensity * specular_factor;
+    vec3 directionToEye = normalize(position_eye - worldPos0);
 
+    vec3 reflectDirection = normalize(reflect(vLightDir, normal));
+    
+    float specularFactor = dot(directionToEye, reflectDirection);
+    specularFactor = clamp(pow(specularFactor, specularShininess), 0.0, 1.0);
+        
+    if(specularFactor > 0)
+    {
+        specularC = vec4(specularColor, 1.0) * specularIntensity * specularFactor;
+    }
+    
+    return color * (diffuseC + specularC);
+}
 
-	FragColor = color * (diffuseC + ambientC + specularC);
+void main()
+{
+	float parallaxHeight;
+
+	vec2 T = CalcParallaxMapping(texCoord0, parallaxHeight);
+
+	FragColor = CalcLighting(T, 1.0f);
 };
 
 

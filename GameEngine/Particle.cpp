@@ -1,15 +1,19 @@
 #include "Particle.h"
 
 
-Particle::Particle(glm::vec3 position, glm::vec3 clothPos, glm::quat clothOrientation, glm::vec3 clothScale)
+Particle::Particle(glm::vec3 position, int ID)
 {
 	this->position = position;
+	this->ID =ID;
+
 	previousPos = position;
 
 	acceleration = glm::vec3(0,0,0);
 	mass = 3.0f;
 	fixed = false;
 	normal = glm::vec3(0,0,0);
+
+
 }
 
 void Particle::AddToNormal(glm::vec3 normal)

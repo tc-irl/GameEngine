@@ -108,6 +108,8 @@ public:
 	std::map <RefractionIndex, float> refractions;
 	bool useNormalTexture;
 	bool useTexture;
+	bool useHeightTexture;
+
 	bool drawSkyBox;
 	bool dispersion;
 
@@ -148,6 +150,5 @@ private:
 	std::string normalTextureName;
 	GLuint disperionID;
 	const char* normalName;
-	bool useHeightTexture;
 };
 

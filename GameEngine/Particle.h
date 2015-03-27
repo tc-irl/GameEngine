@@ -16,7 +16,8 @@ private:
 	bool fixed;
 	float mass;
 
-	glm::vec3 position;
+	int ID;
+
 	glm::vec3 previousPos;
 	glm::vec3 acceleration;
 	glm::vec3 normal;
@@ -24,12 +25,15 @@ private:
 public:
 	Particle() {};
 	//Particle(glm::vec3 position);
-	Particle(glm::vec3 position, glm::vec3 clothPos, glm::quat clothOrientation, glm::vec3 clothScale);
+	Particle(glm::vec3 position, int ID);
 	~Particle(void) {};
 
+	int GetID() { return ID;}
 	void MakeUnmovable() {fixed = true;}
 	void SetFixed(bool fixed) {this->fixed = fixed;}
 	bool GetFixed() {return fixed;}
+
+		glm::vec3 position;
 
 	void SetPos(glm::vec3 position) {this->position = position;}
 	glm::vec3 GetPos() {return position;}
