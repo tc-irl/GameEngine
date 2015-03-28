@@ -24,6 +24,8 @@ Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticles
 	point1 = false;
 	point2 = false;
 
+	reset = false;
+
 	selfCollisionEnabled = false;
 
 	int i = 0;
@@ -50,7 +52,6 @@ Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticles
 			if (x<numParticlesWidth -1 && y<numParticlesHeight-1) SetConstraint(GetParticle(x+1,y),GetParticle(x,y+1));
 		}
 	}
-
 
 	// Connecting secondary neighbors with constraints (distance 2 and sqrt(4) in the grid)
 	for(int x=0; x < numParticlesWidth; x++)
@@ -132,6 +133,7 @@ void Cloth::AddBallCollision(glm::vec3 centre, float radius)
 		if (l < radius) // if the particle is inside the ball
 		{
 			(*it).OffsetPosition(glm::normalize(temp) * (radius-l)); // project the particle to the surface of the ball
+			//(*it).SetFixed(true);
 		}
 	}
 }
@@ -213,26 +215,63 @@ void Cloth::CalculateCollisions(Particle *cP, Particle *p1,Particle *p2,Particle
 	float result = glm::dot(temp, (normal / length) - 1.0f);
 }
 
-//void Cloth::AddSelfCollision()
-//{
-//	if(selfCollisionEnabled)
-//	{
-//		for(int x = 0; x<numParticlesWidth-1; x++)
-//		{
-//			for(int y=0; y<numParticlesHeight-1; y++)
-//			{
-//			}
-//		}
-//	}
-//
-//	//glm::vec3 normal = CalcNormal(p1,p2,p3);
-//}
+void Cloth::AddSelfCollision()
+{
+	if(selfCollisionEnabled)
+	{
+		std::vector<Particle>::iterator it;
+		std::vector<Triangle>::iterator triangle;
+		std::vector<Triangle>::iterator triangle2;
+
+		//for(it = particles.begin(); it != particles.end(); it++)
+		//{
+		//	for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
+		//	{
+		//		/*		if(triangle->p1->GetID() != (*it).GetID() || triangle->p2->GetID() != (*it).GetID() || triangle->p3->GetID() != (*it).GetID())
+		//		{*/
+		//			bool val = triangle->RayIntersectsTriangle((*it).GetPreviousPos(),(*it).GetPos());
+
+		//			if(val == true)
+		//			{
+		//				//std::cout << "Collision Detected" << std::endl;
+		//				//(*it).position = (*it).GetPreviousPos();
+
+		//				triangle->SetColor(glm::vec3(1,0,0));
+		//			}
+		//			else
+		//			{
+		//				triangle->SetColor(glm::vec3(0,0,1));
+		//			}
+
+		//		/*}*/
+		//	}
 
 
+		for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
+		{
+			for(triangle2 = triangles.begin(); triangle2 != triangles.end(); triangle2++)
+			{
+				if(triangle->p1->GetID() != triangle2->p1->GetID() && triangle->p1->GetID() != triangle2->p2->GetID() && triangle->p1->GetID() != triangle2->p3->GetID() 
+					&& triangle->p2->GetID() != triangle2->p1->GetID() && triangle->p2->GetID() != triangle2->p2->GetID() && triangle->p2->GetID() != triangle2->p3->GetID() 
+					&& triangle->p3->GetID() != triangle2->p1->GetID() && triangle->p3->GetID() != triangle2->p2->GetID() && triangle->p3->GetID() != triangle2->p3->GetID())
+				{
+					if(checkNarrowPhaseCollision((*triangle), (*triangle2)))
+					{
+						//triangle2->p1->position = triangle2->p1->GetPreviousPos();
+						//triangle2->p2->position = triangle2->p2->GetPreviousPos();
+						//triangle2->p3->position = triangle2->p3->GetPreviousPos();
+						std::cout << "Intersection" << std::endl;
+
+					}
+				}
+			}
+		}
+	}
+
+}
 
 void Cloth::TimeStep()
 {
-
 	std::vector<Particle>::iterator it;
 
 	for(it = particles.begin(); it != particles.end(); it++)
@@ -253,6 +292,8 @@ void Cloth::TimeStep()
 
 void Cloth::GenerateBuffer()
 {
+	int i = 0;
+
 	for(int x = 0; x<numParticlesWidth-1; x++)
 	{
 		for(int y=0; y<numParticlesHeight-1; y++)
@@ -276,8 +317,10 @@ void Cloth::GenerateBuffer()
 				orderedColors.push_back(glm::vec3(1,0.5f,0));
 			}
 
-			triangles.push_back(Triangle(shaderID, GetParticle(x+1,y), GetParticle(x,y),GetParticle(x,y+1)));
-			triangles.push_back(Triangle(shaderID, GetParticle(x+1,y+1),GetParticle(x+1,y),GetParticle(x,y+1)));
+			triangles.push_back(Triangle(shaderID, GetParticle(x+1,y), GetParticle(x,y),GetParticle(x,y+1), i));
+			i++;
+			triangles.push_back(Triangle(shaderID, GetParticle(x+1,y+1),GetParticle(x+1,y),GetParticle(x,y+1), i));
+			i++;
 		}
 	}
 
@@ -297,6 +340,13 @@ void Cloth::DrawCloth()
 
 void Cloth::Update(glm::mat4 view, glm::mat4 proj)
 {
+	int i = 0;
+
+	//if(reset == true)
+	//{
+	//	Reset();
+	//	reset = false;
+	//}
 	// reset normals (which where written to last frame)
 	std::vector<Particle>::iterator particle;
 	for(particle = particles.begin(); particle != particles.end(); particle++)
@@ -454,5 +504,264 @@ void Cloth::DropCloth()
 
 void Cloth::Reset()
 {
-	//
+	particles.clear();
+	constraints.clear();
+
+	//int i = 0;
+	//for(int x=0; x<numParticlesWidth; x++)
+	//{
+	//	for(int y=0; y<numParticlesHeight; y++)
+	//	{
+
+	//		glm::vec3 pos = glm::vec3(width * (x/(float)numParticlesWidth),-height * (y/(float)numParticlesHeight),0);
+	//		particles[y*numParticlesWidth+x] = Particle(pos, i); // insert particle in column x at y'th row
+	//		i++;
+	//	}
+	//}
+
+	//// Connecting immediate neighbor particles with constraints (distance 1 and sqrt(2) in the grid)
+	//for(int x=0; x<numParticlesWidth; x++)
+	//{
+	//	for(int y=0; y<numParticlesHeight; y++)
+	//	{
+	//		if (x<numParticlesWidth -1) SetConstraint(GetParticle(x,y),GetParticle(x+1,y));
+	//		if (y<numParticlesHeight -1) SetConstraint(GetParticle(x,y),GetParticle(x,y+1));
+	//		if (x<numParticlesWidth -1 && y<numParticlesHeight-1) SetConstraint(GetParticle(x,y),GetParticle(x+1,y+1));
+	//		if (x<numParticlesWidth -1 && y<numParticlesHeight-1) SetConstraint(GetParticle(x+1,y),GetParticle(x,y+1));
+	//	}
+	//}
+
+	//// Connecting secondary neighbors with constraints (distance 2 and sqrt(4) in the grid)
+	//for(int x=0; x < numParticlesWidth; x++)
+	//{
+	//	for(int y=0; y < numParticlesHeight; y++)
+	//	{
+	//		if (x<numParticlesWidth-2) SetConstraint(GetParticle(x,y),GetParticle(x+2,y));
+	//		if (y<numParticlesHeight-2) SetConstraint(GetParticle(x,y),GetParticle(x,y+2));
+	//		if (x<numParticlesWidth-2 && y<numParticlesHeight-2) SetConstraint(GetParticle(x,y),GetParticle(x+2,y+2));
+	//		if (x<numParticlesWidth-2 && y<numParticlesHeight-2) SetConstraint(GetParticle(x+2,y),GetParticle(x,y+2));			
+	//	}
+	//}
+
+	//ChangeMode(CLOTH_HANGING);
+}
+
+bool Cloth::checkNarrowPhaseCollision(Triangle triangle, Triangle triangle2)
+{
+	glm::vec3 dir = triangle.p1->position - triangle2.p1->position;
+
+	glm::vec3 farA = GetFarthestPointInDirection(dir, triangle.points);
+	glm::vec3 farB = GetFarthestPointInDirection(-dir, triangle2.points);
+
+	glm::vec3 supportPoint = farA - farB;
+
+	std::vector<glm::vec3> simplex;
+	simplex.push_back(supportPoint);
+
+	dir = -supportPoint;
+
+	int count = 0;
+
+	while(count < 100)
+	{
+		farA = GetFarthestPointInDirection(dir, triangle.points);
+		farB = GetFarthestPointInDirection(-dir, triangle2.points);
+
+		supportPoint = farA - farB;
+
+		if(glm::dot(supportPoint,dir) < 0)
+		{
+			return false;
+		}
+
+		simplex.push_back(supportPoint);
+
+		if(simplexContainsOrigin(simplex,dir))
+		{
+			return true;
+		}
+
+		count++;
+	}
+
+	return false;
+}
+
+bool Cloth::simplexContainsOrigin(std::vector<glm::vec3> &simplex, glm::vec3 &dir)
+{
+			glm::vec3 a,b,c,d;
+		
+			// Based on video: http://mollyrocket.com/849
+			if(simplex.size() == 2)
+			{
+				a = simplex[1];
+				b = simplex[0];
+		
+				glm::vec3 ab = b - a;
+				glm::vec3 ao = -a;
+		
+				glm::vec3 abPerp = glm::cross(glm::cross(ab,ao),ab);
+		
+				if(glm::dot(ab,ao) > 0)
+				{
+					dir = abPerp;
+				}
+				else
+				{
+					dir = ao;
+				}
+		
+				return false;
+			}
+			else if(simplex.size() == 3)
+			{
+				return checkTriangle(simplex,dir);
+			}
+			// Helpful site of tetrahedron: http://in2gpu.com/2014/05/18/gjk-algorithm-3d/
+			else if(simplex.size() == 4)
+			{
+				a = simplex[3];
+				b = simplex[2];
+				c = simplex[1];
+				d = simplex[0];
+		
+				glm::vec3 ao = -a;
+		
+				glm::vec3 ab = b - a;
+				glm::vec3 ac = c - a;
+				glm::vec3 ad = d - a;
+		
+				glm::vec3 abc = glm::cross(ab, ac);
+				glm::vec3 acd = glm::cross(ac, ad);
+				glm::vec3 adb = glm::cross(ad, ab);
+		
+				glm::vec3 abPerp = glm::cross(glm::cross(ab,ao),ab);
+				glm::vec3 acPerp = glm::cross(glm::cross(ac,ao),ac);
+				glm::vec3 ab_abc = glm::cross(ab,abc);
+				glm::vec3 abc_ac = glm::cross(abc,ac);
+		
+				// In front of abc face
+				if(glm::dot(abc,ao) > 0)
+				{	
+					simplex.erase(simplex.begin()); // erase d
+		
+					return checkTriangle(simplex,dir);
+				}
+				// In front of ACD face
+				else if(glm::dot(acd,ao) > 0)
+				{
+					simplex.erase(simplex.begin() + 2); // erase b
+			
+					return checkTriangle(simplex,dir);
+				}
+				// in front of ADB face
+				else if(glm::dot(adb,ao) > 0)
+				{
+					simplex.erase(simplex.begin() + 1); // erase c
+					simplex[0] = b;
+					simplex[1] = d;
+		
+					return checkTriangle(simplex,dir);
+				}
+	
+				// NB. origin cannot be below cbd because we already checked that
+		
+				return true;
+		
+			}
+}
+
+glm::vec3 Cloth::GetFarthestPointInDirection(glm::vec3 dir, std::vector<glm::vec3> points)
+{
+	glm::vec3 farthestPoint = points[0];
+	float farthest = glm::dot(points[0],dir);
+	float temp;
+
+	for(int i = 1; i <points.size();i++)
+	{
+		temp = glm::dot(dir,points[i]);
+
+		if(temp > farthest)
+		{
+			farthest = temp;
+			farthestPoint = points[i];
+		}
+	}
+
+	return farthestPoint;
+}
+
+bool Cloth::checkTriangle(std::vector<glm::vec3> &simplex,glm::vec3 &dir)
+{
+	glm::vec3 c = simplex[0];
+	glm::vec3 b = simplex[1];
+	glm::vec3 a = simplex[2];
+	
+	glm::vec3 ao = -a;
+	
+	glm::vec3 ab = b - a;
+	glm::vec3 ac = c - a;
+	
+	glm::vec3 abc = glm::cross(ab, ac);
+	
+	glm::vec3 abPerp = glm::cross(glm::cross(ab,ao),ab);
+	glm::vec3 acPerp = glm::cross(glm::cross(ac,ao),ac);
+	glm::vec3 ab_abc = glm::cross(ab,abc);
+	glm::vec3 abc_ac = glm::cross(abc,ac);
+	
+	if(glm::dot(abc_ac,ao) > 0)
+	{
+		if(glm::dot(ac,ao) > 0)
+		{
+			dir = acPerp;
+			simplex.erase(simplex.begin() + 1); // erase b
+		}
+		else
+		{
+			if(glm::dot(ab,ao) > 0)
+			{
+				dir = abPerp;
+				simplex.erase(simplex.begin()); // erase c
+			}
+			else
+			{
+				dir = ao;
+				simplex.erase(simplex.begin()); // erase c
+				simplex.erase(simplex.begin()); // erase b
+			}
+		}
+	}
+	else
+	{
+		if(glm::dot(ab_abc,ao) > 0) // AB plane 
+		{
+			if(glm::dot(ab,ao) > 0)
+			{
+				dir = abPerp;
+				simplex.erase(simplex.begin()); // erase c
+			}
+			else
+			{
+				dir = ao;
+				simplex.erase(simplex.begin()); // erase c
+				simplex.erase(simplex.begin()); // erase b
+			}
+		}
+		else
+		{
+			if(glm::dot(abc, ao) > 0) // outside face
+			{
+				dir = abc;
+			}
+			else // inside face
+			{
+				simplex[0] = b;
+				simplex[1] = c;
+	
+				dir = -abc;
+			}
+		}
+	}
+	
+	return false;
 }

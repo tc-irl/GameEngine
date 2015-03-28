@@ -10,6 +10,7 @@
 
 using namespace std;
 
+#define MAX 6
 
 class ClothSimulation : public Game
 {
@@ -31,7 +32,10 @@ public:
 
 	Cloth *cloth;
 	MeshLoader *plane, *ball;
+
+	MeshLoader *balls[MAX];
 	Shader *basicShader, *textureShader;
+	Line *line;
 	std::map <Shader::ShaderType, GLuint> possibleShaders;
 
 	bool pauseScene;

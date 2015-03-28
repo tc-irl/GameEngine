@@ -6,11 +6,13 @@
 #include "Particle.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#define SMALL_NUM   0.00000001
+#define EPSILON 1e-6
 
 class Triangle
 {
 public:
-	Triangle(GLuint shaderID,Particle *p1, Particle *p2, Particle *p3);
+	Triangle(GLuint shaderID,Particle *p1, Particle *p2, Particle *p3, int ID);
 	~Triangle(void) {};
 
 	void GenerateBuffer();
@@ -19,9 +21,13 @@ public:
 	void SetP2(Particle *p2) {this->p2 = p2;}
 	void SetP3(Particle *p3) {this->p3 = p3;}
 
+	int GetID() {return ID;}
+
 	bool CompareParticles(Particle *p);
 
 	glm::mat4 GetTransformationMatrix();
+	glm::vec3 GetTriangleNormal();
+	bool RayIntersectsTriangle(glm::vec3 point1, glm::vec3 point2);
 
 	void Update();
 	void Draw();
@@ -44,6 +50,7 @@ public:
 	GLuint shaderID;
 
 	bool drawTriangle;
+	int ID;
 
 };
 

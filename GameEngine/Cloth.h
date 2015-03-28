@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include "Line.h"
 
 
 #define CONSTRAINT_ITERATIONS 3 // how many iterations of constraint satisfaction each frame (more is rigid, less is soft)
@@ -64,7 +65,7 @@ public:
 	bool enabled;
 
 	bool point1, point2;
-
+	bool reset;
 
 	Mode mode;
 	Mode previousMode;
@@ -89,6 +90,7 @@ public:
 	void SetConstraint(Particle *p1, Particle *p2) { constraints.push_back(Constraint(p1,p2)); }
 
 	glm::vec3 CalcNormal(Particle *p1, Particle *p2, Particle *p3);
+	int RayIntersectsTriangle();
 
 	void ApplyForceToTriangle(Particle *p1,Particle *p2,Particle *p3, glm::vec3 direction);
 
@@ -100,6 +102,11 @@ public:
 	void AddSelfCollision();
 	void CalculateCollisions(Particle *cP, Particle *p1,Particle *p2,Particle *p3);
 	void AddTearing(glm::vec3 centre, float radius);
+
+	bool checkNarrowPhaseCollision(Triangle triangle1, Triangle triangle2);
+	glm::vec3 GetFarthestPointInDirection(glm::vec3 dir, std::vector<glm::vec3> points);
+	bool simplexContainsOrigin(std::vector<glm::vec3> &simplex, glm::vec3 &dir);
+	bool checkTriangle(std::vector<glm::vec3> &simplex,glm::vec3 &dir);
 
 	void TimeStep();
 	void GenerateBuffer();

@@ -29,7 +29,7 @@ ClothSimulation::ClothSimulation(void)
 {
 	basicShader = new Shader();
 	textureShader = new Shader();
-	cloth = new Cloth(14, 10, 55, 45);
+	cloth = new Cloth(3, 10, 10, 8);
 	window = new Window(800,600,"Cloth Simulation");
 	camera = new Camera(window->GetWindow());
 
@@ -82,8 +82,8 @@ void ClothSimulation::initTweakBar()
 	TwAddVarRW(bar, "Fixed", TW_TYPE_BOOLCPP, &cloth->movable, " group='Cloth' label='Cloth Fixed: '");
 	TwAddVarRW(bar, "Force", TW_TYPE_BOOLCPP, &cloth->forceEnabled, " group='Cloth' label='Force: '");
 	TwAddVarRW(bar, "Wind", TW_TYPE_BOOLCPP, &cloth->windEnabled, " group='Cloth' label='Wind: '");
-	TwAddVarRW(bar, "Wind", TW_TYPE_BOOLCPP, &cloth->selfCollisionEnabled, " group='Cloth' label='Wind: '");
-	TwAddVarRW(bar, "F", TW_TYPE_BOOLCPP, &cloth->enabled, " group='Cloth' label='F: '");
+	TwAddVarRW(bar, "Collisions", TW_TYPE_BOOLCPP, &cloth->selfCollisionEnabled, " group='Cloth' label='Collisions: '");
+	TwAddVarRW(bar, "Reset", TW_TYPE_BOOLCPP, &cloth->reset, " group='Cloth' label='Reset: '");
 	TwAddVarRW(bar, "Light Position", TW_TYPE_DIR3F, &light->position, " group='Teapot Lighting' label='Light Direction: '");
 	TwAddVarRW(bar, "Light Diffuse Color", TW_TYPE_COLOR3F, &light->diffuseColor, " group='Teapot Lighting' label='Diffuse Color: '");
 	TwAddVarRW(bar, "Light Diffuse Intensity", TW_TYPE_FLOAT, &light->diffuseIntensity, "step='0.1' group='Teapot Lighting' label='Diffuse Intensity: '");
@@ -116,8 +116,26 @@ void ClothSimulation::initModels()
 	ball->IsTextureActive(true);
 	ball->SetPos(glm::vec3(7,-5,5.3));
 	ball->SetOrientation(glm::quat(glm::vec3(0,0,0)));
-	ball->SetScale(glm::vec3(1,1,1));
+	ball->SetScale(glm::vec3(2,2,2));
 	ball->SetPossibleShaders(possibleShaders);
+
+	line = new Line(basicShader->GetProgramID());
+
+	std::vector<glm::vec3> temp;
+	temp.push_back(glm::vec3(0,0,0));
+	temp.push_back(glm::vec3(0,1,0));
+	line->GenerateBuffer(temp);
+
+
+	//for(int i = 0; i < MAX; i++)
+	//{
+	//	balls[i] = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/simpleSphere.obj");
+	//	balls[i]->IsTextureActive(true);
+	//	balls[i]->SetPos(glm::vec3(i,-5,5.3));
+	//	balls[i]->SetOrientation(glm::quat(glm::vec3(0,0,0)));
+	//	balls[i]->SetScale(glm::vec3(1,1,1));
+	//	balls[i]->SetPossibleShaders(possibleShaders);
+	//}
 
 	//clothModel = new MeshLoader(textureShader->GetProgramID(),"../Resources/Models/cloth.obj");
 	//clothModel->IsTextureActive(true);
@@ -137,6 +155,21 @@ void ClothSimulation::initTextures()
 
 	ball->SetTexture("../Resources/Textures/red.png");
 	ball->SetShaderType(textureShader->shaderType);
+
+	//for(int i = 0; i < MAX; i++)
+	//{
+	//	balls[i]->SetTexture("../Resources/Textures/red.png");
+	//	balls[i]->SetShaderType(textureShader->shaderType);
+	//}
+
+	//ball2->SetTexture("../Resources/Textures/red.png");
+	//ball2->SetShaderType(textureShader->shaderType);
+
+	//ball3->SetTexture("../Resources/Textures/red.png");
+	//ball3->SetShaderType(textureShader->shaderType);
+
+	//ball4->SetTexture("../Resources/Textures/red.png");
+	//ball4->SetShaderType(textureShader->shaderType);
 	//clothModel->SetTexture("../Resources/Textures/beige.png");
 	//clothModel->SetShaderType(textureShader->shaderType);
 }
@@ -181,8 +214,11 @@ void ClothSimulation::update()
 	cloth->AddWind(windDirection * TIME_STEPSIZE2);
 	cloth->TimeStep(); // calculate the particle positions of the next frame
 	cloth->AddPlaneCollision(plane->GetPos());
-	//cloth->AddBallCollision(ball->GetPos(), ball->GetScale().x + 0.1);
-	cloth->AddTearing(ball->GetPos(), ball->GetScale().x + 0.1);
+	cloth->AddBallCollision(ball->GetPos(), ball->GetScale().x + 0.1);
+	cloth->AddSelfCollision();
+
+	//cloth->AddTearing(ball->GetPos(), ball->GetScale().x + 0.1);
+
 	UpdateLighting(basicShader->GetProgramID(), light);
 	cloth->Update(camera->getViewMatrix(), camera->getProjectionMatrix());
 	cloth->DrawCloth();
@@ -194,6 +230,14 @@ void ClothSimulation::update()
 	ball->UseProgram();
 	ball->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
 	ball->Render();
+
+
+	//for(int i = 0; i < MAX; i++)
+	//{
+	//	balls[i]->UseProgram();
+	//	balls[i]->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+	//	balls[i]->Render();
+	//}
 
 	//clothModel->UseProgram();
 	//clothModel->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);

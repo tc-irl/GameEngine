@@ -1,12 +1,14 @@
 #include "Triangle.h"
 
 
-Triangle::Triangle(GLuint shaderID, Particle *p1, Particle *p2, Particle *p3)
+Triangle::Triangle(GLuint shaderID, Particle *p1, Particle *p2, Particle *p3, int ID)
 {
 	this->shaderID = shaderID;
 	this->p1 = p1;
 	this->p2 = p2;
 	this->p3 = p3;
+
+	this->ID = ID;
 
 	GenerateBuffer();
 
@@ -122,4 +124,120 @@ bool Triangle::CompareParticles(Particle *p)
 	{
 		return false;
 	}
+}
+
+glm::vec3 Triangle::GetTriangleNormal()
+{
+	glm::vec3 v1 = p2->GetPos() - p1->GetPos();
+	glm::vec3 v2 = p3->GetPos() - p1->GetPos(); 
+
+	return glm::cross(v1,v2);
+}
+
+bool Triangle::RayIntersectsTriangle(glm::vec3 previousPos, glm::vec3 pos)
+{
+	glm::vec3 e1 = p2->GetPos() - p1->GetPos();
+	glm::vec3 e2 = p3->GetPos() - p1->GetPos();
+
+	glm::vec3 rayDir = pos - previousPos;
+
+	glm::vec3 pvec = glm::cross(rayDir,e2);
+
+	float det = glm::dot(e1, pvec);
+
+	if(det < 0.000001 && det > 0.000001)
+	{
+		return false;
+	}
+
+	float invDet = 1 / det;
+
+	glm::vec3 tvec = previousPos - p1->GetPos();
+
+	float u = glm::dot(tvec, pvec) * invDet;
+
+	if (u < 0 || u > 1)
+		return false;
+	// prepare to compute v
+	glm::vec3 qvec = glm::cross(tvec, e1);
+	float v = glm::dot(rayDir, qvec) * invDet;
+	if (v < 0 || u + v > 1)
+		return false;
+	// calculate t, ray intersects triangle
+	float t = glm::dot(e2, qvec) * invDet;
+
+	return true;
+	//float r,a,b;
+	//glm::vec3 u = p2->GetPos() - p1->GetPos();
+	//glm::vec3 v = p3->GetPos() - p1->GetPos();
+
+	//glm::vec3 normal = glm::cross(u,v);
+
+	//if(normal == glm::vec3(0))
+	//{
+	//	return -1;
+	//}
+
+	//glm::vec3 dir = pos - previousPos;
+	//glm::vec3 w0 = previousPos - p1->GetPos();
+
+	//a = -glm::dot(normal,w0);
+	//b = glm::dot(normal, dir);
+
+	//if(fabs(b) < SMALL_NUM)
+	//{
+	//	if(a == 0)
+	//	{
+	//		return 2;
+	//	}
+	//	else
+	//	{
+	//		return 0;
+	//	}
+	//}
+
+
+
+	//r = a / b; 
+
+	//if(r < 0.0)
+	//{
+	//	return 0;
+	//}
+	//else if (r > 1.0)
+	//{
+	//	return 0;
+	//}
+
+	//glm::vec3 intersectionPoint = previousPos + r * dir;
+
+	//float uu, uv, vv, wu, wv, D;
+
+	//uu = glm::dot(u, u);
+	//uv = glm::dot(u, v);
+	//vv = glm::dot(v, v);
+	//
+	//glm::vec3 w = intersectionPoint - p1->GetPreviousPos();
+
+	//wu = glm::dot(w, u);
+	//wv = glm::dot(w, v);
+	//D = uv * uv - uu * vv;
+
+	//float s, t;
+
+	//s = (uv * wv - vv * wu) / D;
+	//
+	//if(s < 0.0 || s > 1.0)
+	//{
+	//	return 0;
+	//}
+
+	//t = (uv * wu - uu * wv) / D;
+
+	//if(t < 0.0 || (s + t) > 1.0)
+	//{
+	//	return 0;
+	//}
+
+	//return 1;
 }
