@@ -241,3 +241,38 @@ bool Triangle::RayIntersectsTriangle(glm::vec3 previousPos, glm::vec3 pos)
 
 	//return 1;
 }
+
+bool Triangle::IsPointInTriangle(glm::vec3 p)
+{
+	//glm::vec3 a, b, c;
+
+	//a = p1->GetPos();
+	//b = p2->GetPos();
+	//c = p3->GetPos();
+
+	glm::vec3 u = p2->GetPos() - p1->GetPos();
+	glm::vec3 v = p3->GetPos() - p1->GetPos();
+	glm::vec3 w = p - p1->GetPos();
+
+	glm::vec3 vCrossW = glm::cross(v, w);
+	glm::vec3 vCrossU = glm::cross(v, u);
+
+	// Test sign of r
+	if (glm::dot(vCrossW, vCrossU) < 0)
+		return false;
+
+	glm::vec3 uCrossW = glm::cross(u, w);
+	glm::vec3 uCrossV =  glm::cross(u, v);
+
+	// Test sign of t
+	if (glm::dot(uCrossW, uCrossV) < 0)
+		return false;
+
+	// At this point, we know that r and t and both > 0.
+	// Therefore, as long as their sum is <= 1, each must be less <= 1
+	float denom = glm::length(uCrossV);
+	float r = glm::length(vCrossW) / denom;
+	float t = glm::length(uCrossW) / denom;
+
+	return (r + t <= 1);
+}

@@ -68,10 +68,10 @@ Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticles
 
 	for(int i=0;i<3; i++)
 	{
-		GetParticle(0+i ,0)->OffsetPosition(glm::vec3(0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+		//GetParticle(0+i ,0)->OffsetPosition(glm::vec3(0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
 		GetParticle(0+i ,0)->MakeUnmovable();
 
-		GetParticle(numParticlesWidth-i-1 ,0)->OffsetPosition(glm::vec3(-0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
+		//GetParticle(numParticlesWidth-i-1 ,0)->OffsetPosition(glm::vec3(-0.5,0.0,0.0)); // moving the particle a bit towards the center, to make it hang more natural
 		GetParticle(numParticlesWidth-i-1 ,0)->MakeUnmovable();
 	}
 }
@@ -160,7 +160,7 @@ void Cloth::AddPlaneCollision(glm::vec3 planePos)
 
 		if (temp.y <= planePos.y) // if the particle is inside the ball
 		{
-			(*it).position.y = planePos.y + 0.01f;
+			(*it).position.y = planePos.y + 0.0f;
 		}
 	}
 }
@@ -223,6 +223,23 @@ void Cloth::AddSelfCollision()
 		std::vector<Triangle>::iterator triangle;
 		std::vector<Triangle>::iterator triangle2;
 
+		for(it = particles.begin(); it != particles.end(); it++)
+		{
+			for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
+			{
+				if((*it).GetID() != triangle->p1->GetID() && (*it).GetID() != triangle->p2->GetID()  && (*it).GetID() != triangle->p3->GetID())
+				{
+					bool val = triangle->IsPointInTriangle((*it).GetPos());
+
+					if(val == true)
+					{
+						//std::cout << "Point" << std::endl;
+						(*it).position = (*it).GetPreviousPos();
+					}
+				}
+			}
+		}
+
 		//for(it = particles.begin(); it != particles.end(); it++)
 		//{
 		//	for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
@@ -247,25 +264,27 @@ void Cloth::AddSelfCollision()
 		//	}
 
 
-		for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
-		{
-			for(triangle2 = triangles.begin(); triangle2 != triangles.end(); triangle2++)
-			{
-				if(triangle->p1->GetID() != triangle2->p1->GetID() && triangle->p1->GetID() != triangle2->p2->GetID() && triangle->p1->GetID() != triangle2->p3->GetID() 
-					&& triangle->p2->GetID() != triangle2->p1->GetID() && triangle->p2->GetID() != triangle2->p2->GetID() && triangle->p2->GetID() != triangle2->p3->GetID() 
-					&& triangle->p3->GetID() != triangle2->p1->GetID() && triangle->p3->GetID() != triangle2->p2->GetID() && triangle->p3->GetID() != triangle2->p3->GetID())
-				{
-					if(checkNarrowPhaseCollision((*triangle), (*triangle2)))
-					{
-						//triangle2->p1->position = triangle2->p1->GetPreviousPos();
-						//triangle2->p2->position = triangle2->p2->GetPreviousPos();
-						//triangle2->p3->position = triangle2->p3->GetPreviousPos();
-						std::cout << "Intersection" << std::endl;
+	//	for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
+	//	{
+	//		for(triangle2 = triangles.begin(); triangle2 != triangles.end(); triangle2++)
+	//		{
+	//			if(triangle->p1->GetID() != triangle2->p1->GetID() && triangle->p1->GetID() != triangle2->p2->GetID() && triangle->p1->GetID() != triangle2->p3->GetID() 
+	//				&& triangle->p2->GetID() != triangle2->p1->GetID() && triangle->p2->GetID() != triangle2->p2->GetID() && triangle->p2->GetID() != triangle2->p3->GetID() 
+	//				&& triangle->p3->GetID() != triangle2->p1->GetID() && triangle->p3->GetID() != triangle2->p2->GetID() && triangle->p3->GetID() != triangle2->p3->GetID())
+	//			{
+	//				if(checkNarrowPhaseCollision((*triangle), (*triangle2)))
+	//				{
+	//					//triangle2->p1->position = triangle2->p1->GetPreviousPos();
+	//					//triangle2->p2->position = triangle2->p2->GetPreviousPos();
+	//					//triangle2->p3->position = triangle2->p3->GetPreviousPos();
+	//					std::cout << "Intersection" << std::endl;
 
-					}
-				}
-			}
-		}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
 	}
 
 }
@@ -453,10 +472,10 @@ void Cloth::ChangeMode(Mode mode)
 
 		for(int i = 0; i < 3; i++)
 		{
-			//GetParticle(0 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));// moving the particle a bit towards the center, to make it hang more natural
+			GetParticle(0 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));// moving the particle a bit towards the center, to make it hang more natural
 			GetParticle(0 ,numParticlesHeight-i-1)->SetFixed(false);
 
-			//GetParticle(numParticlesWidth-i-1 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));
+			GetParticle(numParticlesWidth-i-1 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));
 			GetParticle(numParticlesWidth-i-1 ,numParticlesHeight-i-1)->SetFixed(false);
 		}
 	}
@@ -545,6 +564,7 @@ void Cloth::Reset()
 
 	//ChangeMode(CLOTH_HANGING);
 }
+
 
 bool Cloth::checkNarrowPhaseCollision(Triangle triangle, Triangle triangle2)
 {
@@ -765,3 +785,5 @@ bool Cloth::checkTriangle(std::vector<glm::vec3> &simplex,glm::vec3 &dir)
 	
 	return false;
 }
+
+

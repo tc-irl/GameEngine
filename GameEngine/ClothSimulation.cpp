@@ -29,7 +29,7 @@ ClothSimulation::ClothSimulation(void)
 {
 	basicShader = new Shader();
 	textureShader = new Shader();
-	cloth = new Cloth(3, 10, 10, 8);
+	cloth = new Cloth(3, 10,40, 8);
 	window = new Window(800,600,"Cloth Simulation");
 	camera = new Camera(window->GetWindow());
 

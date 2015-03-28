@@ -28,6 +28,7 @@ public:
 	glm::mat4 GetTransformationMatrix();
 	glm::vec3 GetTriangleNormal();
 	bool RayIntersectsTriangle(glm::vec3 point1, glm::vec3 point2);
+	bool IsPointInTriangle(glm::vec3 pos);
 
 	void Update();
 	void Draw();
