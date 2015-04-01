@@ -94,8 +94,9 @@ void main()
     // normal mapping normal
     vec3 norm = texture2D(nSampler, P.xy).rgb;
     norm = normalize((norm - 0.5) * 2.0);
-
+    
     float n_dot_l = max(dot(norm, normalize(p_toLightInTangent0)), 0.0);
+   
     if(n_dot_l > 0.0)
     {
 

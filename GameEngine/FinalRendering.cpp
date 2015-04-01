@@ -79,17 +79,38 @@ void FinalRendering::initModels()
 	plane->SetScale(glm::vec3(10,1,10));
 	plane->SetPossibleShaders(possibleShaders);
 
-	cube = new MeshLoader(normalMapShader->GetProgramID(), "../Resources/Models/newCube.obj");
+	cube = new MeshLoader(pomShader->GetProgramID(), "../Resources/Models/newCube.obj");
 	cube->IsTextureActive(true);
+	cube->IsNormalActive(true);
+	cube->IsHeightMapActive(true);
 	cube->SetPos(glm::vec3(-3,3,0));
 	cube->SetScale(glm::vec3(0.8,0.8,0.8));
 	cube->SetPossibleShaders(possibleShaders);
 	cube->SetRefractionTypes(refractions);
 
-	//skybox = new Skybox(skyBoxShader->GetProgramID(),"../Resources/Models/cube.obj");
-	//skybox->SetPos(camera->position);
-	//skybox->SetScale(glm::vec3(100,100,100));
-	//skybox->SetPossibleShaders(possibleShaders);
+	cube2 = new MeshLoader(reliefMapShader->GetProgramID(), "../Resources/Models/newCube.obj");
+	cube2->IsTextureActive(true);
+	cube2->IsNormalActive(true);
+	cube2->SetPos(glm::vec3(3,3,0));
+	cube2->SetScale(glm::vec3(1,1,1));
+	cube2->SetPossibleShaders(possibleShaders);
+	cube2->SetRefractionTypes(refractions);
+
+	for(int i = 0; i < 4; i++)
+	{
+		walls[i] = new MeshLoader(reliefMapShader->GetProgramID(), "../Resources/Models/newCube.obj");
+		walls[i]->IsTextureActive(true);
+		walls[i]->IsNormalActive(true);
+		walls[i]->SetPos(glm::vec3(3,3,0));
+		walls[i]->SetScale(glm::vec3(1,1,1));
+		walls[i]->SetPossibleShaders(possibleShaders);
+		walls[i]->SetRefractionTypes(refractions);
+	}
+
+	skybox = new Skybox(skyBoxShader->GetProgramID(),"../Resources/Models/cube.obj");
+	skybox->SetPos(camera->position);
+	skybox->SetScale(glm::vec3(100,100,100));
+	skybox->SetPossibleShaders(possibleShaders);
 }
 
 void FinalRendering::initTextures()
@@ -98,18 +119,34 @@ void FinalRendering::initTextures()
 	plane->SetShaderType(texturedShader->shaderType);
 
 	cube->SetColor(glm::vec3(1,1,1));
-	cube->SetShaderType(normalMapShader->shaderType);
-	cube->SetTexture("../Resources/Textures/wood2.png");
-	cube->SetNormalTexture("../Resources/Textures/wood_relief.png");
-	cube->SetHeightTexture("../Resources/Textures/wood_height.png");
+	cube->SetShaderType(pomShader->shaderType);
+	cube->SetTexture("../Resources/Textures/6f.jpg");
+	cube->SetNormalTexture("../Resources/Textures/7f.jpg");
+	cube->SetHeightTexture("../Resources/Textures/5f.jpg");
 
-	//skybox->SetShaderType(skyBoxShader->shaderType);
-	//skybox->SetCubeMapTexture("../Resources/Skyboxes/Colloseum/");
+	cube2->SetColor(glm::vec3(1,1,1));
+	cube2->SetShaderType(reliefMapShader->shaderType);
+	cube2->SetTexture("../Resources/Textures/rockwall.png");
+	cube2->SetNormalTexture("../Resources/Textures/rockwall_relief.png");
+	cube2->SetHeightTexture("../Resources/Textures/wood_height.png");
+
+	for(int i = 0; i < 4; i++)
+	{
+		walls[i]->SetColor(glm::vec3(1,1,1));
+		walls[i]->SetShaderType(reliefMapShader->shaderType);
+		walls[i]->SetTexture("../Resources/Textures/rockwall.png");
+		walls[i]->SetNormalTexture("../Resources/Textures/rockwall_relief.png");
+		//walls[i]->SetHeightTexture("../Resources/Textures/wood_height.png");
+	}
+
+	skybox->SetShaderType(skyBoxShader->shaderType);
+	skybox->SetCubeMapTexture("../Resources/Skyboxes/Sky1/");
 }
 
 void FinalRendering::initLights()
 {
 	cubeLight = new Lighting(normalMapShader->GetProgramID());
+	
 }
 
 void FinalRendering::initTweakBar()
@@ -144,6 +181,16 @@ void FinalRendering::initTweakBar()
 	TwAddVarRW(bar, "Cube Texture", TW_TYPE_BOOLCPP, &cube->useTexture, " group='Cube' label='Cube Textured: '");
 	TwAddVarRW(bar, "Cube Normal", TW_TYPE_BOOLCPP, &cube->useNormalTexture, " group='Cube' label='Cube Normal: '");
 	TwAddVarRW(bar, "Cube Height", TW_TYPE_BOOLCPP, &cube->useHeightTexture, " group='Cube' label='Cube Height: '");
+
+	TwAddVarRW(bar, "Cube2 Position", TW_TYPE_DIR3F, &cube2->position, " group='Cube2' label='Cube2 Pos: '");
+	TwAddVarRW(bar, "Cube2 Rot", TW_TYPE_QUAT4F, &cube2->orientation, " group='Cube2' label='Cube2 Rot: '");
+	TwAddVarRW(bar, "Cube2 Scale", TW_TYPE_DIR3F, &cube2->scale, " group='Cube2' label='Cube2 Scale: '");
+	TwAddVarRW(bar, "Cube2 Mode", modeType, &cube2->shaderType,"group='Cube2' label='Cube2 Mode: '");
+	TwAddVarRW(bar, "Cube2 Texture", TW_TYPE_BOOLCPP, &cube2->useTexture, " group='Cube2' label='Cube2 Textured: '");
+	TwAddVarRW(bar, "Cube2 Normal", TW_TYPE_BOOLCPP, &cube2->useNormalTexture, " group='Cube2' label='Cube2 Normal: '");
+	TwAddVarRW(bar, "Cube2 Height", TW_TYPE_BOOLCPP, &cube2->useHeightTexture, " group='Cube2' label='Cube2 Height: '");
+
+
 	TwAddVarRW(bar, "Parallax Scale", TW_TYPE_FLOAT, &cubeLight->parallaxScale, " step='0.01'group='Parallax Settings' label='Parallax Scale: '");
 	TwAddVarRW(bar, "Parallax Bias", TW_TYPE_FLOAT, &cubeLight->bias, " step='0.01'group='Parallax Settings' label='Bias: '");
 	TwAddVarRW(bar, "Cube Light Position", TW_TYPE_DIR3F, &cubeLight->position, " group='Cube Lighting' label='Light Direction: '");
@@ -207,15 +254,23 @@ void FinalRendering::update()
 	cube->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
 	cube->Render();
 	
+	cube2->Rotate360(dt);
+	cube2->UpdateShader();
+	UpdateLighting(cube2->GetShader(), cubeLight);
+	cube2->UpdateRefractionIndex();
+	cube2->UpdateRefractionIndexRGB();
+	cube2->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+	cube2->Render();
+
 	glCullFace(GL_FRONT);
 	glDepthFunc(GL_LEQUAL);
 	glDepthMask(false);
 
-	//skybox->UseProgram();
-	//skybox->cameraPos = camera->position;
-	//skybox->UpdateShader();
-	//skybox->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
-	//skybox->RenderCubeMap();
+	skybox->UseProgram();
+	skybox->cameraPos = camera->position;
+	skybox->UpdateShader();
+	skybox->Update(camera->getViewMatrix(),camera->getProjectionMatrix(),dt);
+	skybox->RenderCubeMap();
 
 	glDepthMask(true);
 	glCullFace(OldCullFaceMode); 

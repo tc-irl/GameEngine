@@ -33,7 +33,7 @@ public:
 
 	TwBar *bar;
 
-	MeshLoader *plane, *cube;
+	MeshLoader *plane, *cube, *cube2, *dragon, *teapot, *walls[4], *table;
 	Skybox *skybox;
 
 	GLuint gSampler;

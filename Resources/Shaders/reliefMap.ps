@@ -1,8 +1,4 @@
 #version 430
-#define SHADOWS         1
-
-#define LINEAR_STEPS    60
-#define BINARY_STEPS    16
 
 uniform sampler2D gSampler;
 uniform sampler2D nSampler;
@@ -29,47 +25,87 @@ out vec4 FragColor;
 // but faster, shadows. But it's not used like that since the quality isn't
 // great.
 
+float ray_intersect_rm(in vec2 dp, in vec2 ds)
+{
+    const int linear_steps = 60; 
+    const int binary_steps = 16;
+
+    float depth_step = 1.0 / linear_steps; 
+    float size = depth_step; // current size of search window
+
+    float depth = 0.0; // current depth position
+
+    float best_depth = 1.0; 
+
+    for(int i = 0; i < linear_steps-1; i++)
+    {
+        depth += size; 
+
+        vec4 t = texture2D(nSampler, dp+ds*depth);
+
+        if(best_depth > 0.996) // if no depth found yet
+        {
+            if(depth >= t.w)
+            {
+                best_depth = depth;
+            }
+        }
+    }
+
+    depth = best_depth;
+
+    for(int i = 0; i < binary_steps; i++)
+    {
+       size *= 0.5; 
+       vec4 t = texture2D(nSampler, dp+ds*depth);
+       
+       if(depth >= t.w)
+       {
+            best_depth = depth;
+            depth -= 2 * size;
+       }
+       depth += size;
+    }
+
+    return best_depth;
+}
 
 void main()
 {
-    vec2 A = texCoord0.st; //entry point of view ray in texture coordinates
-    vec3 V = (toCameraInTangent0 / -toCameraInTangent0.z) * parallaxScale; //vector from A to the exit point (B)
-    vec2 B = A + V.xy;
+    vec2 dp = texCoord0.st; 
+    vec2 ds = (toCameraInTangent0.xy / -toCameraInTangent0.z) * parallaxScale;
 
-    float depth = fullSearch(A, B);
+    float distance = ray_intersect_rm(dp, ds);
 
-    // the intersection point in texture space
-    vec3 P = vec3(mix(A, B, depth), depth);
+    vec2 uv = dp + ds * distance;
 
+    vec3 norm = texture2D(nSampler, uv).rgb;
+    vec4 color = texture2D(gSampler, uv);
+    vec4 col = color * vec4(0.1, 0.1, 0.1, 1.0);
 
-    // correct light vector should go through from the point in the depth map,
-    // P, to the light
-    vec3 P_tan = position_tan + (toCameraInTangent0 / -toCameraInTangent0.z) * parallaxScale * depth;
+    norm = normalize(norm * 2.0 - 1.0);
+
+    vec3 P_tan = position_tan + (toCameraInTangent0 / -toCameraInTangent0.z) * parallaxScale * distance;
+
     vec3 p_toLightInTangent0 = (position_tan + toLightInTangent0) - P_tan;
 
-
-    vec4 diffuse_col = texture2D(gSampler, P.xy);
-    vec4 col = diffuse_col * vec4(0.1, 0.1, 0.1, 1.0);
-
-    // normal mapping normal
-    vec3 norm = texture2D(nSampler, P.xy).rgb;
-    norm = normalize((norm - 0.5) * 2.0);
-
     float n_dot_l = max(dot(norm, normalize(p_toLightInTangent0)), 0.0);
+   
     if(n_dot_l > 0.0)
     {
+        dp += ds * distance;
+        ds = (toLightInTangent0.xy / -toLightInTangent0.z) * parallaxScale;
+        dp -= ds * distance;
+        
+        float dl = ray_intersect_rm(dp, ds);
 
-        vec3 l_entry = P + (p_toLightInTangent0 / p_toLightInTangent0.z) * parallaxScale * depth;
-        vec3 l_exit  = l_entry + (p_toLightInTangent0 / -p_toLightInTangent0.z) * parallaxScale;
-        float l_depth = fullSearch(l_entry.xy, l_exit.xy);
-
-        if(l_depth < depth-0.05) //in shadow
+        if(dl < distance-0.05) // if pixel in shadow
         {
-            col += diffuse_col * 0.2 * n_dot_l;
+            col += color * 0.2 * n_dot_l;
         }
         else
         {
-            col += diffuse_col * n_dot_l;
+            col += color * n_dot_l;
             vec3 H = normalize(p_toLightInTangent0 + toCameraInTangent0);
             col += vec4(0.5, 0.5, 0.5, 1.0) * pow(max(dot(norm,H),0.0), 64.0);
         }
