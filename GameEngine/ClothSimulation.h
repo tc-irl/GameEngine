@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define MAX 6
+#define MAX 3
 
 class ClothSimulation : public Game
 {

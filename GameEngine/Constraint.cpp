@@ -1,5 +1,9 @@
 #include "Constraint.h"
 
+/************************************************************************/
+/* Tutorial used: http://cg.alexandra.dk/?p=147                          */
+/************************************************************************/
+
 Constraint::Constraint(Particle *p1, Particle *p2)
 {
 	this->p1 = p1;

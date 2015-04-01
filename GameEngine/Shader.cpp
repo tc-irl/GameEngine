@@ -196,7 +196,7 @@ void Shader::initShader(ShaderType shaderType)
 	//if(shaderType == BASIC){ filename = "../Resources/Shaders/cloth";}
 	//else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
 
-	if(shaderType == BASIC){ filename = "../Resources/Shaders/cloth";}
+	if(shaderType == BASIC){ filename = "../Resources/Shaders/objNoTexture";}
 	else if(shaderType == TEXTURED){filename = "../Resources/Shaders/objWithTexture";}
 	else if(shaderType == NORMAL_MAP){filename = "../Resources/Shaders/normalMap";}
 	else if(shaderType == RELIEF_MAP){filename = "../Resources/Shaders/reliefMap";}

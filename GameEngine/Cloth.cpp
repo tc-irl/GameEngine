@@ -1,5 +1,8 @@
 #include "Cloth.h"
 
+/************************************************************************/
+/* Tutorial used: http://cg.alexandra.dk/?p=147                          */
+/************************************************************************/
 
 Cloth::Cloth(float width, float height, int numParticlesHeight, int numParticlesWidth)
 {
@@ -111,6 +114,17 @@ void Cloth::AddWind(glm::vec3 direction)
 {
 	if(windEnabled)
 	{
+		std::vector<Triangle>::iterator triangle;
+
+		//for(triangle = triangles.begin(); triangle != triangles.end(); triangle++)
+		//{
+		//	if(triangle->drawTriangle)
+		//	{
+		//		ApplyForceToTriangle(triangle->p1,triangle->p2,triangle->p3,direction);
+		//	}
+		//	//ApplyForceToTriangle(GetParticle(x+1,y+1),GetParticle(x+1,y),GetParticle(x,y+1),direction);
+		//}
+
 		for(int x = 0; x<numParticlesWidth-1; x++)
 		{
 			for(int y=0; y<numParticlesHeight-1; y++)
@@ -160,7 +174,7 @@ void Cloth::AddPlaneCollision(glm::vec3 planePos)
 
 		if (temp.y <= planePos.y) // if the particle is inside the ball
 		{
-			(*it).position.y = planePos.y + 0.0f;
+			(*it).position.y = planePos.y + 0.01f;
 		}
 	}
 }
@@ -317,13 +331,32 @@ void Cloth::GenerateBuffer()
 	{
 		for(int y=0; y<numParticlesHeight-1; y++)
 		{
-			if(x < width / 1.5)
+			/*if(x < width / 1.5)
 			{
 				orderedColors.push_back((glm::vec3(0,1,0)));
 				orderedColors.push_back((glm::vec3(0,1,0)));
 				orderedColors.push_back((glm::vec3(0,1,0)));
 			}
 			else if(x > (width / 1.5) && x < (width * 1.4f))
+			{
+				orderedColors.push_back(glm::vec3(1,1,1));
+				orderedColors.push_back(glm::vec3(1,1,1));
+				orderedColors.push_back(glm::vec3(1,1,1));
+			}
+			else
+			{
+				orderedColors.push_back(glm::vec3(1,0.5f,0));
+				orderedColors.push_back(glm::vec3(1,0.5f,0));
+				orderedColors.push_back(glm::vec3(1,0.5f,0));
+			}*/
+
+			if(x < width / 2.5)
+			{
+				orderedColors.push_back((glm::vec3(0,1,0)));
+				orderedColors.push_back((glm::vec3(0,1,0)));
+				orderedColors.push_back((glm::vec3(0,1,0)));
+			}
+			else if(x > (width / 3) && x < (width * 0.8f))
 			{
 				orderedColors.push_back(glm::vec3(1,1,1));
 				orderedColors.push_back(glm::vec3(1,1,1));
@@ -472,10 +505,10 @@ void Cloth::ChangeMode(Mode mode)
 
 		for(int i = 0; i < 3; i++)
 		{
-			GetParticle(0 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));// moving the particle a bit towards the center, to make it hang more natural
+			//GetParticle(0 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));// moving the particle a bit towards the center, to make it hang more natural
 			GetParticle(0 ,numParticlesHeight-i-1)->SetFixed(false);
 
-			GetParticle(numParticlesWidth-i-1 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));
+			//GetParticle(numParticlesWidth-i-1 ,numParticlesHeight-i-1)->OffsetPosition(glm::vec3(0,height,height));
 			GetParticle(numParticlesWidth-i-1 ,numParticlesHeight-i-1)->SetFixed(false);
 		}
 	}
@@ -564,7 +597,6 @@ void Cloth::Reset()
 
 	//ChangeMode(CLOTH_HANGING);
 }
-
 
 bool Cloth::checkNarrowPhaseCollision(Triangle triangle, Triangle triangle2)
 {

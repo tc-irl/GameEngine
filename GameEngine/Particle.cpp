@@ -1,5 +1,8 @@
 #include "Particle.h"
 
+/************************************************************************/
+/* Tutorial used: http://cg.alexandra.dk/?p=147                          */
+/************************************************************************/
 
 Particle::Particle(glm::vec3 position, int ID)
 {
@@ -12,8 +15,6 @@ Particle::Particle(glm::vec3 position, int ID)
 	mass = 3.0f;
 	fixed = false;
 	normal = glm::vec3(0,0,0);
-
-
 }
 
 void Particle::AddToNormal(glm::vec3 normal)
@@ -22,9 +23,9 @@ void Particle::AddToNormal(glm::vec3 normal)
 }
 
 void Particle::AddForce(glm::vec3 force)
-{
-	acceleration += force / mass;
-}
+{                                      
+	acceleration += force / mass;                                    
+}                                      
 
 void Particle::CalculateNextPosition(glm::vec3 clothPos, glm::quat clothOrientation, glm::vec3 clothScale)
 {

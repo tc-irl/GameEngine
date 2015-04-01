@@ -175,6 +175,7 @@ void MeshLoader::LoadMesh(const char* filename)
 	if(mesh->HasTangentsAndBitangents())
 	{
 		float *tangents = new float[mesh->mNumVertices * 3];
+		float *bitangents = new float[mesh->mNumVertices * 3];
 
 		for(int i = 0; i < mesh->mNumVertices; i++)
 		{
@@ -182,16 +183,29 @@ void MeshLoader::LoadMesh(const char* filename)
 			tangents[i * 3 + 1] = mesh->mTangents[i].y;
 			tangents[i * 3 + 2] = mesh->mTangents[i].z;
 
+			bitangents[i * 3] = mesh->mBitangents[i].x;
+			bitangents[i * 3 + 1] = mesh->mBitangents[i].y;
+			bitangents[i * 3 + 2] = mesh->mBitangents[i].z;
 		}
 
+
 		glGenBuffers(1,&VBO [NORMAL_MAP_BUFFER]);
+		glGenBuffers(1,&VBO [BI_TANGENT]);
+
 		glBindBuffer(GL_ARRAY_BUFFER, VBO [NORMAL_MAP_BUFFER]);
 		glBufferData(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(GLfloat), tangents, GL_STATIC_DRAW);
 		 
 		glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 		glEnableVertexAttribArray (5);
+		
+		glBindBuffer(GL_ARRAY_BUFFER, VBO [BI_TANGENT]);
+		glBufferData(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(GLfloat), bitangents, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+		glEnableVertexAttribArray (6);
 
 		delete tangents;
+		delete bitangents;
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -224,7 +238,6 @@ void MeshLoader::SetNormalTexture(const char* textureName)
 	{
 		std::cout << "Unable to load normal texture" << std::endl;
 	}
-
 }
 
 void MeshLoader::SetHeightTexture(const char* textureName)
@@ -294,7 +307,6 @@ void MeshLoader::SetAttributesAndUniforms()
 	reflectFactor = glGetUniformLocation(shaderID, "reflectFactor");
 	materialColor = glGetUniformLocation(shaderID, "materialColor");
 	ratioID = glGetUniformLocation(shaderID, "ratio");
-	normalMap = glGetUniformLocation(shaderID, "vTangent");
 	ratioRID = glGetUniformLocation(shaderID, "ratioR");
 	ratioGID = glGetUniformLocation(shaderID, "ratioG");
 	ratioBID = glGetUniformLocation(shaderID, "ratioB");

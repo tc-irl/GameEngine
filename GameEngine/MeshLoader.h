@@ -23,7 +23,7 @@
 class MeshLoader
 {
 public:
-	static enum BUFFERS { VERTEX_BUFFER, TEXCOORD_BUFFER, NORMAL_BUFFER, INDEX_BUFFER, NORMAL_MAP_BUFFER}; 
+	static enum BUFFERS { VERTEX_BUFFER, TEXCOORD_BUFFER, NORMAL_BUFFER, INDEX_BUFFER, NORMAL_MAP_BUFFER, BI_TANGENT}; 
 
 	typedef enum RefractionIndex{AIRTOWATER, AIRTOICE, AIRTOGLASS, AIRTODIAMOND};
 	RefractionIndex refractiveIndex, refractiveIndexR,refractiveIndexG,refractiveIndexB;
@@ -127,7 +127,7 @@ public:
 	float ratioB;
 
 private:
-	GLuint VAO, VBO[4];
+	GLuint VAO, VBO[5];
 
 	std::vector<glm::vec4> colors;
 

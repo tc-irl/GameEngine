@@ -1,41 +1,50 @@
-// object space eye position
-uniform vec3 eye_pos;
+// Based on Antons OpenGL 4 Tutorials book & BennyBox youtube video: https://www.youtube.com/watch?v=dF5rOveGOJc
 
-// object space light position
-uniform vec3 light_pos;
+#version 400
 
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec2 texCoord;
+layout (location = 2) in vec3 normal;
+layout (location = 5) in vec3 vTangent;
+layout (location = 6) in vec3 biTangent;
 
-attribute vec4 tangent;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
+uniform vec3 vLightDir;
 
-// tangent space vector to the light
-varying vec3 to_light;
+out vec2 texCoord0;
 
-//tangent space vector to the eye
-varying vec3 to_eye;
-
-// fragment position in tangent space
-varying vec3 position_tan;
-
-// eye space vector to fragment. used for depth correct.
-varying vec3 eye_to_pos;
-
+out vec3 worldPos0, position_eye, LightDirection_cameraspace;
+out vec3 toLightInTangent0, toCameraInTangent0; 
+out vec3 EyeDirection_cameraspace;
+out vec3 position_tan;
 
 void main()
 {
-    vec3 bitangent = cross(gl_Normal, tangent.xyz) * tangent.w;
-    mat3 TBN = mat3(tangent.xyz, bitangent, gl_Normal);
+    worldPos0 = (model * vec4(position, 1.0)).xyz;
+    
+    position_eye = (view * model * vec4(position, 1.0)).xyz;
+    EyeDirection_cameraspace = vec3(0,0,0) - position_eye;
 
-    // TBN transforms from tangent to object space so post multiply
-    // to transform by its "inverse" since we need to go from object
-    // to tangent space.
-    to_light = (light_pos - vec3(gl_Vertex)) * TBN;
-    to_eye = (eye_pos - vec3(gl_Vertex)) * TBN;
+    vec3 LightPosition_cameraspace = (view * vec4(vLightDir,1)).xyz;
+    LightDirection_cameraspace = LightPosition_cameraspace + EyeDirection_cameraspace;
 
-    gl_TexCoord[0] = gl_MultiTexCoord0;
-    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+    vec3 n = mat3(view * model) * normal;
+    vec3 t = mat3(view * model) * vTangent;
+    vec3 b = mat3(view * model) * biTangent;
 
-    position_tan = vec3(gl_Vertex) * TBN;
+    mat3 tbnMatrix = transpose(mat3(t,b,n));
 
-    eye_to_pos = vec3(gl_ModelViewMatrix * gl_Vertex);
+    toLightInTangent0 = tbnMatrix * LightDirection_cameraspace;
+    toCameraInTangent0 = tbnMatrix * EyeDirection_cameraspace;
+
+    position_tan = vec3(position) * tbnMatrix;
+
+    texCoord0 = texCoord;
+    gl_Position = projection * view * model * vec4(position,1.0);
+
 }
+
+

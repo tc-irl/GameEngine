@@ -1,51 +1,81 @@
-// Based on Antons OpenGL 4 Tutorials book & bennybox youtube video: https://www.youtube.com/watch?v=dF5rOveGOJc
+#version 430
+#define SHADOWS         1
 
-#version 400
+#define LINEAR_STEPS    60
+#define BINARY_STEPS    16
 
-uniform vec3 ambientColor;
-uniform vec3 specularColor;
-uniform vec3 diffuseColor;
-
-uniform float ambientIntensity;
-uniform float specularIntensity;
-uniform float diffuseIntensity;
-
-uniform float specularShininess;
-uniform vec3 vLightDir;
-
-in vec3 position_eye;
-in vec3 normal_eye;
-in mat3 tbnMatrix;
-
-in vec2 texCoord0;
 uniform sampler2D gSampler;
 uniform sampler2D nSampler;
 
-uniform mat4 view;
+// parallaxScale of the depth map so the 0-1 range looks good in whatever unit parallaxScale
+// the application is using.
+uniform float parallaxScale;
+
+
+// tangent space stuff:
+
+in vec3 toCameraInTangent0;
+in vec3 toLightInTangent0;
+in vec3 position_tan;
+
+in vec2 texCoord0;
+//eye space stuff:
+
+in vec3 position_eye;
 
 out vec4 FragColor;
 
+// The two searches are separated so only one can be used to get less accurate,
+// but faster, shadows. But it's not used like that since the quality isn't
+// great.
+
+
 void main()
 {
-	vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture2D(nSampler, texCoord0).xyz - 1));
+    vec2 A = texCoord0.st; //entry point of view ray in texture coordinates
+    vec3 V = (toCameraInTangent0 / -toCameraInTangent0.z) * parallaxScale; //vector from A to the exit point (B)
+    vec2 B = A + V.xy;
 
-	float intensity;
-	vec4 color = texture(gSampler,texCoord0);
+    float depth = fullSearch(A, B);
 
-    vec4 ambientC = vec4(ambientColor, 1.0f) * ambientIntensity;
-	vec4 diffuseC = vec4(diffuseColor, 1.0f) * diffuseIntensity * max(0.0, dot(normalize(normal), -vLightDir));	
-
-	vec3 surface_to_viewer_eye = normalize (position_eye);
-
-	vec3 reflection_eye = reflect (-vLightDir, normal);
-	float dot_prod_specular = dot (reflection_eye, surface_to_viewer_eye);
-	dot_prod_specular = max (dot_prod_specular, 0.0);
-	float specular_factor = pow (dot_prod_specular, specularShininess);
-
-	vec4 specularC = vec4(specularColor, 1.0f) * specularIntensity * specular_factor;
+    // the intersection point in texture space
+    vec3 P = vec3(mix(A, B, depth), depth);
 
 
-	FragColor = color * (diffuseC + ambientC + specularC);
-};
+    // correct light vector should go through from the point in the depth map,
+    // P, to the light
+    vec3 P_tan = position_tan + (toCameraInTangent0 / -toCameraInTangent0.z) * parallaxScale * depth;
+    vec3 p_toLightInTangent0 = (position_tan + toLightInTangent0) - P_tan;
 
 
+    vec4 diffuse_col = texture2D(gSampler, P.xy);
+    vec4 col = diffuse_col * vec4(0.1, 0.1, 0.1, 1.0);
+
+    // normal mapping normal
+    vec3 norm = texture2D(nSampler, P.xy).rgb;
+    norm = normalize((norm - 0.5) * 2.0);
+
+    float n_dot_l = max(dot(norm, normalize(p_toLightInTangent0)), 0.0);
+    if(n_dot_l > 0.0)
+    {
+
+        vec3 l_entry = P + (p_toLightInTangent0 / p_toLightInTangent0.z) * parallaxScale * depth;
+        vec3 l_exit  = l_entry + (p_toLightInTangent0 / -p_toLightInTangent0.z) * parallaxScale;
+        float l_depth = fullSearch(l_entry.xy, l_exit.xy);
+
+        if(l_depth < depth-0.05) //in shadow
+        {
+            col += diffuse_col * 0.2 * n_dot_l;
+        }
+        else
+        {
+            col += diffuse_col * n_dot_l;
+            vec3 H = normalize(p_toLightInTangent0 + toCameraInTangent0);
+            col += vec4(0.5, 0.5, 0.5, 1.0) * pow(max(dot(norm,H),0.0), 64.0);
+        }
+
+    }
+
+    FragColor = col;
+
+}

@@ -1,5 +1,9 @@
 #pragma once
 
+/************************************************************************/
+/* Tutorial used: http://cg.alexandra.dk/?p=147                          */
+/************************************************************************/
+
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -8,7 +12,7 @@
 #include <glm/gtx/quaternion.hpp>
 
 #define DAMPING 0.01f // how much to damp the cloth simulation each frame
-#define TIME_STEPSIZE2 0.5f*0.5f*0.5f // how large time step each particle takes each frame
+#define TIME_STEPSIZE2 0.5f*0.5f*0.5f // how large time step each particle takes each frame // 0.5f * 0.5f
 
 class Particle
 {

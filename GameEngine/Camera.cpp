@@ -5,7 +5,7 @@ Camera::Camera(GLFWwindow *window)
 {
 	this->window = window;
 	// Initial position : on +Z
-	position = glm::vec3(5, -5, 10); 
+	position = glm::vec3(0, 5, 10); 
 	// Initial horizontal angle : toward -Z
 	horizontalAngle = 3.14f;
 	// Initial vertical angle : none
@@ -46,6 +46,7 @@ void Camera::computeMatricesFromInputs()
 
 	if(enabled)
 	{
+	//	glfwGetCursorPos(window, &xpos, &ypos);
 		// Reset mouse position for next frame
 		glfwSetCursorPos(window, 1024/2, 768/2);
 
@@ -125,6 +126,8 @@ void Camera::handleMVP(GLuint modelLoc, GLuint viewLoc, GLuint projLoc)
 {
 	ProjectionMatrix = getProjectionMatrix();
 	ViewMatrix = getViewMatrix();
+
+
 
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &ViewMatrix[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, &ProjectionMatrix[0][0]);

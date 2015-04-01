@@ -3,7 +3,7 @@
 
 Lighting::Lighting(GLuint shaderID)
 {
-	position = glm::vec3(0,0,-1);
+	position = glm::vec3(0,0,-5);
 	orientation = glm::quat(glm::vec3(0,0,0));
 	this->shaderID = shaderID;
 
@@ -18,7 +18,7 @@ Lighting::Lighting(GLuint shaderID)
 
 	roughness = 1.0f;
 
-	parallaxScale = 0.1f;
+	parallaxScale = 0.01f;
 
 	bias = 0.0f;
 
